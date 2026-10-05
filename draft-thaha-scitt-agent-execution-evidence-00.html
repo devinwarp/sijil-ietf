@@ -1,0 +1,2861 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Agent Execution Evidence: A SCITT Profile for Verifiable Records of AI Agent Runs</title>
+<meta content="Shameer Thaha" name="author">
+<meta content="Shaibi Shamsudeen" name="author">
+<meta content="
+       AI agents act through calls to models and tools. Identity work establishes who an agent is and what it may do, but leaves execution-evidence formats and assurance criteria out of scope. This document profiles the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture for signed Agent Credential, Policy Pack, Configuration Integrity, Execution Receipt and Assurance Statements. It binds persistent identity, declared capabilities, risk-based assessment and time-bounded operational monitoring to a hash-chained record of an agent run. It also defines Registration Policy, offline verification and Bundle requirements. It does not define an accreditation scheme, universal risk classification, identity registry or policy language. 
+    " name="description">
+<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="SCITT" name="keyword">
+<meta content="AI agent" name="keyword">
+<meta content="transparency" name="keyword">
+<meta content="evidence" name="keyword">
+<meta content="audit" name="keyword">
+<meta content="draft-thaha-scitt-agent-execution-evidence-00" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.34.1
+    Python 3.14.7
+    ConfigArgParse 1.8.0
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.1.3
+    natsort 8.4.0
+    platformdirs 4.12.3
+    pycountry 26.2.16
+    PyYAML 6.0.3
+    requests 2.34.2
+    wcwidth 0.9.2
+-->
+<link href="draft-thaha-scitt-agent-execution-evidence-00.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">/*
+
+  NOTE: Changes at the bottom of this file overrides some earlier settings.
+
+  Once the style has stabilized and has been adopted as an official RFC style,
+  this can be consolidated so that style settings occur only in one place, but
+  for now the contents of this file consists first of the initial CSS work as
+  provided to the RFC Formatter (xml2rfc) work, followed by itemized and
+  commented changes found necessary during the development of the v3
+  formatters.
+
+*/
+
+/* fonts */
+@import url('https://static.ietf.org/fonts/noto-sans/import.css'); /* Sans-serif */
+@import url('https://static.ietf.org/fonts/noto-serif/import.css'); /* Serif (print) */
+@import url('https://static.ietf.org/fonts/roboto-mono/import.css'); /* Monospace */
+
+:root {
+  --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
+  --font-serif: 'Noto Serif', 'Times', 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', Courier, 'Courier New', monospace;
+}
+
+@viewport {
+  zoom: 1.0;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+/* general and mobile first */
+html {
+}
+body {
+  max-width: 90%;
+  margin: 1.5em auto;
+  color: #222;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-wrap: break-word;
+}
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 0.5em;
+  font-weight: bold;
+  line-height: 1.3;
+}
+#title {
+  clear: both;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 0.5em 0;
+  padding: 1em 0 0.5em;
+}
+.author {
+  padding-bottom: 4px;
+}
+h1 {
+  font-size: 26px;
+  margin: 1em 0;
+}
+h2 {
+  font-size: 22px;
+  margin-top: -20px;  /* provide offset for in-page anchors */
+  padding-top: 33px;
+}
+h3 {
+  font-size: 18px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h4 {
+  font-size: 16px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h5, h6 {
+  font-size: 14px;
+}
+#n-copyright-notice {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+/* general structure */
+p {
+  padding: 0;
+  margin: 0 0 1em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+@media print {
+  svg {
+    max-height: 850px;
+    max-width: 660px;
+  }
+}
+svg[font-family~="serif" i], svg [font-family~="serif" i] {
+  font-family: var(--font-serif);
+}
+svg[font-family~="sans-serif" i], svg [font-family~="sans-serif" i] {
+  font-family: var(--font-sans);
+}
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  display: table;
+  border: none;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.ulBare, li.ulBare {
+  margin-left: 0em !important;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+/* 
+dl.nohang > dt {
+  float: none;
+}
+*/
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+
+/* links */
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #22e; /* Arlen: WCAG 2019 */
+}
+a[href]:hover {
+  background-color: #f2f2f2;
+}
+figcaption a[href],
+a[href].selfRef {
+  color: #222;
+}
+/* XXX probably not this:
+a.selfRef:hover {
+  background-color: transparent;
+  cursor: default;
+} */
+
+/* Figures */
+tt, code, pre {
+  background-color: #f9f9f9;
+  font-family: var(--font-mono);
+}
+pre {
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 1em;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption {
+  font-style: italic;
+  margin: 0 0 1em 0;
+}
+@media screen {
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
+    max-width: calc(100% - 22px);
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 1.2em 2em;
+}
+blockquote {
+  background-color: #f9f9f9;
+  color: #111; /* Arlen: WCAG 2019 */
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin: 1em 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+.xref {
+  overflow-wrap: normal;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #e9e9e9;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f5f5f5;
+}
+table caption {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+sub,
+sup {
+ white-space: nowrap;
+}
+
+/* pilcrow */
+a.pilcrow {
+  color: #666; /* Arlen: AHDJ 2019 */
+  text-decoration: none;
+  visibility: hidden;
+  user-select: none;
+  -ms-user-select: none;
+  -o-user-select:none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+@media screen {
+  aside:hover > a.pilcrow,
+  p:hover > a.pilcrow,
+  blockquote:hover > a.pilcrow,
+  div:hover > a.pilcrow,
+  li:hover > a.pilcrow,
+  pre:hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: 0.9em;
+}
+#identifiers dt {
+  width: 3em;
+  clear: left;
+}
+#identifiers dd {
+  float: left;
+  margin-bottom: 0;
+}
+/* Fix PDF info block run off issue */
+@media print {
+  #identifiers dd {
+    max-width: 100%;
+  }
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #666; /* Arlen: WCAG 2019 */
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc  {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+nav.toc ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+nav.toc li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.refSubseries {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+  }
+  .index ul ul {
+    -moz-column-count: 1;
+    -moz-column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  font-family: var(--font-sans);
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #9e2a00; /* Arlen: WCAG 2019 */
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  border-radius: 3px;
+}
+.cref {
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 1023px) {
+  body {
+    padding-top: 2em;
+  }
+  #title {
+    padding: 1em 0;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: -18px;  /* provide offset for in-page anchors */
+    padding-top: 38px;
+  }
+  #identifiers dd {
+    max-width: 60%;
+  }
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    background-color: inherit;
+    border-bottom: 1px solid #ccc;
+  }
+  #toc h2 {
+    margin: -1px 0 0 0;
+    padding: 4px 0 4px 6px;
+    padding-right: 1em;
+    min-width: 190px;
+    font-size: 1.1em;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 6px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 1024px) {
+  body {
+    max-width: 724px;
+    margin: 42px auto;
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+  #toc {
+    position: fixed;
+    top: 42px;
+    right: 42px;
+    width: 25%;
+    margin: 0;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #toc h2 {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 0;
+    overflow: auto;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  .breakable pre {
+    break-inside: auto;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+/* This is commented out here, as the string-set: doesn't
+   pass W3C validation currently */
+/*
+.ears thead .left {
+  string-set: ears-top-left content();
+}
+
+.ears thead .center {
+  string-set: ears-top-center content();
+}
+
+.ears thead .right {
+  string-set: ears-top-right content();
+}
+
+.ears tfoot .left {
+  string-set: ears-bottom-left content();
+}
+
+.ears tfoot .center {
+  string-set: ears-bottom-center content();
+}
+
+.ears tfoot .right {
+  string-set: ears-bottom-right content();
+}
+*/
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+  /* The following is commented out here, but set appropriately by in code, as
+     the content depends on the document */
+  /*
+  @top-left {
+    content: 'Internet-Draft';
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-left {
+    content: string(ears-top-left);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-center {
+    content: string(ears-top-center);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-right {
+    content: string(ears-top-right);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @bottom-left {
+    content: string(ears-bottom-left);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-center {
+    content: string(ears-bottom-center);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-right {
+      content: '[Page ' counter(page) ']';
+      vertical-align: top;
+      border-top: solid 1px #ccc;
+  }
+  */
+
+}
+
+/* Changes introduced to fix issues found during implementation */
+/* Make sure links are clickable even if overlapped by following H* */
+a {
+  z-index: 2;
+}
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Leave room in document info to show Internet-Draft on one line */
+#identifiers dt {
+  width: 8em;
+}
+
+/* Don't waste quite as much whitespace between label and value in doc info */
+#identifiers dd {
+  margin-left: 1em;
+}
+
+/* Give floating toc a background color (needed when it's a div inside section */
+#toc {
+  background-color: white;
+}
+
+/* Make the collapsed ToC header render white on gray also when it's a link */
+@media screen and (max-width: 1023px) {
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+}
+
+/* Give the bottom of the ToC some whitespace */
+@media screen and (min-width: 1024px) {
+  #toc {
+    padding: 0 0 1em 1em;
+  }
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* prevent monospace from becoming overly large */
+tt, code, pre {
+  font-size: 95%;
+}
+
+/* Fix the height/width aspect for ascii art*/
+.sourcecode pre,
+.art-text pre {
+  line-height: 1.12;
+}
+
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin-right: 0.5em;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 30em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+caption a[href] {
+  color: #222;
+}
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+/* Tweak the invisible space above H* in order not to overlay links in text above */
+ h2 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 31px;
+ }
+ h3 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+ h4 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+/* Float artwork pilcrow to the right */
+@media screen {
+  .artwork a.pilcrow {
+    display: block;
+    line-height: 0.7;
+    margin-top: 0.15em;
+  }
+}
+/* Make pilcrows on dd visible */
+@media screen {
+  dd:hover > a.pilcrow {
+    visibility: visible;
+  }
+}
+/* Make the placement of figcaption match that of a table's caption
+   by removing the figure's added bottom margin */
+.alignLeft.art-text,
+.alignCenter.art-text,
+.alignRight.art-text {
+   margin-bottom: 0;
+}
+.alignLeft,
+.alignCenter,
+.alignRight {
+  margin: 1em 0 0 0;
+}
+/* In print, the pilcrow won't show on hover, so prevent it from taking up space,
+   possibly even requiring a new line */
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+/* Styling for the external metadata */
+div#external-metadata {
+  background-color: #eee;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  display: none;
+}
+div#internal-metadata {
+  padding: 0.5em;                       /* to match the external-metadata padding */
+}
+/* Styling for title RFC Number */
+h1#rfcnum {
+  clear: both;
+  margin: 0 0 -1em;
+  padding: 1em 0 0 0;
+}
+/* Make .olPercent look the same as <ol><li> */
+dl.olPercent > dd {
+  margin-bottom: 0.25em;
+  min-height: initial;
+}
+/* Give aside some styling to set it apart */
+aside {
+  border-left: 1px solid #ddd;
+  margin: 1em 0 1em 2em;
+  padding: 0.2em 2em;
+}
+aside > dl,
+aside > ol,
+aside > ul,
+aside > table,
+aside > p {
+  margin-bottom: 0.5em;
+}
+/* Additional page break settings */
+@media print {
+  figcaption, table caption {
+    page-break-before: avoid;
+  }
+  table {
+    page-break-inside: avoid;
+  }
+}
+/* Font size adjustments for print */
+@media print {
+  body  { font-size: 10pt;      line-height: normal; max-width: 96%; }
+  h1    { font-size: 1.72em;    padding-top: 1.5em; } /* 1*1.2*1.2*1.2 */
+  h2    { font-size: 1.44em;    padding-top: 1.5em; } /* 1*1.2*1.2 */
+  h3    { font-size: 1.2em;     padding-top: 1.5em; } /* 1*1.2 */
+  h4    { font-size: 1em;       padding-top: 1.5em; }
+  h5, h6 { font-size: 1em;      margin: initial; padding: 0.5em 0 0.3em; }
+}
+/* Sourcecode margin in print, when there's no pilcrow */
+@media print {
+  .artwork,
+  .artwork > pre,
+  .sourcecode {
+    margin-bottom: 1em;
+  }
+}
+/* Avoid narrow tables forcing too narrow table captions, which may render badly */
+table {
+  min-width: 20em;
+}
+/* ol type a */
+ol.type-a { list-style-type: lower-alpha; }
+ol.type-A { list-style-type: upper-alpha; }
+ol.type-i { list-style-type: lower-roman; }
+ol.type-I { list-style-type: upper-roman; }
+/* Apply the print table and row borders in general, on request from the RPC,
+and increase the contrast between border and odd row background slightly */
+table {
+  border: 1px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+}
+tr {
+  break-inside: avoid;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f8f8f8;
+}
+/* Use style rules to govern display of the TOC. */
+@media screen and (max-width: 1023px) {
+  #toc nav { display: none; }
+  #toc.active nav { display: block; }
+}
+/* Add support for keepWithNext */
+.keepWithNext {
+  break-after: avoid-page;
+  break-after: avoid-page;
+}
+/* Add support for keepWithPrevious */
+.keepWithPrevious {
+  break-before: avoid-page;
+}
+/* Change the approach to avoiding breaks inside artwork etc. */
+figure, pre, table, .artwork, .sourcecode  {
+  break-before: auto;
+  break-after: auto;
+}
+/* Avoid breaks between <dt> and <dd> */
+dl {
+  break-before: auto;
+  break-inside: auto;
+}
+dt {
+  break-before: auto;
+  break-after: avoid-page;
+}
+dd {
+  break-before: avoid-page;
+  break-after: auto;
+  orphans: 3;
+  widows: 3
+}
+span.break, dd.break {
+  margin-bottom: 0;
+  min-height: 0;
+  break-before: auto;
+  break-inside: auto;
+  break-after: auto;
+}
+/* Undo break-before ToC */
+@media print {
+  #toc {
+    break-before: auto;
+  }
+}
+/* Text in compact lists should not get extra bottom margin space,
+   since that would makes the list not compact */
+ul.compact p, .ulCompact p,
+ol.compact p, .olCompact p {
+ margin: 0;
+}
+/* But the list as a whole needs the extra space at the end */
+section ul.compact,
+section .ulCompact,
+section ol.compact,
+section .olCompact {
+  margin-bottom: 1em;                    /* same as p not within ul.compact etc. */
+}
+/* The tt and code background above interferes with for instance table cell
+   backgrounds.  Changed to something a bit more selective. */
+tt, code {
+  background-color: transparent;
+}
+p tt, p code, li tt, li code, dt tt, dt code {
+  background-color: #f8f8f8;
+}
+/* Tweak the pre margin -- 0px doesn't come out well */
+pre {
+   margin-top: 0.5px;
+}
+/* Tweak the compact list text */
+ul.compact, .ulCompact,
+ol.compact, .olCompact,
+dl.compact, .dlCompact {
+  line-height: normal;
+}
+/* Don't add top margin for nested lists */
+li > ul, li > ol, li > dl,
+dd > ul, dd > ol, dd > dl,
+dl > dd > dl {
+  margin-top: initial;
+}
+/* Elements that should not be rendered on the same line as a <dt> */
+/* This should match the element list in writer.text.TextWriter.render_dl() */
+dd > div.artwork:first-child,
+dd > aside:first-child,
+dd > blockquote:first-child,
+dd > figure:first-child,
+dd > ol:first-child,
+dd > div.sourcecode:first-child,
+dd > table:first-child,
+dd > ul:first-child {
+  clear: left;
+}
+/* fix for weird browser behaviour when <dd/> is empty */
+dt+dd:empty::before{
+  content: "\00a0";
+}
+/* Make paragraph spacing inside <li> smaller than in body text, to fit better within the list */
+li > p {
+  margin-bottom: 0.5em
+}
+/* Don't let p margin spill out from inside list items */
+li > p:last-of-type:only-child {
+  margin-bottom: 0;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+<script type="application/javascript">async function addMetadata(){try{const e=document.styleSheets[0].cssRules;for(let t=0;t<e.length;t++)if(/#identifiers/.exec(e[t].selectorText)){const a=e[t].cssText.replace("#identifiers","#external-updates");document.styleSheets[0].insertRule(a,document.styleSheets[0].cssRules.length)}}catch(e){console.log(e)}const e=document.getElementById("external-metadata");if(e)try{var t,a="",o=function(e){const t=document.getElementsByTagName("meta");for(let a=0;a<t.length;a++)if(t[a].getAttribute("name")===e)return t[a].getAttribute("content");return""}("rfc.number");if(o){t="https://www.rfc-editor.org/rfc/rfc"+o+".json";try{const e=await fetch(t);a=await e.json()}catch(e){t=document.URL.indexOf("html")>=0?document.URL.replace(/html$/,"json"):document.URL+".json";const o=await fetch(t);a=await o.json()}}if(!a)return;e.style.display="block";const s="",d="https://datatracker.ietf.org/doc",n="https://datatracker.ietf.org/ipr/search",c="https://www.rfc-editor.org/info",l=a.doc_id.toLowerCase(),i=a.doc_id.slice(0,3).toLowerCase(),f=a.doc_id.slice(3).replace(/^0+/,""),u={status:"Status",obsoletes:"Obsoletes",obsoleted_by:"Obsoleted By",updates:"Updates",updated_by:"Updated By",see_also:"See Also",errata_url:"Errata"};let h="<dl style='overflow:hidden' id='external-updates'>";["status","obsoletes","obsoleted_by","updates","updated_by","see_also","errata_url"].forEach(e=>{if("status"==e){a[e]=a[e].toLowerCase();var t=a[e].split(" "),o=t.length,w="",p=1;for(let e=0;e<o;e++)p<o?w=w+r(t[e])+" ":w+=r(t[e]),p++;a[e]=w}else if("obsoletes"==e||"obsoleted_by"==e||"updates"==e||"updated_by"==e){var g,m="",b=1;g=a[e].length;for(let t=0;t<g;t++)a[e][t]&&(a[e][t]=String(a[e][t]).toLowerCase(),m=b<g?m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>, ":m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>",b++);a[e]=m}else if("see_also"==e){var y,L="",C=1;y=a[e].length;for(let t=0;t<y;t++)if(a[e][t]){a[e][t]=String(a[e][t]);var _=a[e][t].slice(0,3),v=a[e][t].slice(3).replace(/^0+/,"");L=C<y?"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>, ":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>, ":"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>",C++}a[e]=L}else if("errata_url"==e){var R="";R=a[e]?R+"<a href='"+a[e]+"'>Errata exist</a> | <a href='"+d+"/"+l+"'>Datatracker</a>| <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>":"<a href='"+d+"/"+l+"'>Datatracker</a> | <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>",a[e]=R}""!=a[e]?"Errata"==u[e]?h+=`<dt>More info:</dt><dd>${a[e]}</dd>`:h+=`<dt>${u[e]}:</dt><dd>${a[e]}</dd>`:"Errata"==u[e]&&(h+=`<dt>More info:</dt><dd>${a[e]}</dd>`)}),h+="</dl>",e.innerHTML=h}catch(e){console.log(e)}else console.log("Could not locate metadata <div> element");function r(e){return e.charAt(0).toUpperCase()+e.slice(1)}}window.removeEventListener("load",addMetadata),window.addEventListener("load",addMetadata);</script>
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Agent Execution Evidence</td>
+<td class="right">October 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Thaha &amp; Shamsudeen</td>
+<td class="center">Expires 8 April 2027</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Supply Chain Integrity, Transparency, and Trust</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-thaha-scitt-agent-execution-evidence-00</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-10" class="published">October 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2027-04-08">8 April 2027</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">S. Thaha</div>
+<div class="org">Individual Contributor</div>
+</div>
+<div class="author">
+      <div class="author-name">S. Shamsudeen</div>
+<div class="org">Individual Contributor</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Agent Execution Evidence: A SCITT Profile for Verifiable Records of AI Agent Runs</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">AI agents act through calls to models and tools. Identity work establishes who an agent is and what it may do, but leaves execution-evidence formats and assurance criteria out of scope. This document profiles the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture for signed Agent Credential, Policy Pack, Configuration Integrity, Execution Receipt and Assurance Statements. It binds persistent identity, declared capabilities, risk-based assessment and time-bounded operational monitoring to a hash-chained record of an agent run. It also defines Registration Policy, offline verification and Bundle requirements. It does not define an accreditation scheme, universal risk classification, identity registry or policy language.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://github.com/devinwarp/sijil-ietf">https://github.com/devinwarp/sijil-ietf</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-thaha-scitt-agent-execution-evidence/">https://datatracker.ietf.org/doc/draft-thaha-scitt-agent-execution-evidence/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        SCITT Working Group mailing list (<span><a href="mailto:scitt@ietf.org">mailto:scitt@ietf.org</a></span>),
+        which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/scitt/">https://mailarchive.ietf.org/arch/browse/scitt/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/scitt/">https://www.ietf.org/mailman/listinfo/scitt/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/devinwarp/sijil-ietf">https://github.com/devinwarp/sijil-ietf</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 4 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-requirements-notation" class="internal xref">Requirements Notation</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-identifiers" class="internal xref">Identifiers</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-common-encoding" class="internal xref">Common Encoding</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-json-alternative-encoding" class="internal xref">JSON Alternative Encoding</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-statement-types" class="internal xref">Statement Types</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-agent-credential-statement" class="internal xref">Agent Credential Statement</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-policy-pack-statement" class="internal xref">Policy Pack Statement</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-configuration-integrity-sta" class="internal xref">Configuration Integrity Statement</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
+                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-unicode-normalization-befor" class="internal xref">Unicode Normalization Before Digesting</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-execution-receipt-statement" class="internal xref">Execution Receipt Statement</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.1">
+                    <p id="section-toc.1-1.5.2.4.2.1.1"><a href="#section-5.4.1" class="auto internal xref">5.4.1</a>.  <a href="#name-evidence-chain" class="internal xref">Evidence Chain</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.2">
+                    <p id="section-toc.1-1.5.2.4.2.2.1"><a href="#section-5.4.2" class="auto internal xref">5.4.2</a>.  <a href="#name-execution-epoch-statement" class="internal xref">Execution Epoch Statement</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-assurance-statement" class="internal xref">Assurance Statement</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5.2.1">
+                    <p id="section-toc.1-1.5.2.5.2.1.1"><a href="#section-5.5.1" class="auto internal xref">5.5.1</a>.  <a href="#name-assurance-levels" class="internal xref">Assurance Levels</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5.2.2">
+                    <p id="section-toc.1-1.5.2.5.2.2.1"><a href="#section-5.5.2" class="auto internal xref">5.5.2</a>.  <a href="#name-revocation" class="internal xref">Revocation</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-registration-policy" class="internal xref">Registration Policy</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-bundle" class="internal xref">Bundle</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-verification" class="internal xref">Verification</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-meaning-of-pass" class="internal xref">Meaning of PASS</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.1">
+                    <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="auto internal xref">8.1.1</a>.  <a href="#name-derivable-risk-facts" class="internal xref">Derivable Risk Facts</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-media-types" class="internal xref">Media Types</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
+                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-cwt-claims" class="internal xref">CWT Claims</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
+                <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-coap-content-formats" class="internal xref">CoAP Content-Formats</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-related-work" class="internal xref">Related Work</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#section-14" class="auto internal xref">14</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.1">
+                <p id="section-toc.1-1.14.2.1.1"><a href="#section-14.1" class="auto internal xref">14.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
+                <p id="section-toc.1-1.14.2.2.1"><a href="#section-14.2" class="auto internal xref">14.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-test-vectors" class="internal xref">Test Vectors</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1">
+                <p id="section-toc.1-1.15.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-keys" class="internal xref">Keys</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2">
+                <p id="section-toc.1-1.15.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-agent-credential-statement-2" class="internal xref">Agent Credential Statement</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.3">
+                <p id="section-toc.1-1.15.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-configuration-integrity-ent" class="internal xref">Configuration Integrity Entries</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4">
+                <p id="section-toc.1-1.15.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-execution-receipts" class="internal xref">Execution Receipts</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.5">
+                <p id="section-toc.1-1.15.2.5.1"><a href="#appendix-A.5" class="auto internal xref">A.5</a>.  <a href="#name-execution-epoch-statement-2" class="internal xref">Execution Epoch Statement</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
+            <p id="section-toc.1-1.16.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-mapping-to-regulatory-and-s" class="internal xref">Mapping to Regulatory and Standards Contexts</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
+            <p id="section-toc.1-1.17.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18">
+            <p id="section-toc.1-1.18.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">An AI agent is a workload whose behaviour is driven, in whole or in part, by a non-deterministic decision process, typically a large language model (LLM), and which acts on the world by invoking tools, services and resources. Every consequential thing an agent does passes through one of two doors: a call to a model (an inference) or a call to a tool. If evidence is produced at those two doors, bound to the agent's identity and to the policy in force, and registered in an append-only, non-equivocating log, a third party can later establish what the agent did, under which rules, and with which configuration, without trusting the operator's own logs.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">The WIMSE AI Identity Management System <span>[<a href="#I-D.ietf-wimse-aims" class="cite xref">I-D.ietf-wimse-aims</a>]</span> describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but states that evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in <span>[<a href="#I-D.kuehlewind-audit-architecture" class="cite xref">I-D.kuehlewind-audit-architecture</a>]</span> identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">Several individual drafts already profile SCITT for agent actions (<a href="#related" class="auto internal xref">Section 12</a>). Each records that an action happened and its disposition. Three gaps remain that this profile addresses:<a href="#section-1-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-1-4">
+<li id="section-1-4.1">
+          <p id="section-1-4.1.1">Binding of identity to a per-call evidence chain. An agent identifier in an audit record is only as good as the link between that identifier, the key that signed the record, the record before it, and the persistent agent the identifier is an instance of. This profile defines an Agent Credential Statement that records that mapping, and requires every Execution Receipt to carry the runtime identifier, the preceding record hash and optionally a per-call agent signature, so that a chain of receipts is bound to one credential and cannot be spliced.<a href="#section-1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-4.2">
+          <p id="section-1-4.2.1">Integrity of instruction files, system prompts and tool manifests. An agent's behaviour is determined as much by its system prompt, instruction files, skills, hooks, tool manifests and persisted memory as by its model, and injection through these files, including through invisible Unicode, is a documented attack class. This profile defines a Configuration Integrity Statement that commits to digests of these inputs after mandatory Unicode normalization, and requires every Execution Receipt to reference the configuration in force.<a href="#section-1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-4.3">
+          <p id="section-1-4.3.1">Revocable operational assurance bound to running evidence. An assessment is useful only while the assessed identity, capabilities, policy, configuration and deployment remain applicable. This profile binds an Assurance Statement to those values, records its risk basis and monitoring coverage, and supports reassessment, suspension and withdrawal.<a href="#section-1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-1-5">A declared objective, attested runtime and guardrails do not constrain every means an agent may choose. During a 2026 cyber-capability evaluation, agents created an unsanctioned coordination channel, pursued scorer tampering, crossed task boundaries and investigated altering their traces <span>[<a href="#METR-HF" class="cite xref">METR-HF</a>]</span>. This motivates third-party review of whether capabilities and controls are proportionate to purpose.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">Monitoring is a distinct safeguard after assessment: for highly autonomous or otherwise higher-risk agents, it checks observed operation against the assessed scope and approved controls and supports reassessment, suspension or withdrawal. Article 72 of <span>[<a href="#EUAIACT" class="cite xref">EUAIACT</a>]</span> requires proportionate lifetime monitoring for legally classified high-risk AI systems. This profile's <code>higher_risk</code> value is not that legal classification and does not establish compliance.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">This document is a profile of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> and <span>[<a href="#RFC9942" class="cite xref">RFC9942</a>]</span>. It does not change the SCITT architecture and does not define an identity registry, a policy language or an accreditation scheme.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<div id="requirements-notation">
+<section id="section-1.1">
+        <h3 id="name-requirements-notation">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements-notation" class="section-name selfRef">Requirements Notation</a>
+        </h3>
+<p id="section-1.1-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="terminology">
+<section id="section-2">
+      <h2 id="name-terminology">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+      </h2>
+<p id="section-2-1">This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-3" class="relref">Section 3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-2">
+        <dt id="section-2-2.1">Agent:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.2">
+          <p id="section-2-2.2.1">A workload whose behaviour is driven, in whole or in part, by a non-deterministic decision process (typically an LLM) and that invokes tools, services or resources, as in Section 4 of <span>[<a href="#I-D.ietf-wimse-aims" class="cite xref">I-D.ietf-wimse-aims</a>]</span>.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.3">Agent Assurance Assessor:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.4">
+          <p id="section-2-2.4.1">A SCITT Issuer that evaluates an agent and issues Assurance Statements (<a href="#assurance" class="auto internal xref">Section 5.5</a>). It <span class="bcp14">MAY</span> be the Responsible Entity at assurance levels 1 and 2. At levels 3 and 4 it <span class="bcp14">MUST</span> be a Third-Party Agent Assurance Assessor.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.5">Third-Party Agent Assurance Assessor:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.6">
+          <p id="section-2-2.6.1">An Agent Assurance Assessor that is organizationally independent of the Responsible Entity and agent operator, and whose identity and signing key a Relying Party accepts under its trust policy. This profile-specific role can perform the RATS Verifier role or consume Attestation Results from an accepted RATS Verifier, but also assesses the agent's capabilities, deployment and controls. Existing IETF specifications do not define qualification, independence-testing or accreditation criteria for this role.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.7">Capability Profile:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.8">
+          <p id="section-2-2.8.1">A declaration of an agent's purpose and effective model, tool, data, permission and delegation scope, committed to by digest in an Assurance Statement.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.9">Bundle:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.10">
+          <p id="section-2-2.10.1">A self-contained set of Transparent Statements and Execution Receipts sufficient for offline verification of a segment of an Evidence Chain (<a href="#bundle" class="auto internal xref">Section 7</a>).<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.11">Decision Point:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.12">
+          <p id="section-2-2.12.1">A point in the Harness at which a call is intercepted, a policy decision taken and an Execution Receipt produced: the model door (every inference) and the tool door (every tool invocation, its result and any resulting egress).<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.13">Evidence Chain:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.14">
+          <p id="section-2-2.14.1">An ordered sequence of Execution Receipts, each carrying the hash of its predecessor, scoped to one Agent Credential Statement (<a href="#chain" class="auto internal xref">Section 5.4.1</a>).<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.15">Evidence Service:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.16">
+          <p id="section-2-2.16.1">The service, operated by or for the Harness operator, that issues Execution Receipt and Execution Epoch Statements and registers them with a TS; the SCITT Issuer for those statements.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.17">Execution Receipt:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.18">
+          <p id="section-2-2.18.1">A single record produced at a Decision Point (<a href="#receipt" class="auto internal xref">Section 5.4</a>); registered with a TS, individually or through an epoch root, it becomes an Execution Receipt Statement.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.19">Harness:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.20">
+          <p id="section-2-2.20.1">The runtime that hosts an agent, mediates its calls to models and tools, and operates the Decision Points.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.21">Logical Agent, Runtime Identity:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.22">
+          <p id="section-2-2.22.1">The persistent identity of an agent across environments, named by a <code>logical_agent_id</code>; and a workload identifier under which the agent authenticates in one environment for one period. One Logical Agent <span class="bcp14">MAY</span> have several Runtime Identities.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.23">Operational Assurance:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.24">
+          <p id="section-2-2.24.1">Time-bounded confidence that an identified agent's assessed capabilities, deployment and controls remain within their approved scope, based on assessment and, where required, continuing monitoring.<a href="#section-2-2.24.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.25">Policy Pack:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.26">
+          <p id="section-2-2.26.1">A versioned document that configures Decision Points, layered by digest reference to a parent (<a href="#pack" class="auto internal xref">Section 5.2</a>). The policy document format is out of scope.<a href="#section-2-2.26.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.27">Principal:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.28">
+          <p id="section-2-2.28.1">The natural person, organization or workload on whose behalf an agent acts for a given Task.<a href="#section-2-2.28.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.29">Responsible Entity:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.30">
+          <p id="section-2-2.30.1">The legal or natural person accountable for a Logical Agent, as declared in its Agent Credential Statement.<a href="#section-2-2.30.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.31">Task:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.32">
+          <p id="section-2-2.32.1">A unit of agent work delimited by <code>task_start</code> and <code>task_end</code> Execution Receipts, with its own sequence counter.<a href="#section-2-2.32.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+<p id="section-2-3">The Agent Credential, Policy Pack, Configuration Integrity, Execution Receipt and Assurance Statements are the five Signed Statement types this profile defines (<a href="#credential" class="auto internal xref">Section 5.1</a> to <a href="#assurance" class="auto internal xref">Section 5.5</a>).<a href="#section-2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ids">
+<section id="section-3">
+      <h2 id="name-identifiers">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-identifiers" class="section-name selfRef">Identifiers</a>
+      </h2>
+<p id="section-3-1">This profile imports identifiers and does not define a registry.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">An agent identifier is a URI. It <span class="bcp14">SHOULD</span> be a Workload Identifier as defined in <span>[<a href="#I-D.ietf-wimse-identifier" class="cite xref">I-D.ietf-wimse-identifier</a>]</span> (the <code>spiffe</code> or <code>wimse</code> scheme). It <span class="bcp14">MAY</span> be a <code>did:web</code> identifier <span>[<a href="#DID-WEB" class="cite xref">DID-WEB</a>]</span>. Implementations <span class="bcp14">MUST</span> treat agent identifiers as opaque strings for comparison purposes; two identifiers are equal if and only if their octet sequences are equal.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">The CWT Claims header parameter (label 15) required by <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref">Section 6</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> <span class="bcp14">MUST</span> carry the Issuer in <code>iss</code> (label 1). In <code>sub</code> (label 2), Agent Credential, Configuration Integrity, Configuration Drift, Execution Receipt and Execution Epoch Statements carry the applicable Runtime Identity; Assurance Statements carry <code>logical_agent_id</code>; Policy Pack Statements carry <code>pack_id</code>; and Revocation Statements repeat the <code>sub</code> of the statement revoked.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">A Principal is carried as a claim inside the statement payload, not in the COSE header, because a Principal is not an Artifact subject in the SCITT sense and because the header is visible to the TS. A Principal of kind natural person <span class="bcp14">MUST</span> be represented by a 32-octet digest computed as SHA-256 over the concatenation of an operator-held pepper and the canonical identifier of the person (<a href="#privacy" class="auto internal xref">Section 9</a>). A Principal of kind organization or workload <span class="bcp14">MAY</span> be represented in clear text.<a href="#section-3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="common">
+<section id="section-4">
+      <h2 id="name-common-encoding">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-common-encoding" class="section-name selfRef">Common Encoding</a>
+      </h2>
+<p id="section-4-1">Each statement type defined here is a CBOR map with integer keys. Hash algorithm identifiers are taken from the IANA COSE Algorithms registry. The CDDL in this document uses the conventions of <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span>. Every payload is encoded with the deterministic encoding rules of <span><a href="https://rfc-editor.org/rfc/rfc8949#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> ("canonical CBOR" below).<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-4-2">
+<pre>
+aee-statement = agent-credential / policy-pack / config-integrity
+              / config-drift / execution-receipt / execution-epoch
+              / assurance / revocation
+
+aee-type = &amp;(
+  agent-credential:    1,
+  policy-pack:         2,
+  config-integrity:    3,
+  config-drift:        4,
+  execution-receipt:   5,
+  execution-epoch:     6,
+  assurance:           7,
+  revocation:          8
+)
+
+; A digest is a COSE hash algorithm identifier and the digest value.
+; SHA-256 is -16 in the IANA COSE Algorithms registry.
+digest = [ alg: int, value: bstr ]
+
+validity = {
+  1 =&gt; uint,    ; nbf, seconds since the Unix epoch
+  2 =&gt; uint     ; exp, seconds since the Unix epoch
+}
+
+principal = {
+  1 =&gt; principal-kind,
+  2 =&gt; bstr / tstr   ; 32-octet digest for natural persons,
+                     ; otherwise an identifier
+}
+principal-kind = &amp;( natural-person: 1, organization: 2, workload: 3 )
+</pre><a href="#section-4-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4-3">Each statement is carried as the payload of a COSE_Sign1 Signed Statement per <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref">Section 6</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>. The protected header <span class="bcp14">MUST</span> contain <code>alg</code> (label 1); <code>content type</code> (label 3) set to <code>application/aee-statement+cbor</code> or <code>application/aee-statement+json</code>; <code>kid</code> (label 4), <code>x5t</code> (label 34) or <code>x5chain</code> (label 33) per <span><a href="https://rfc-editor.org/rfc/rfc9943#section-6" class="relref">Section 6</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>; and the CWT Claims header parameter (label 15) with <code>iss</code>, <code>sub</code> and the <code>aee_type</code> claim (<a href="#iana-cwt" class="auto internal xref">Section 11.2</a>), whose value <span class="bcp14">MUST</span> equal key 1 of the payload. Duplicating the type in the header lets a TS apply type-specific Registration Policy (<a href="#regpol" class="auto internal xref">Section 6</a>) from the non-opaque header, as <span><a href="https://rfc-editor.org/rfc/rfc9943#section-3" class="relref">Section 3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> requires, without parsing the payload.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<div id="json">
+<section id="section-4.1">
+        <h3 id="name-json-alternative-encoding">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-json-alternative-encoding" class="section-name selfRef">JSON Alternative Encoding</a>
+        </h3>
+<p id="section-4.1-1">A statement <span class="bcp14">MAY</span> instead be encoded as a JSON object. Each integer key is replaced by the member name given for it in the CDDL comment of its type (for example key 7 of an Execution Receipt is <code>policy_pack_digest</code>); group names such as <code>principal</code>, <code>harness</code>, <code>model_binding</code>, <code>validity</code>, <code>runtime_identities</code> and <code>assessed_scope</code> name nested objects, and enumerated values use the lowercase names of their CDDL group. Byte strings are base64url without padding, and a <code>digest</code> is an object <code>{"alg": &lt;name&gt;, "value": &lt;base64url&gt;}</code> where <code>&lt;name&gt;</code> is a hash name from the IANA "Named Information Hash Algorithm Registry" (for example <code>"sha-256"</code>). Before signing or hashing, the JSON form <span class="bcp14">MUST</span> be canonicalized with <span>[<a href="#RFC8785" class="cite xref">RFC8785</a>]</span>. The content type is <code>application/aee-statement+json</code>. A single Evidence Chain <span class="bcp14">MUST</span> use one encoding throughout.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="statement-types">
+<section id="section-5">
+      <h2 id="name-statement-types">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-statement-types" class="section-name selfRef">Statement Types</a>
+      </h2>
+<div id="credential">
+<section id="section-5.1">
+        <h3 id="name-agent-credential-statement">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-agent-credential-statement" class="section-name selfRef">Agent Credential Statement</a>
+        </h3>
+<p id="section-5.1-1">An Agent Credential Statement binds an agent identifier to the public key the agent uses for per-call signatures, to the Principal it acts for, to the Harness that hosts it, and to how its model is bound. It also records the agent's identity continuity: which persistent Logical Agent this runtime is an instance of, who is accountable for it, and under which Runtime Identities it may appear. Its Issuer is the Harness operator or the identity provider that issued the agent's workload credential.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">The continuity fields exist because workload identifiers do not, by themselves, say what they name. Section 3.1.2 of <span>[<a href="#I-D.ietf-wimse-arch" class="cite xref">I-D.ietf-wimse-arch</a>]</span> states that a workload identifier "<span class="bcp14">MAY</span> represent a logical workload, a service implemented by one or more workloads, or a specific workload instance, depending on deployment policy", and that "two credentials containing the same workload identifier value represent the same workload only when validated under the same trust domain and issuer trust configuration". An agent that moves between a development cluster, a production cluster and a cloud identity platform acquires a different identifier in each, meaningful only within its trust domain. A Relying Party cannot correlate those identifiers by inspection. This profile therefore records the mapping from a Logical Agent to its Runtime Identities as a signed, registered statement, and verifies receipts against it, rather than assuming correlation.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-5.1-3">
+<pre>
+agent-credential = {
+  1 =&gt; 1,                   ; aee-type
+  2 =&gt; tstr,                ; agent_id (see {{ids}})
+  3 =&gt; COSE_Key,            ; agent_key, RFC 9052 Section 7
+  4 =&gt; principal,           ; principal
+  5 =&gt; harness,             ; harness
+  6 =&gt; model-binding,       ; model_binding
+  7 =&gt; validity,            ; validity
+  ? 8 =&gt; tstr,              ; credential_ref: identifier of the
+                            ; workload credential (e.g. WIT jti,
+                            ; certificate thumbprint) this binds to
+  9 =&gt; tstr,                ; logical_agent_id
+  10 =&gt; principal,          ; responsible_entity
+  11 =&gt; [ + runtime-identity ],  ; runtime_identities
+  12 =&gt; lifecycle-class,    ; lifecycle_class
+  ? 20 =&gt; tstr              ; derived_from (lifecycle derived only)
+}
+
+runtime-identity = {
+  1 =&gt; tstr,                ; identifier
+  2 =&gt; id-scheme,           ; scheme
+  3 =&gt; tstr,                ; trust_domain
+  4 =&gt; uint,                ; valid_from, seconds since Unix epoch
+  5 =&gt; uint                 ; valid_until
+}
+id-scheme = &amp;( wimse: 1, spiffe: 2, did: 3, entra: 4,
+               cloud-native: 5, other: 6 )
+lifecycle-class = &amp;( ephemeral: 1, persistent: 2, derived: 3 )
+
+harness = {
+  1 =&gt; tstr,                ; name
+  2 =&gt; tstr,                ; version
+  ? 3 =&gt; digest             ; digest of the harness binary/image
+}
+
+model-binding = {
+  1 =&gt; binding-mode,
+  ? 2 =&gt; digest,            ; weights_digest (mode 1 only)
+  ? 3 =&gt; tstr,              ; model_id as named by the provider
+  ? 4 =&gt; tstr,              ; provider
+  ? 5 =&gt; bstr               ; tee_evidence: digest of or reference
+                            ; to RATS Evidence (mode 3 only)
+}
+binding-mode = &amp;( weights-digest: 1, api: 2, api-tee: 3 )
+</pre><a href="#section-5.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-5.1-4">The binding modes have the following meaning. <code>weights-digest</code>: the Harness loads the model locally and <code>weights_digest</code> commits to the weights. <code>api</code>: the model is invoked through a remote API; only <code>model_id</code> and <code>provider</code> are known. <code>api-tee</code>: as <code>api</code>, but the provider supplies attestation Evidence for the serving environment, referenced by <code>tee_evidence</code>. Relying Parties <span class="bcp14">MUST NOT</span> infer from mode <code>api</code> anything about which model actually served a request; only the provider's claim is recorded.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-5"><code>logical_agent_id</code> is the persistent identifier of the Logical Agent. It <span class="bcp14">MUST</span> be a Workload Identifier <span>[<a href="#I-D.ietf-wimse-identifier" class="cite xref">I-D.ietf-wimse-identifier</a>]</span> or a <code>did:web</code> identifier <span>[<a href="#DID-WEB" class="cite xref">DID-WEB</a>]</span>; this profile <span class="bcp14">MUST NOT</span> be used with a newly minted identifier scheme for this purpose. <code>responsible_entity</code> names the accountable party; a natural person is hashed as described in <a href="#privacy" class="auto internal xref">Section 9</a>. <code>runtime_identities</code> lists every identifier under which the agent may produce Execution Receipts while this credential is valid, each with its scheme, trust domain and validity window. The <code>agent_id</code> in key 2 <span class="bcp14">MUST</span> appear in <code>runtime_identities</code>. <code>lifecycle_class</code> is <code>ephemeral</code> for an agent instantiated for one Task, <code>persistent</code> for a long-running agent, and <code>derived</code> for an agent spawned by another agent; a <code>derived</code> agent <span class="bcp14">MUST</span> carry <code>derived_from</code> set to the <code>logical_agent_id</code> of its parent, and its assurance level (<a href="#assurance" class="auto internal xref">Section 5.5</a>) <span class="bcp14">MUST NOT</span> exceed its parent's.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">An Agent Credential Statement is valid for Execution Receipts whose <code>ts</code> lies within its <code>validity</code>. Rotation of the agent key is performed by registering a new Agent Credential Statement; the old statement remains valid for receipts within its own window.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="pack">
+<section id="section-5.2">
+        <h3 id="name-policy-pack-statement">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-policy-pack-statement" class="section-name selfRef">Policy Pack Statement</a>
+        </h3>
+<p id="section-5.2-1">A Policy Pack Statement commits to the digest of a policy document and places it in a lineage. Its Issuer is the pack author. The format of the policy document is out of scope; the digest is over the document bytes as published.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-5.2-2">
+<pre>
+policy-pack = {
+  1 =&gt; 2,                   ; aee-type
+  2 =&gt; tstr,                ; pack_id (URI or opaque name)
+  3 =&gt; tstr,                ; pack_version
+  4 =&gt; digest,              ; pack_digest over the pack document
+  ? 5 =&gt; digest,            ; parent_pack_digest
+  6 =&gt; layer,               ; layer
+  ? 7 =&gt; tstr               ; pack_content_type of the document
+}
+layer = &amp;( jurisdiction: 1, sector: 2, institution: 3,
+           deployment: 4 )
+</pre><a href="#section-5.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.2-3">Policy Packs form a chain from the most general to the most specific layer (jurisdiction, sector, institution, deployment). A pack with a <code>parent_pack_digest</code> <span class="bcp14">MUST</span> have a <code>layer</code> strictly greater than its parent's. A child pack <span class="bcp14">MAY</span> only tighten: for every Decision Point and every input, the decision under the child <span class="bcp14">MUST NOT</span> be less restrictive than under any ancestor, with restrictiveness ordered <code>block</code> &gt; <code>confirm</code> &gt; <code>record</code> &gt; <code>allow</code> (<a href="#receipt" class="auto internal xref">Section 5.4</a>). A Relying Party <span class="bcp14">MUST</span> walk the parent chain to a root and verify that every pack is registered (<a href="#verification" class="auto internal xref">Section 8</a>); whether a child semantically tightens its parent cannot be established offline from digests, and an Assurance Statement (<a href="#assurance" class="auto internal xref">Section 5.5</a>) is how a party asserts it.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="config">
+<section id="section-5.3">
+        <h3 id="name-configuration-integrity-sta">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-configuration-integrity-sta" class="section-name selfRef">Configuration Integrity Statement</a>
+        </h3>
+<p id="section-5.3-1">A Configuration Integrity Statement commits to the digests of the inputs that shape an agent's behaviour other than the model and the policy. Its Issuer is the Evidence Service.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-5.3-2">
+<pre>
+config-integrity = {
+  1 =&gt; 3,                   ; aee-type
+  2 =&gt; tstr,                ; agent_id
+  3 =&gt; [ + config-entry ],  ; entries, ordered by name (octet order)
+  4 =&gt; digest,              ; config_digest over canonical entries
+  5 =&gt; uint,                ; normalization, 1 or 2 (below)
+  6 =&gt; uint                 ; iat, seconds since the Unix epoch
+}
+config-entry = [
+  name: tstr,               ; path or logical name
+  value: digest,            ; digest of the normalized content
+  class: config-class
+]
+config-class = &amp;(
+  system_prompt:    1,
+  instruction_file: 2,
+  skill:            3,
+  hook:             4,
+  mcp_config:       5,
+  tool_manifest:    6,
+  tool_description: 7,
+  memory:           8
+)
+
+config-drift = {
+  1 =&gt; 4,                   ; aee-type
+  2 =&gt; tstr,                ; agent_id
+  3 =&gt; digest,              ; prev_config_digest
+  4 =&gt; digest,              ; new_config_digest
+  5 =&gt; [ + drift-entry ],   ; changes
+  6 =&gt; uint                 ; iat
+}
+drift-entry = [
+  name: tstr,
+  class: config-class,
+  change: &amp;( added: 1, modified: 2, removed: 3 ),
+  ? old: digest,
+  ? new: digest
+]
+</pre><a href="#section-5.3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.3-3"><code>config_digest</code> is computed over the canonical CBOR encoding (or the JCS encoding, in the JSON form) of the <code>entries</code> array alone. It is the value that Execution Receipts reference.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+<div id="normalization">
+<section id="section-5.3.1">
+          <h4 id="name-unicode-normalization-befor">
+<a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-unicode-normalization-befor" class="section-name selfRef">Unicode Normalization Before Digesting</a>
+          </h4>
+<p id="section-5.3.1-1">Textual configuration inputs are a vector for instruction injection that is invisible to human reviewers. Before digesting any entry whose content is valid UTF-8, an Issuer <span class="bcp14">MUST</span> apply Unicode Normalization Form C <span>[<a href="#UAX15" class="cite xref">UAX15</a>]</span>, then process the following code points according to the normalization profile, then digest the resulting UTF-8 octets: U+200B, U+200C, U+200D (zero width space, non-joiner, joiner); U+2060 (word joiner); U+FEFF (including a leading byte order mark); U+E0000 to U+E007F (Tags); and the bidirectional controls U+202A to U+202E and U+2066 to U+2069.<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-2">Under profile 1 ("strip") the listed code points are removed. Under profile 2 ("reject") their presence is an error and no statement is issued until the content is corrected; profile 2 is <span class="bcp14">RECOMMENDED</span> for the <code>system_prompt</code>, <code>instruction_file</code>, <code>skill</code> and <code>tool_description</code> classes. Content that is not valid UTF-8 is digested over the raw octets. Normalization is for digesting only; whether the Harness also strips these code points from what it presents to the model is a Harness matter not asserted by this statement.<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-3">A Configuration Drift Statement <span class="bcp14">SHOULD</span> be issued whenever a new Configuration Integrity Statement replaces a previous one for the same agent. Drift is an ordinary event; its significance is for the Relying Party to decide.<a href="#section-5.3.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="receipt">
+<section id="section-5.4">
+        <h3 id="name-execution-receipt-statement">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-execution-receipt-statement" class="section-name selfRef">Execution Receipt Statement</a>
+        </h3>
+<p id="section-5.4-1">An Execution Receipt is the per-call record. One is produced at every Decision Point for every call, whatever the decision, including blocked calls. Its Issuer, when registered individually, is the Evidence Service.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-5.4-2">
+<pre>
+execution-receipt = {
+  1 =&gt; 5,                   ; aee-type
+  2 =&gt; uint,                ; seq, per Evidence Chain, from 0
+  3 =&gt; bstr .size 32,       ; prev_hash: record-hash of seq-1,
+                            ; or 32 zero octets when seq = 0
+  4 =&gt; record-type,         ; record_type
+  ? 5 =&gt; uint,              ; parent_seq (see below)
+  6 =&gt; decision,            ; decision
+  7 =&gt; digest,              ; policy_pack_digest in force
+  8 =&gt; digest,              ; config_integrity_digest in force
+  9 =&gt; tstr,                ; agent_id: Runtime Identity in force
+  10 =&gt; principal,          ; principal
+  11 =&gt; uint,               ; task_seq, per Task, from 0
+  ? 12 =&gt; digest,           ; request_digest
+  ? 13 =&gt; digest,           ; response_digest
+  14 =&gt; uint,               ; ts, milliseconds since the Unix epoch
+  ? 15 =&gt; bstr .cbor COSE_Sign1,  ; agent_sig (per-call signature)
+  ? 16 =&gt; tstr,             ; target: model_id or tool name
+  ? 17 =&gt; tstr,             ; egress_host (lowercase host, no port)
+  ? 18 =&gt; decision-point    ; decision_point
+}
+record-type = &amp;(
+  task_start:  1,
+  task_end:    2,
+  inference:   3,
+  tool_call:   4,
+  tool_result: 5,
+  egress:      6
+)
+decision = &amp;( allow: 1, block: 2, confirm: 3, record: 4 )
+decision-point = &amp;( model: 1, tool: 2, network: 3 )
+</pre><a href="#section-5.4-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.4-3">The members have the following semantics.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-5.4-4">
+          <dt id="section-5.4-4.1">
+<code>seq</code>, <code>prev_hash</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.2">
+            <p id="section-5.4-4.2.1">Define the Evidence Chain (<a href="#chain" class="auto internal xref">Section 5.4.1</a>).<a href="#section-5.4-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.3">
+<code>record_type</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.4">
+            <p id="section-5.4-4.4.1"><code>task_start</code> and <code>task_end</code> delimit a Task; <code>inference</code> records one model request/response pair; <code>tool_call</code> and <code>tool_result</code> record a tool invocation and its result; <code>egress</code> records a network connection made by a tool or by the Harness on the agent's behalf.<a href="#section-5.4-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.5">
+<code>parent_seq</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.6">
+            <p id="section-5.4-4.6.1">For <code>tool_call</code>, the <code>seq</code> of the <code>inference</code> receipt whose response requested the call; for <code>tool_result</code>, that of the corresponding <code>tool_call</code>; for <code>egress</code>, that of the <code>tool_call</code> (or <code>inference</code>) that caused it. It <span class="bcp14">MUST</span> be less than <code>seq</code> and <span class="bcp14">MUST</span> reference a receipt of the required type. This is the causal link between what the model asked for and what the Harness did.<a href="#section-5.4-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.7">
+<code>decision</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.8">
+            <p id="section-5.4-4.8.1"><code>allow</code>: the call proceeded. <code>block</code>: refused by policy. <code>confirm</code>: confirmation from a Principal or operator was required and obtained; a <code>confirm</code> receipt <span class="bcp14">MUST</span> be followed, before the corresponding <code>tool_result</code>, by a <code>tool_call</code> receipt for the same target with decision <code>allow</code> and the same <code>parent_seq</code>, or the call is to be read as not having proceeded. <code>record</code>: proceeded without policy evaluation.<a href="#section-5.4-4.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.9">
+<code>policy_pack_digest</code>, <code>config_integrity_digest</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.10">
+            <p id="section-5.4-4.10.1">The <code>pack_digest</code> and <code>config_digest</code> in force at the time of the call. Both <span class="bcp14">MUST</span> be present in every receipt, so that one receipt with its Bundle states the rules and configuration it was produced under.<a href="#section-5.4-4.10.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.11">
+<code>agent_id</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.12">
+            <p id="section-5.4-4.12.1">The Runtime Identity under which the agent is authenticating at the time of the call. It <span class="bcp14">MUST</span> be listed in <code>runtime_identities</code> of the governing Agent Credential Statement with a validity window containing <code>ts</code>. Receipts of one chain <span class="bcp14">MAY</span> carry different <code>agent_id</code> values as the agent moves between environments; the chain, not the identifier, is the unit of continuity.<a href="#section-5.4-4.12.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.13">
+<code>request_digest</code>, <code>response_digest</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.14">
+            <p id="section-5.4-4.14.1">Digests of the request and response octets as seen at the Decision Point: the model request and response for <code>inference</code>, the arguments and returned value for tool records. Content <span class="bcp14">MUST NOT</span> be included in a receipt (<a href="#privacy" class="auto internal xref">Section 9</a>).<a href="#section-5.4-4.14.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.15">
+<code>ts</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.16">
+            <p id="section-5.4-4.16.1">Time of production. Receipts in a chain <span class="bcp14">MUST</span> be non-decreasing in <code>ts</code>.<a href="#section-5.4-4.16.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.17">
+<code>agent_sig</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.18">
+            <p id="section-5.4-4.18.1">A COSE_Sign1 with detached payload, signed with the credential's <code>agent_key</code>, whose Sig_structure payload is the canonical encoding of the receipt map without key 15; its CWT Claims carry the agent identifier in <code>iss</code> and <code>sub</code>. It distinguishes a receipt the agent itself authorized from one the Harness recorded unilaterally, and <span class="bcp14">MUST</span> be verified when present.<a href="#section-5.4-4.18.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-5.4-4.19">
+<code>target</code>, <code>egress_host</code>:</dt>
+          <dd style="margin-left: 1.5em" id="section-5.4-4.20">
+            <p id="section-5.4-4.20.1">The <code>model_id</code> or tool name; and, for <code>egress</code>, the host connected to. Recording the host, not merely the decision, is what makes the exfiltration class in <a href="#security" class="auto internal xref">Section 10</a> detectable after the fact.<a href="#section-5.4-4.20.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<div id="chain">
+<section id="section-5.4.1">
+          <h4 id="name-evidence-chain">
+<a href="#section-5.4.1" class="section-number selfRef">5.4.1. </a><a href="#name-evidence-chain" class="section-name selfRef">Evidence Chain</a>
+          </h4>
+<p id="section-5.4.1-1">The record-hash of an Execution Receipt is SHA-256 over its canonical encoding (canonical CBOR, or JCS for the JSON form), including key 15 when present. An Evidence Chain is scoped to one Agent Credential Statement and <span class="bcp14">MUST</span> begin with a receipt of <code>seq</code> 0 whose <code>prev_hash</code> is 32 zero octets. Each subsequent receipt carries in <code>prev_hash</code> the record-hash of the receipt with <code>seq</code> one less. <code>seq</code> <span class="bcp14">MUST</span> increase by exactly one. A receipt whose <code>prev_hash</code> does not match is not part of the chain.<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.1-2">The <code>task_seq</code> counter restarts at 0 at each <code>task_start</code>. Receipts of different Tasks <span class="bcp14">MAY</span> interleave in one chain; <code>task_seq</code> together with the enclosing <code>task_start</code> identifies the Task.<a href="#section-5.4.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="epoch">
+<section id="section-5.4.2">
+          <h4 id="name-execution-epoch-statement">
+<a href="#section-5.4.2" class="section-number selfRef">5.4.2. </a><a href="#name-execution-epoch-statement" class="section-name selfRef">Execution Epoch Statement</a>
+          </h4>
+<p id="section-5.4.2-1">Registering every receipt as its own Signed Statement is permitted but is usually impractical. An Evidence Service <span class="bcp14">MAY</span> instead register an Execution Epoch Statement that commits to a contiguous segment of the chain.<a href="#section-5.4.2-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-5.4.2-2">
+<pre>
+execution-epoch = {
+  1 =&gt; 6,                   ; aee-type
+  2 =&gt; tstr,                ; agent_id
+  3 =&gt; uint,                ; first_seq
+  4 =&gt; uint,                ; last_seq
+  5 =&gt; bstr .size 32,       ; first_prev_hash: prev_hash of first_seq
+  6 =&gt; bstr .size 32,       ; last_hash: record-hash of last_seq
+  7 =&gt; bstr .size 32,       ; epoch_root
+  8 =&gt; uint                 ; count = last_seq - first_seq + 1
+}
+</pre><a href="#section-5.4.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.4.2-3"><code>epoch_root</code> is the Merkle Tree Hash, as defined in <span><a href="https://rfc-editor.org/rfc/rfc9162#section-2.1.1" class="relref">Section 2.1.1</a> of [<a href="#RFC9162" class="cite xref">RFC9162</a>]</span> with SHA-256, over the ordered record-hashes of receipts <code>first_seq</code> through <code>last_seq</code>. Because receipts are also hash-chained, <code>first_prev_hash</code> and <code>last_hash</code> allow adjacent epochs to be checked for continuity without their contents. A Relying Party in possession of a subset of an epoch's receipts verifies them with an inclusion path against <code>epoch_root</code>, using the inclusion proof algorithm of <span><a href="https://rfc-editor.org/rfc/rfc9162#section-2.1.3" class="relref">Section 2.1.3</a> of [<a href="#RFC9162" class="cite xref">RFC9162</a>]</span>.<a href="#section-5.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.4.2-4">Epochs of one chain <span class="bcp14">MUST NOT</span> overlap and <span class="bcp14">MUST</span> be registered in order. An Evidence Service <span class="bcp14">SHOULD</span> close an epoch at every <code>task_end</code> and at a bounded interval, so that the time between a call and its appearance in the TS is bounded. That interval is an operational parameter that a Relying Party <span class="bcp14">MAY</span> require to be stated in a Policy Pack.<a href="#section-5.4.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="assurance">
+<section id="section-5.5">
+        <h3 id="name-assurance-statement">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-assurance-statement" class="section-name selfRef">Assurance Statement</a>
+        </h3>
+<p id="section-5.5-1">An Assurance Statement is a time-bounded assertion about an identified agent's declared purpose, effective capabilities, deployment and controls. It records the risk basis, assessment depth and, where required, operational monitoring. It is bound to the digests that determine behaviour.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-cddl sourcecode" id="section-5.5-2">
+<pre>
+assurance = {
+  1 =&gt; 7,                   ; aee-type
+  2 =&gt; tstr,                ; assessor: Agent Assurance Assessor ID
+  3 =&gt; digest,              ; agent_credential_digest: digest of the
+                            ; Agent Credential Statement payload
+  4 =&gt; digest,              ; policy_pack_digest
+  5 =&gt; digest,              ; config_integrity_digest
+  6 =&gt; tstr,                ; suite_id (URI)
+  7 =&gt; tstr,                ; suite_version
+  8 =&gt; &amp;( pass: 1, fail: 2, partial: 3 ),  ; result
+  ? 9 =&gt; digest,            ; report_digest of the full report
+  10 =&gt; validity,           ; validity
+  ? 11 =&gt; status-ref,       ; status: Token Status List reference
+  12 =&gt; 1..4,               ; assurance_level
+  13 =&gt; assessed-scope,     ; assessed_scope
+  14 =&gt; risk-assessment,    ; risk_assessment
+  ? 15 =&gt; monitoring-summary, ; monitoring_summary
+  16 =&gt; tstr                ; logical_agent_id
+}
+assessed-scope = {
+  1 =&gt; digest,              ; capability_profile_digest
+  2 =&gt; digest,              ; approved_model_scope_digest
+  3 =&gt; digest,              ; approved_tool_scope_digest
+  4 =&gt; &amp;( public-cloud: 1, private-cloud: 2, on-prem: 3,
+          air-gapped: 4, edge: 5 ),  ; deployment_class
+  5 =&gt; tstr,                ; declared_purpose
+  6 =&gt; [ + tstr ],          ; objectives
+  7 =&gt; [ + tstr ],          ; intended_use
+  8 =&gt; digest,              ; approved_data_scope_digest
+  9 =&gt; digest,              ; approved_permission_scope_digest
+  10 =&gt; digest              ; approved_delegation_scope_digest
+}
+risk-assessment = {
+  1 =&gt; tstr,                ; scheme_id (URI)
+  2 =&gt; tstr,                ; tier in that scheme
+  3 =&gt; bool,                ; higher_risk
+  4 =&gt; digest               ; risk_assessment_digest
+}
+monitoring-summary = {
+  1 =&gt; uint,                ; period_start
+  2 =&gt; uint,                ; period_end
+  3 =&gt; uint,                ; review_frequency, seconds
+  4 =&gt; [ + monitoring-dimension ], ; coverage
+  5 =&gt; digest,              ; evidence_digest
+  6 =&gt; uint,                ; deviation_count
+  7 =&gt; &amp;( continue: 1, reassess: 2, suspend: 3, withdraw: 4 ),
+                              ; disposition
+  ? 8 =&gt; digest             ; findings_digest
+}
+monitoring-dimension = &amp;( purpose: 1, model: 2, tool: 3, data: 4,
+  permission: 5, delegation: 6, policy: 7, configuration: 8,
+  deployment: 9, control: 10, execution: 11 )
+; status-ref is the value of the "status" claim for CWT Referenced
+; Tokens as defined in [I-D.ietf-oauth-status-list].
+status-ref = { * any =&gt; any }
+
+revocation = {
+  1 =&gt; 8,                   ; aee-type
+  2 =&gt; digest,              ; subject_digest: digest of the
+                            ; payload of the revoked statement
+  3 =&gt; uint,                ; reason_code (1 key-compromise,
+                            ; 2 superseded, 3 withdrawn, 4 other)
+  4 =&gt; uint,                ; iat
+  ? 5 =&gt; tstr               ; reason
+}
+</pre><a href="#section-5.5-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.5-3">The <code>assessor</code> value <span class="bcp14">MUST</span> equal the <code>iss</code> value in the protected CWT Claims of the Assurance Statement. The COSE signature therefore authenticates the identified Agent Assurance Assessor as the Issuer. The JSON member names for keys 12 through 16 are <code>assurance_level</code>, <code>assessed_scope</code>, <code>risk_assessment</code>, <code>monitoring_summary</code> and <code>logical_agent_id</code>. The last <span class="bcp14">MUST</span> equal the referenced credential's <code>logical_agent_id</code>. The scope digests commit to the agent's effective models, tools, data, permissions and delegation powers. <code>capability_profile_digest</code> commits to the complete capability profile, including the declared purpose, objectives and intended use repeated in keys 5 through 7. This profile defines the required coverage but not the document formats or a universal capability taxonomy.<a href="#section-5.5-3" class="pilcrow">¶</a></p>
+<p id="section-5.5-4"><code>scheme_id</code> identifies the risk-classification method and <code>tier</code> is meaningful only within that scheme. This profile does not define a universal risk scale. The scheme <span class="bcp14">SHOULD</span> consider autonomy, effective capabilities, access to sensitive data or resources, delegation powers, potential consequences and control effectiveness. <code>higher_risk</code> is the Agent Assurance Assessor's explicit determination that the independent-assessment and monitoring rules below apply; <code>risk_assessment_digest</code> commits to its rationale and inputs.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
+<p id="section-5.5-5"><code>monitoring_summary</code> is backward-looking. It states the completed monitoring period, coverage, maximum interval between reviews, evidence commitment, detected deviations and resulting disposition. The evidence <span class="bcp14">MUST</span> support monitoring for deviations from the assessed scope and approved controls, including policy violations and unexpected behaviour. A non-zero <code>deviation_count</code> requires <code>findings_digest</code>. The full findings <span class="bcp14">MUST</span> be investigated under the named suite; the summary intentionally avoids publishing sensitive operational details.<a href="#section-5.5-5" class="pilcrow">¶</a></p>
+<div id="assurance-levels">
+<section id="section-5.5.1">
+          <h4 id="name-assurance-levels">
+<a href="#section-5.5.1" class="section-number selfRef">5.5.1. </a><a href="#name-assurance-levels" class="section-name selfRef">Assurance Levels</a>
+          </h4>
+<span id="name-assurance-levels-2"></span><table class="center" id="table-1">
+            <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-assurance-levels-2" class="selfRef">Assurance Levels</a>
+            </caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Level</th>
+                <th class="text-left" rowspan="1" colspan="1">Basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">The Responsible Entity declares that the agent meets the assessed scope.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2</td>
+                <td class="text-left" rowspan="1" colspan="1">Level 1 plus accepted RATS Evidence, such as an EAT <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>, for the assessed runtime and Harness.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">3</td>
+                <td class="text-left" rowspan="1" colspan="1">Level 2 plus a Third-Party Agent Assurance Assessor's review of the accepted RATS Evidence, capability profile, deployment and controls under the named suite.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">4</td>
+                <td class="text-left" rowspan="1" colspan="1">Level 3 plus continuing operational monitoring, including registered Evidence Chains, for the stated period and coverage.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-5.5.1-2">At levels 3 and 4, the Agent Assurance Assessor <span class="bcp14">MUST</span> be a Third-Party Agent Assurance Assessor, and <code>assessor</code> <span class="bcp14">MUST</span> differ from the credential's <code>responsible_entity</code>. Identifier inequality is mechanically checkable but does not prove organizational independence. A <code>derived</code> agent's level <span class="bcp14">MUST NOT</span> exceed its parent's. Assessor recognition, suite suitability and accreditation remain Relying Party policy; the numbers have no meaning beyond this section.<a href="#section-5.5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-3">At levels 3 and 4, accepted RATS Evidence and any resulting Attestation Results are the technical runtime evidence base for the independent assessment. The Third-Party Agent Assurance Assessor <span class="bcp14">MAY</span> perform the RATS Verifier role or consume Attestation Results from an accepted RATS Verifier. It <span class="bcp14">MUST</span> also evaluate the declared capability profile, deployment and controls; acceptance of RATS Evidence alone does not establish either level.<a href="#section-5.5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-4">For <code>higher_risk</code> agents, a <code>pass</code> result <span class="bcp14">MUST</span> use level 4, include a <code>monitoring_summary</code>, use status checking, and have disposition <code>continue</code>. Before a required monitoring period is complete, the result <span class="bcp14">MUST</span> be <code>partial</code>, not <code>pass</code>. The Agent Assurance Assessor <span class="bcp14">MUST</span> issue a replacement statement at the required review frequency. A material change to purpose, capabilities, policy, configuration, deployment, controls or identity binding requires reassessment. A disposition of <code>reassess</code>, <code>suspend</code> or <code>withdraw</code> invalidates operational assurance until the required action is complete; <code>suspend</code> and <code>withdraw</code> <span class="bcp14">MUST</span> also be reflected through <a href="#revocation" class="auto internal xref">Section 5.5.2</a>.<a href="#section-5.5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-5">Higher-risk agents therefore require independent assessment and continuing operational monitoring. Assurance remains valid only while the applicable assessment, monitoring and reassessment requirements are satisfied. Each <code>monitoring_summary</code> covers a completed observation window, and replacement statements make monitoring continuing rather than a one-time probation period. Monitoring is an additional safeguard after the initial risk-based audit; it does not guarantee that an agent will never act maliciously. Its value depends on what the Harness and external evidence sources can observe and how reliably approved controls are enforced.<a href="#section-5.5.1-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="revocation">
+<section id="section-5.5.2">
+          <h4 id="name-revocation">
+<a href="#section-5.5.2" class="section-number selfRef">5.5.2. </a><a href="#name-revocation" class="section-name selfRef">Revocation</a>
+          </h4>
+<p id="section-5.5.2-1">An Assurance Statement is revocable by either of two mechanisms, and an Agent Assurance Assessor <span class="bcp14">MUST</span> support at least one: a Token Status List <span>[<a href="#I-D.ietf-oauth-status-list" class="cite xref">I-D.ietf-oauth-status-list</a>]</span> referenced from key 11, in which status <code>0x01</code> (INVALID) or <code>0x02</code> (SUSPENDED) withdraws the statement; or a Revocation Statement with the same Issuer registered on the same TS, whose <code>subject_digest</code> equals the digest of the Assurance Statement payload. A Revocation Statement <span class="bcp14">MAY</span> also revoke an Agent Credential Statement or a Policy Pack Statement.<a href="#section-5.5.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="regpol">
+<section id="section-6">
+      <h2 id="name-registration-policy">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-registration-policy" class="section-name selfRef">Registration Policy</a>
+      </h2>
+<p id="section-6-1"><span><a href="https://rfc-editor.org/rfc/rfc9943#section-5.1.1" class="relref">Section 5.1.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> requires a TS to apply a Registration Policy and to make that policy transparent. A TS that accepts statements of this profile <span class="bcp14">MUST</span> perform the mandatory checks of <span><a href="https://rfc-editor.org/rfc/rfc9943#section-5.1.1.1" class="relref">Section 5.1.1.1</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> and the following type-specific checks, keyed on the <code>aee_type</code> claim in the protected header. A failing check <span class="bcp14">MUST</span> result in refusal to register; with <span>[<a href="#I-D.ietf-scitt-scrapi" class="cite xref">I-D.ietf-scitt-scrapi</a>]</span> this is a 400 response with Concise Problem Details.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-6-2">
+        <dt id="section-6-2.1">All types:</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.2">
+          <p id="section-6-2.2.1">The <code>aee_type</code> claim <span class="bcp14">MUST</span> match key 1 of the payload; the <code>content type</code> <span class="bcp14">MUST</span> be one of the statement media types of <a href="#iana-media" class="auto internal xref">Section 11.1</a>; and the payload <span class="bcp14">MUST</span> be well-formed. <code>sub</code> <span class="bcp14">MUST</span> match the type-specific subject defined in <a href="#ids" class="auto internal xref">Section 3</a>.<a href="#section-6-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-2.3">Agent Credential (1):</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.4">
+          <p id="section-6-2.4.1"><code>validity.nbf</code> <span class="bcp14">MUST</span> be less than <code>validity.exp</code>. The <code>agent_key</code> <span class="bcp14">MUST</span> be a COSE_Key whose <code>alg</code> is in the TS's accepted set. If the TS is configured to require it, <code>credential_ref</code> <span class="bcp14">MUST</span> be present. <code>agent_id</code> <span class="bcp14">MUST</span> appear in <code>runtime_identities</code>, and each entry's <code>valid_from</code> <span class="bcp14">MUST</span> be less than its <code>valid_until</code>. If <code>lifecycle_class</code> is <code>derived</code>, <code>derived_from</code> <span class="bcp14">MUST</span> be present and an Agent Credential Statement with that <code>logical_agent_id</code> <span class="bcp14">MUST</span> already be registered.<a href="#section-6-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-2.5">Policy Pack (2):</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.6">
+          <p id="section-6-2.6.1">If <code>parent_pack_digest</code> is present, a Policy Pack Statement whose <code>pack_digest</code> equals it <span class="bcp14">MUST</span> already be registered on this TS, and its <code>layer</code> <span class="bcp14">MUST</span> be strictly less than this pack's <code>layer</code>. The TS <span class="bcp14">MUST NOT</span> register a pack that references itself, directly or through its ancestors.<a href="#section-6-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-2.7">Configuration Integrity (3):</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.8">
+          <p id="section-6-2.8.1"><code>config_digest</code> <span class="bcp14">MUST</span> equal the digest of the canonical encoding of <code>entries</code>. <code>entries</code> <span class="bcp14">MUST</span> be ordered by <code>name</code> in octet order and <span class="bcp14">MUST NOT</span> contain duplicate names. <code>normalization</code> <span class="bcp14">MUST</span> be 1 or 2.<a href="#section-6-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-2.9">Configuration Drift (4):</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.10">
+          <p id="section-6-2.10.1">Configuration Integrity Statements with <code>config_digest</code> equal to <code>prev_config_digest</code> and to <code>new_config_digest</code> <span class="bcp14">MUST</span> both already be registered for the same <code>agent_id</code>.<a href="#section-6-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-2.11">Execution Receipt (5) and Execution Epoch (6):</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.12">
+          <p id="section-6-2.12.1">An Agent Credential Statement for <code>agent_id</code> with the same Issuer, or an Issuer the TS's policy accepts for that agent, <span class="bcp14">MUST</span> already be registered. A Policy Pack Statement with <code>pack_digest</code> equal to <code>policy_pack_digest</code> <span class="bcp14">MUST</span> already be registered. A Configuration Integrity Statement with <code>config_digest</code> equal to <code>config_integrity_digest</code> <span class="bcp14">MUST</span> already be registered, and its registration <span class="bcp14">MUST</span> precede this registration. For an Execution Epoch, <code>count</code> <span class="bcp14">MUST</span> equal <code>last_seq - first_seq + 1</code>, and if an epoch for the same <code>agent_id</code> and Issuer has already been registered, this epoch's <code>first_seq</code> <span class="bcp14">MUST</span> equal that epoch's <code>last_seq + 1</code> and its <code>first_prev_hash</code> <span class="bcp14">MUST</span> equal that epoch's <code>last_hash</code>. The TS cannot check receipt contents it does not see; the precedence and continuity checks are what it can and <span class="bcp14">MUST</span> enforce.<a href="#section-6-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-2.13">Assurance (7):</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.14">
+          <p id="section-6-2.14.1"><code>assessor</code> <span class="bcp14">MUST</span> equal the protected <code>iss</code>. Statements whose payload digests equal <code>policy_pack_digest</code> and <code>config_integrity_digest</code> <span class="bcp14">MUST</span> already be registered on this TS. The referenced Agent Credential Statement <span class="bcp14">MUST</span> already be registered, and its <code>logical_agent_id</code> <span class="bcp14">MUST</span> match key 16 and <code>sub</code>. At operational assurance level 3 or 4, <code>assessor</code> <span class="bcp14">MUST</span> differ from its <code>responsible_entity</code>. A derived agent's level <span class="bcp14">MUST NOT</span> exceed its parent's. <code>validity.nbf</code> <span class="bcp14">MUST</span> be less than <code>validity.exp</code>; <code>scheme_id</code>, <code>tier</code>, <code>declared_purpose</code>, <code>objectives</code> and <code>intended_use</code> <span class="bcp14">MUST</span> be nonempty. If present, a monitoring period <span class="bcp14">MUST</span> end after it starts and <code>review_frequency</code> <span class="bcp14">MUST</span> be non-zero. A higher-risk <code>pass</code> <span class="bcp14">MUST</span> meet the level 4, monitoring, status and disposition requirements of <a href="#assurance" class="auto internal xref">Section 5.5</a>.<a href="#section-6-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-6-2.15">Revocation (8):</dt>
+        <dd style="margin-left: 1.5em" id="section-6-2.16">
+          <p id="section-6-2.16.1">A statement whose payload digest equals <code>subject_digest</code> <span class="bcp14">MUST</span> already be registered, and the Issuer of the Revocation Statement <span class="bcp14">MUST</span> be the Issuer of that statement.<a href="#section-6-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+<p id="section-6-3">A TS <span class="bcp14">MUST</span> make these checks reproducible by Auditors as required by <span><a href="https://rfc-editor.org/rfc/rfc9943#section-5.1.1.2" class="relref">Section 5.1.1.2</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>; publishing the Registration Policy as a Signed Statement that cites this document by name and version is sufficient.<a href="#section-6-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="bundle">
+<section id="section-7">
+      <h2 id="name-bundle">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-bundle" class="section-name selfRef">Bundle</a>
+      </h2>
+<p id="section-7-1">A Bundle is the unit a Relying Party verifies. It is a CBOR map.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-7-2">
+<pre>
+aee-bundle = {
+  1 =&gt; [ + Transparent_Statement ],  ; statements (RFC 9943 Sec. 7)
+  2 =&gt; [ * execution-receipt ],      ; chain segment, ascending seq
+  ? 3 =&gt; { * uint =&gt; inclusion-path },  ; seq =&gt; path into its epoch
+  ? 4 =&gt; [ * bstr .cbor COSE_Sign1 ]    ; Status List Tokens
+}
+inclusion-path = [
+  tree-size: uint,
+  leaf-index: uint,
+  path: [ * bstr .size 32 ]
+]
+</pre><a href="#section-7-2" class="pilcrow">¶</a>
+</div>
+<p id="section-7-3">Key 1 <span class="bcp14">MUST</span> contain, as Transparent Statements, the Agent Credential Statement (and its parent's, if <code>derived</code>), every Policy Pack Statement in the lineage of every <code>policy_pack_digest</code> in key 2, every Configuration Integrity Statement referenced, every Execution Epoch Statement covering a receipt in key 2 (or the receipt's own Transparent Statement), and any Assurance and Revocation Statements the producer wishes considered. Key 3 is <span class="bcp14">REQUIRED</span> for any receipt whose epoch is not wholly present in key 2. Key 4 carries a snapshot of each Status List Token referenced by an Assurance Statement, for offline evaluation as of the snapshot time.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-4">The media type of a Bundle is <code>application/aee-bundle+cbor</code>. A JSON form with the member names <code>statements</code>, <code>receipts</code>, <code>proofs</code> and <code>status_tokens</code>, Transparent Statements as base64url COSE_Sign1, has media type <code>application/aee-bundle+json</code>.<a href="#section-7-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="verification">
+<section id="section-8">
+      <h2 id="name-verification">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-verification" class="section-name selfRef">Verification</a>
+      </h2>
+<p id="section-8-1">A Relying Party verifies a Bundle by the following steps. The steps are ordered; the first failure terminates verification with the named error. Verification requires the TS's public key(s), the trust anchors for Issuers the Relying Party accepts, and the Relying Party's own list of accepted Agent Assurance Assessors, levels and suites, all obtained out of band. No network access is required.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-8-2">
+<li id="section-8-2.1">
+          <p id="section-8-2.1.1">For every Transparent Statement in key 1, verify every Receipt in its <code>receipts</code> header (label 394) per <span><a href="https://rfc-editor.org/rfc/rfc9942#section-5.2.1" class="relref">Section 5.2.1</a> of [<a href="#RFC9942" class="cite xref">RFC9942</a>]</span> against a trusted TS key, confirming that the Signed Statement is included in the VDS. On failure: <code>E_RECEIPT_SIG</code>.<a href="#section-8-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.2">
+          <p id="section-8-2.2.1">For every Transparent Statement, verify the Issuer's COSE signature per <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> against an Issuer key reached from a trust anchor. On failure: <code>E_ISSUER_SIG</code>.<a href="#section-8-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.3">
+          <p id="section-8-2.3.1">For every Transparent Statement, check that the <code>aee_type</code> claim, the <code>content type</code> and key 1 of the payload agree and that the payload is well-formed. On failure: <code>E_TYPE_MISMATCH</code>.<a href="#section-8-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.4">
+          <p id="section-8-2.4.1">Identify exactly one Agent Credential Statement whose Issuer the Relying Party accepts and whose <code>runtime_identities</code> contains the <code>agent_id</code> of the first receipt in key 2. Check that no Revocation Statement in the Bundle, from the same Issuer, names its payload digest. If <code>lifecycle_class</code> is <code>derived</code>, the Agent Credential Statement of the parent named by <code>derived_from</code> <span class="bcp14">MUST</span> also be present. On failure: <code>E_CREDENTIAL</code>.<a href="#section-8-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.5">
+          <p id="section-8-2.5.1">For each receipt in key 2, check that its <code>agent_id</code> appears in the credential's <code>runtime_identities</code> with <code>valid_from</code> &lt;= <code>ts</code> &lt; <code>valid_until</code>. On failure: <code>E_RUNTIME_IDENTITY</code>.<a href="#section-8-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.6">
+          <p id="section-8-2.6.1">For each receipt in key 2, in ascending <code>seq</code>: check that <code>seq</code> is one greater than the preceding receipt's (or that the segment starts at a boundary stated by an Execution Epoch Statement), and that <code>prev_hash</code> equals the record-hash of the preceding receipt (or, for the first receipt, the <code>first_prev_hash</code> of its epoch, or 32 zero octets at <code>seq</code> 0). On failure: <code>E_CHAIN_GAP</code> or <code>E_CHAIN_HASH</code>.<a href="#section-8-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.7">
+          <p id="section-8-2.7.1">For each receipt, locate the Execution Epoch Statement whose <code>[first_seq, last_seq]</code> contains its <code>seq</code>, or its individual Transparent Statement. If the whole epoch is present in key 2, recompute <code>epoch_root</code> and compare. Otherwise verify the inclusion path from key 3 against <code>epoch_root</code>. Check that consecutive epochs are continuous (<code>first_prev_hash</code> equals the previous <code>last_hash</code>). On failure: <code>E_EPOCH_ROOT</code>.<a href="#section-8-2.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.8">
+          <p id="section-8-2.8.1">For each receipt with <code>parent_seq</code>: check that <code>parent_seq</code> &lt; <code>seq</code>, that the referenced receipt is present in key 2, and that its <code>record_type</code> is the one required by <a href="#receipt" class="auto internal xref">Section 5.4</a>. For each <code>tool_result</code>, check that a <code>tool_call</code> parent exists; for each <code>confirm</code> decision, check the follow-up rule of <a href="#receipt" class="auto internal xref">Section 5.4</a>. On failure: <code>E_PARENT_SEQ</code> or <code>E_PARENT_TYPE</code>.<a href="#section-8-2.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.9">
+          <p id="section-8-2.9.1">For each receipt, check that <code>ts</code> is within the Agent Credential's <code>validity</code> and is not less than the preceding receipt's <code>ts</code>. On failure: <code>E_KEY_CURRENCY</code>.<a href="#section-8-2.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.10">
+          <p id="section-8-2.10.1">For each receipt carrying <code>agent_sig</code>, verify the COSE_Sign1 with the <code>agent_key</code> of the Agent Credential Statement over the canonical encoding of the receipt without key 15. On failure: <code>E_AGENT_SIG</code>.<a href="#section-8-2.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.11">
+          <p id="section-8-2.11.1">For each distinct <code>policy_pack_digest</code> in key 2, locate the Policy Pack Statement and walk <code>parent_pack_digest</code> to a root. Every pack on the path <span class="bcp14">MUST</span> be present as a Transparent Statement, layers <span class="bcp14">MUST</span> strictly increase from root to leaf, and the walk <span class="bcp14">MUST</span> terminate. On failure: <code>E_POLICY_UNREGISTERED</code> or <code>E_POLICY_LINEAGE</code>.<a href="#section-8-2.11.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.12">
+          <p id="section-8-2.12.1">For each distinct <code>config_integrity_digest</code> in key 2, locate the Configuration Integrity Statement, recompute <code>config_digest</code> from <code>entries</code>, and check that the TS registration of that statement precedes, in the VDS, the registration of the epoch (or receipt) that references it. Where the VDS exposes leaf indices through the inclusion proof, as RFC9162_SHA256 does, precedence is established by comparing them. On failure: <code>E_CONFIG_UNREGISTERED</code> or <code>E_CONFIG_PRECEDENCE</code>.<a href="#section-8-2.12.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.13">
+          <p id="section-8-2.13.1">If the Relying Party requires assurance: for each (credential, pack, config) triple observed in key 2, locate an Assurance Statement whose <code>assessor</code> equals its protected <code>iss</code>, from an accepted Agent Assurance Assessor and suite, with result <code>pass</code>, sufficient operational assurance level, matching <code>logical_agent_id</code> and digests, and validity containing every receipt timestamp in that triple. Check the declared purpose and capability scope against policy. At levels 3 and 4, require an accepted Third-Party Agent Assurance Assessor and check that its identifier differs from <code>responsible_entity</code>; for a derived credential, check that the level does not exceed its parent's. For higher-risk agents, also require level 4 and a monitoring summary whose disposition is <code>continue</code>, whose required coverage is accepted, and whose <code>period_end</code> is no more than <code>review_frequency</code> before each receipt time after conversion to seconds. On failure: <code>E_ASSURANCE_BINDING</code>, <code>E_SCOPE_MISMATCH</code> or <code>E_MONITORING_STALE</code>.<a href="#section-8-2.13.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.14">
+          <p id="section-8-2.14.1">For each Assurance Statement relied upon: if it carries <code>status</code>, evaluate it against the Status List Token in key 4 (verifying the token's signature and <code>iat</code>) and require status <code>0x00</code>; in any case, require that no Revocation Statement from its Issuer names its payload digest. On failure: <code>E_ASSURANCE_STATUS</code>.<a href="#section-8-2.14.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-8-2.15">
+          <p id="section-8-2.15.1">If all steps succeed, the result is PASS.<a href="#section-8-2.15.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<div id="meaning-of-pass">
+<section id="section-8.1">
+        <h3 id="name-meaning-of-pass">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-meaning-of-pass" class="section-name selfRef">Meaning of PASS</a>
+        </h3>
+<p id="section-8.1-1">A PASS establishes that: the TS committed to each statement in its append-only VDS; each statement was signed by the named Issuer; the receipts form an unbroken chain sealed into that VDS; every call was recorded under a registered policy and configuration; each runtime identifier was declared for that time; and, where required, accepted identity and operational assurance claims matched the run. For higher-risk assurance, the accepted claim also cites a current completed monitoring period and has not been suspended or withdrawn.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-2">A PASS does not establish that the Harness recorded every call, that a decision was correct, that an <code>api</code>-bound model was the one named, that a Policy Pack semantically tightens its parent, that monitoring observed every relevant behaviour, or that an Agent Assurance Assessor's suite is adequate. Harness completeness is the composition point with remote attestation. A Harness can produce RATS Evidence <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, for example an EAT <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span> whose measurements cover the image named by <code>harness.digest</code>; a Relying Party <span class="bcp14">MAY</span> require that Evidence, with the Agent Credential payload digest as nonce. This document does not define that binding.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<div id="derivable-risk-facts">
+<section id="section-8.1.1">
+          <h4 id="name-derivable-risk-facts">
+<a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-derivable-risk-facts" class="section-name selfRef">Derivable Risk Facts</a>
+          </h4>
+<p id="section-8.1.1-1">Two facts relevant to assurance can be tested from a verified chain without any further input, and a Relying Party or an Agent Assurance Assessor <span class="bcp14">MAY</span> compute them. The first is autonomy: over a window, the proportion of tool-door Execution Receipts (<code>decision_point</code> 2) with <code>decision</code> <code>allow</code> to those with <code>decision</code> <code>confirm</code>. A chain in which every consequential tool call was confirmed by a Principal describes a different agent from one in which none was, even if both passed the same suite. The second is private inference: the <code>model_binding</code> mode of the governing credential as it applies to <code>inference</code> receipts. Mode <code>weights-digest</code> with no independent attestation of the runtime means the operator is the sole witness to which model ran; mode <code>api-tee</code>, or <code>weights-digest</code> accompanied by level 2 or higher attestation, provides a second witness. This document sets no thresholds for either fact; it notes that both are derivable so that Policy Packs and Agent Assurance Assessors can set them.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="privacy">
+<section id="section-9">
+      <h2 id="name-privacy-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
+      </h2>
+<span class="break"></span><dl class="dlParallel" id="section-9-1">
+        <dt id="section-9-1.1">No content:</dt>
+        <dd style="margin-left: 1.5em" id="section-9-1.2">
+          <p id="section-9-1.2.1">Execution Receipts carry digests of requests and responses, never their content. Model prompts and tool arguments routinely contain personal data; the design keeps that data in the operator's custody and places only commitments on the TS.<a href="#section-9-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-9-1.3">Principal hashing:</dt>
+        <dd style="margin-left: 1.5em" id="section-9-1.4">
+          <p id="section-9-1.4.1">A natural-person Principal, and a natural-person <code>responsible_entity</code>, is represented by SHA-256 over an operator-held pepper and the identifier. The pepper <span class="bcp14">MUST</span> be at least 16 octets of entropy, <span class="bcp14">MUST NOT</span> be registered on the TS, and <span class="bcp14">SHOULD</span> be rotated per deployment. The same Principal is linkable across receipts of one deployment by design, and not across deployments with different peppers.<a href="#section-9-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-9-1.5">Data minimization:</dt>
+        <dd style="margin-left: 1.5em" id="section-9-1.6">
+          <p id="section-9-1.6.1"><code>target</code> and <code>egress_host</code> are the only free-text members of a receipt and <span class="bcp14">MUST NOT</span> contain path, query, user or argument components. Issuers <span class="bcp14">MUST NOT</span> place Principal identifiers or content in identifiers. Purpose, objective, intended-use and risk-tier strings <span class="bcp14">SHOULD</span> use concise categories or URIs rather than sensitive operational detail.<a href="#section-9-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-9-1.7">Retention:</dt>
+        <dd style="margin-left: 1.5em" id="section-9-1.8">
+          <p id="section-9-1.8.1">Statements registered on a TS cannot be removed. Operators <span class="bcp14">SHOULD</span> prefer registering epoch roots, which reveal only counts and digests, over individual receipts.<a href="#section-9-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-9-1.9">Jurisdictional packs:</dt>
+        <dd style="margin-left: 1.5em" id="section-9-1.10">
+          <p id="section-9-1.10.1">A Policy Pack at the jurisdiction or sector layer <span class="bcp14">MUST NOT</span> require that Execution Receipts identify natural persons in clear text.<a href="#section-9-1.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-9-1.11">Transparency Service visibility:</dt>
+        <dd style="margin-left: 1.5em" id="section-9-1.12">
+          <p id="section-9-1.12.1">A TS sees the protected header of every statement: Issuer, agent identifier, type and key identifier. Operators for whom the existence of an agent is sensitive <span class="bcp14">SHOULD</span> use opaque identifiers under their own trust domain.<a href="#section-9-1.12.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="security">
+<section id="section-10">
+      <h2 id="name-security-considerations">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-10-1">The security considerations of <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span> and <span>[<a href="#RFC9942" class="cite xref">RFC9942</a>]</span> apply.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-10-2">
+        <dt id="section-10-2.1">Replay:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.2">
+          <p id="section-10-2.2.1">A receipt is bound by <code>prev_hash</code> to its position and by <code>agent_id</code> and <code>ts</code> to its credential. Replaying it into another chain fails at step 6 of <a href="#verification" class="auto internal xref">Section 8</a>; replaying it in the same chain fails because <code>seq</code> cannot repeat.<a href="#section-10-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.3">Equivocation:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.4">
+          <p id="section-10-2.4.1">An operator who shows different chains to different Relying Parties is detected because both must be sealed into the same non-equivocating VDS (<span><a href="https://rfc-editor.org/rfc/rfc9943#section-5.1.3" class="relref">Section 5.1.3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>), and the continuity check in <a href="#regpol" class="auto internal xref">Section 6</a> refuses the second epoch. This profile relies on the VDS properties and adds nothing to them.<a href="#section-10-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.5">Omission:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.6">
+          <p id="section-10-2.6.1">A Harness that does not produce a receipt for a call leaves no trace. Mitigation is outside the chain: attestation of the Harness (<a href="#verification" class="auto internal xref">Section 8</a>), independent recording at the tool or network side as described in <span>[<a href="#I-D.kuehlewind-audit-architecture" class="cite xref">I-D.kuehlewind-audit-architecture</a>]</span>, and reconciliation of <code>egress</code> receipts against network telemetry.<a href="#section-10-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.7">Key compromise:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.8">
+          <p id="section-10-2.8.1">Compromise of the Evidence Service key allows forged receipts from the time of compromise; earlier epochs remain protected by the TS's Receipts. Compromise of the agent key allows forged <code>agent_sig</code> values but not forged receipts. Operators <span class="bcp14">MUST</span> register a Revocation Statement on compromise and <span class="bcp14">SHOULD</span> use short <code>validity</code> windows.<a href="#section-10-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.9">Identity substitution:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.10">
+          <p id="section-10-2.10.1">An attacker who obtains a workload identity in some trust domain cannot have receipts under it accepted for a Logical Agent unless the Agent Credential Statement lists that identity for that time (step 5 of <a href="#verification" class="auto internal xref">Section 8</a>). Issuers <span class="bcp14">SHOULD</span> keep <code>runtime_identities</code> minimal and windows short.<a href="#section-10-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.11">Policy downgrade:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.12">
+          <p id="section-10-2.12.1">Loading a weaker Policy Pack produces receipts naming a different <code>policy_pack_digest</code>; a Relying Party that requires a specific root pack detects this at step 11. A Relying Party <span class="bcp14">SHOULD</span> reject chains whose <code>policy_pack_digest</code> changes within a Task.<a href="#section-10-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.13">Configuration substitution:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.14">
+          <p id="section-10-2.14.1">The precedence check at step 12 ensures the Configuration Integrity Statement predates the receipts. The Harness <span class="bcp14">MUST</span> compute and compare digests at load time; a mismatch <span class="bcp14">MUST</span> produce a Configuration Drift Statement and a new Configuration Integrity Statement before any further receipt.<a href="#section-10-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.15">Domain allowlist exfiltration:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.16">
+          <p id="section-10-2.16.1">Allowing egress to a list of trusted hosts does not stop exfiltration to an attacker-controlled account on an allowed host, or through path and query components. A receipt that records only <code>decision: allow</code> does not help an investigator. This profile therefore requires <code>egress_host</code> in <code>egress</code> receipts and <code>request_digest</code> over the full request, so that which host received data in which call is answerable from evidence rather than from the operator's account. It does not prevent the exfiltration.<a href="#section-10-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.17">Unicode-based injection:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.18">
+          <p id="section-10-2.18.1">The rule in <a href="#normalization" class="auto internal xref">Section 5.3.1</a> makes invisible code points either irrelevant to the digest (profile 1) or a rejection (profile 2). It does not detect injection through visible but misleading text, homoglyphs, or content loaded at runtime outside the configuration set.<a href="#section-10-2.18.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.19">Assessment independence:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.20">
+          <p id="section-10-2.20.1">Level 1 can be self-asserted. At level 2, the Agent Assurance Assessor can still be the Responsible Entity, but accepted RATS Evidence adds technical runtime evidence. Levels 3 and 4 require a Third-Party Agent Assurance Assessor because an operator assessing controls it designed can share their assumptions and blind spots. The identifier-separation rule is checkable, but organizational independence, competence and accreditation are not established by this protocol.<a href="#section-10-2.20.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.21">Monitoring limits:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.22">
+          <p id="section-10-2.22.1">Monitoring detects only deviations visible in its declared coverage. An agent can behave maliciously within an approved scope, evade an instrumented Decision Point, or exploit a control that is present but ineffective. Relying Parties <span class="bcp14">MUST</span> evaluate coverage, evidence sources, review frequency and control enforcement rather than treating level 4 as a guarantee of safe behaviour.<a href="#section-10-2.22.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.23">Limits:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.24">
+          <p id="section-10-2.24.1">This profile produces evidence about calls that pass through Decision Points. Behaviour entirely inside the model, inside a tool, or through a channel the Harness does not mediate is not recorded.<a href="#section-10-2.24.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="iana">
+<section id="section-11">
+      <h2 id="name-iana-considerations">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="iana-media">
+<section id="section-11.1">
+        <h3 id="name-media-types">
+<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-media-types" class="section-name selfRef">Media Types</a>
+        </h3>
+<p id="section-11.1-1">IANA is requested to register the following media types in the "Media Types" registry per <span>[<a href="#RFC6838" class="cite xref">RFC6838</a>]</span>.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<span id="name-media-types-to-be-registere"></span><table class="center" id="table-2">
+          <caption>
+<a href="#table-2" class="selfRef">Table 2</a>:
+<a href="#name-media-types-to-be-registere" class="selfRef">Media types to be registered</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Type name</th>
+              <th class="text-left" rowspan="1" colspan="1">Subtype name</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">application</td>
+              <td class="text-left" rowspan="1" colspan="1">aee-statement+cbor</td>
+              <td class="text-left" rowspan="1" colspan="1">this document, <a href="#common" class="auto internal xref">Section 4</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">application</td>
+              <td class="text-left" rowspan="1" colspan="1">aee-statement+json</td>
+              <td class="text-left" rowspan="1" colspan="1">this document, <a href="#json" class="auto internal xref">Section 4.1</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">application</td>
+              <td class="text-left" rowspan="1" colspan="1">aee-bundle+cbor</td>
+              <td class="text-left" rowspan="1" colspan="1">this document, <a href="#bundle" class="auto internal xref">Section 7</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">application</td>
+              <td class="text-left" rowspan="1" colspan="1">aee-bundle+json</td>
+              <td class="text-left" rowspan="1" colspan="1">this document, <a href="#bundle" class="auto internal xref">Section 7</a>
+</td>
+            </tr>
+          </tbody>
+        </table>
+<p id="section-11.1-3">For each: no required or optional parameters; encoding binary (<code>+cbor</code>) or 8bit (<code>+json</code>); security considerations in <a href="#security" class="auto internal xref">Section 10</a>; published specification this document; applications: agent harnesses, Transparency Services, auditors; intended usage COMMON; change controller IETF.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-cwt">
+<section id="section-11.2">
+        <h3 id="name-cwt-claims">
+<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-cwt-claims" class="section-name selfRef">CWT Claims</a>
+        </h3>
+<p id="section-11.2-1">IANA is requested to register the following claim in the "CBOR Web Token (CWT) Claims" registry <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
+<span id="name-cwt-claim-to-be-registered"></span><table class="center" id="table-3">
+          <caption>
+<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#name-cwt-claim-to-be-registered" class="selfRef">CWT claim to be registered</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Claim Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Claim Description</th>
+              <th class="text-left" rowspan="1" colspan="1">JWT Claim Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Claim Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Claim Value Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">aee_type</td>
+              <td class="text-left" rowspan="1" colspan="1">Agent Execution Evidence statement type</td>
+              <td class="text-left" rowspan="1" colspan="1">aee_type</td>
+              <td class="text-left" rowspan="1" colspan="1">TBD1</td>
+              <td class="text-left" rowspan="1" colspan="1">integer</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+              <td class="text-left" rowspan="1" colspan="1">this document, <a href="#common" class="auto internal xref">Section 4</a>
+</td>
+            </tr>
+          </tbody>
+        </table>
+<p id="section-11.2-3">Until a key is assigned, implementations use the text string key <code>"aee_type"</code>; the test vectors in <a href="#vectors" class="auto internal xref">Appendix A</a> do so.<a href="#section-11.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="coap-content-formats">
+<section id="section-11.3">
+        <h3 id="name-coap-content-formats">
+<a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-coap-content-formats" class="section-name selfRef">CoAP Content-Formats</a>
+        </h3>
+<p id="section-11.3-1">IANA is requested to register Content-Format identifiers in the "CoAP Content-Formats" registry for <code>application/aee-statement+cbor</code> (TBD2) and <code>application/aee-bundle+cbor</code> (TBD3), content coding <code>-</code>, reference this document, in the range 256-9999. No new COSE header parameters are registered; this document reuses labels 15, 394, 395 and 396.<a href="#section-11.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="related">
+<section id="section-12">
+      <h2 id="name-related-work">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-related-work" class="section-name selfRef">Related Work</a>
+      </h2>
+<p id="section-12-1">This section states what each related document covers and how this profile composes with it. The intent is to coordinate, not to replace.<a href="#section-12-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-12-2">
+        <dt id="section-12-2.1">WIMSE AIMS <span>[<a href="#I-D.ietf-wimse-aims" class="cite xref">I-D.ietf-wimse-aims</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.2">
+          <p id="section-12-2.2.1">Identity management functions and minimum audit fields for agents. This profile supplies the evidence format AIMS leaves open; <span>[<a href="#I-D.thaha-wimse-agent-evidence-binding" class="cite xref">I-D.thaha-wimse-agent-evidence-binding</a>]</span> maps the AIMS fields to the Execution Receipt and proposes a credential claim pointing at the Evidence Service.<a href="#section-12-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.3">RATS <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> and EAT <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.4">
+          <p id="section-12-2.4.1">RATS supplies roles and procedures for technical attestation, and EAT can convey claims about a measured runtime. This profile can bind that evidence to an identity or operational assurance claim, but does not replace RATS appraisal or turn runtime integrity into a behavioural guarantee.<a href="#section-12-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.5">Standards boundaries:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.6">
+          <p id="section-12-2.6.1">SCITT provides statement transparency, WIMSE provides workload identity, and RATS provides technical attestation and the Verifier role. None defines a Third-Party Agent Assurance Assessor, a universal agent risk classification, a capability-audit method, or assessor qualification and accreditation criteria. This profile defines the assessor role and carries the identifiers, commitments and results needed for interoperability, while leaving recognition and accreditation to relying-party policy, applicable external governance, and possible future work coordinated across the relevant communities.<a href="#section-12-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.7">Audit architecture <span>[<a href="#I-D.kuehlewind-audit-architecture" class="cite xref">I-D.kuehlewind-audit-architecture</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.8">
+          <p id="section-12-2.8.1">Roles and four record types (Interaction, Action, Delegation, Authorization Transition). The Execution Receipt is an Action Record at the Harness vantage; this profile is a candidate for that document's WI-3. Delegation and Authorization Transition records are expected from that work.<a href="#section-12-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.9">Agent audit record <span>[<a href="#I-D.gilda-wimse-agent-audit-record" class="cite xref">I-D.gilda-wimse-agent-audit-record</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.10">
+          <p id="section-12-2.10.1">A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. <span>[<a href="#I-D.thaha-wimse-agent-evidence-binding" class="cite xref">I-D.thaha-wimse-agent-evidence-binding</a>]</span> defines an in-toto <span>[<a href="#IN-TOTO" class="cite xref">IN-TOTO</a>]</span> predicate type for Execution Receipts, and an audit record's <code>correlation.externalAnchor</code> of kind <code>transparency-log</code> can point at the SCITT Receipt of the enclosing epoch.<a href="#section-12-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.11">Agent Action Capsule <span>[<a href="#I-D.mih-scitt-agent-action-capsule" class="cite xref">I-D.mih-scitt-agent-action-capsule</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.12">
+          <p id="section-12-2.12.1">A JSON Capsule per action with disposition and an Effect Record, registered by Capsule ID. Its may/did distinction is finer than <code>decision</code> plus <code>tool_result</code>; a Capsule ID can be the <code>request_digest</code> of a <code>tool_call</code> receipt. This profile defers effect tracking to the Capsule.<a href="#section-12-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.13">AI-Agent Action Receipts <span>[<a href="#I-D.noa-scitt-ai-agent-receipt" class="cite xref">I-D.noa-scitt-ai-agent-receipt</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.14">
+          <p id="section-12-2.14.1">JCS JSON receipts with Ed25519 signatures, a principal class, a lifecycle verdict and hash chaining. This profile shares that posture and adds credential, configuration and assurance statements and epochs. Alignment of verdict vocabularies is desirable.<a href="#section-12-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.15">Execution Profile <span>[<a href="#I-D.emirdag-scitt-ai-agent-execution" class="cite xref">I-D.emirdag-scitt-ai-agent-execution</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.16">
+          <p id="section-12-2.16.1">The AgentInteractionRecord with inputs, outputs, reasoning traces and redaction receipts, and the same SCITT role mapping as here. This profile excludes content from statements; an AIR can be the retained content whose digest appears in a receipt.<a href="#section-12-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.17">Agent Passport System <span>[<a href="#I-D.pidlisnyi-aps" class="cite xref">I-D.pidlisnyi-aps</a>]</span> and Agent Audit Trail <span>[<a href="#I-D.sharif-agent-audit-trail" class="cite xref">I-D.sharif-agent-audit-trail</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.18">
+          <p id="section-12-2.18.1">A broad authority-and-evidence framework and a logging format respectively. This profile could serve as the evidence layer of the former and commits to entries of the latter by digest; no dependency is created.<a href="#section-12-2.18.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-12-2.19">AP2 Mandates <span>[<a href="#AP2" class="cite xref">AP2</a>]</span>:</dt>
+        <dd style="margin-left: 1.5em" id="section-12-2.20">
+          <p id="section-12-2.20.1">User-signed credentials expressing purchase authorization. A Mandate is an input to a <code>tool_call</code>; its digest belongs in <code>request_digest</code>, and the confirmation it embodies corresponds to decision <code>confirm</code>.<a href="#section-12-2.20.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="implementation-status">
+<section id="section-13">
+      <h2 id="name-implementation-status">
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
+      </h2>
+<p id="section-13-1">This section records the status of known implementations per <span>[<a href="#RFC7942" class="cite xref">RFC7942</a>]</span> and is to be removed before publication as an RFC.<a href="#section-13-1" class="pilcrow">¶</a></p>
+<p id="section-13-2">Sijil, by FoundationFlow, is an open-source implementation of the Harness-side Decision Points, the Evidence Chain, epoch roots and the Bundle verifier described in this document, with registration against a SCITT Transparency Service through <span>[<a href="#I-D.ietf-scitt-scrapi" class="cite xref">I-D.ietf-scitt-scrapi</a>]</span>. Coverage: all statement types in CBOR form; JSON form partial. Maturity: prototype. Licence: Apache 2.0. Contact: see Authors' Addresses.<a href="#section-13-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-14">
+      <h2 id="name-references">
+<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-14.1">
+        <h3 id="name-normative-references">
+<a href="#section-14.1" class="section-number selfRef">14.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.ietf-oauth-status-list">[I-D.ietf-oauth-status-list]</dt>
+        <dd>
+<span class="refAuthor">Looker, T.</span>, <span class="refAuthor">Bastian, P.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Token Status List (TSL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-status-list-21</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-21">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-21</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-wimse-arch">[I-D.ietf-wimse-arch]</dt>
+        <dd>
+<span class="refAuthor">Salowey, J.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Workload Identity in a Multi System Environment (WIMSE) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-arch-08</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-wimse-identifier">[I-D.ietf-wimse-identifier]</dt>
+        <dd>
+<span class="refAuthor">Rosomakho, Y.</span> and <span class="refAuthor">J. Salowey</span>, <span class="refTitle">"Workload Identifier"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-identifier-03</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-identifier-03">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-identifier-03</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8392">[RFC8392]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Wahlstroem, E.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"CBOR Web Token (CWT)"</span>, <span class="seriesInfo">RFC 8392</span>, <span class="seriesInfo">DOI 10.17487/RFC8392</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8392">https://www.rfc-editor.org/rfc/rfc8392</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8610">[RFC8610]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Vigano, C.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Concise Data Definition Language (CDDL)"</span>, <span class="seriesInfo">RFC 8610</span>, <span class="seriesInfo">DOI 10.17487/RFC8610</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8610">https://www.rfc-editor.org/rfc/rfc8610</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8785">[RFC8785]</dt>
+        <dd>
+<span class="refAuthor">Rundgren, A.</span>, <span class="refAuthor">Jordan, B.</span>, and <span class="refAuthor">S. Erdtman</span>, <span class="refTitle">"JSON Canonicalization Scheme (JCS)"</span>, <span class="seriesInfo">RFC 8785</span>, <span class="seriesInfo">DOI 10.17487/RFC8785</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8785">https://www.rfc-editor.org/rfc/rfc8785</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8949">[RFC8949]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">STD 94</span>, <span class="seriesInfo">RFC 8949</span>, <span class="seriesInfo">DOI 10.17487/RFC8949</span>, <time datetime="2020-12" class="refDate">December 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8949">https://www.rfc-editor.org/rfc/rfc8949</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9052">[RFC9052]</dt>
+        <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Structures and Process"</span>, <span class="seriesInfo">STD 96</span>, <span class="seriesInfo">RFC 9052</span>, <span class="seriesInfo">DOI 10.17487/RFC9052</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9052">https://www.rfc-editor.org/rfc/rfc9052</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9053">[RFC9053]</dt>
+        <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Initial Algorithms"</span>, <span class="seriesInfo">RFC 9053</span>, <span class="seriesInfo">DOI 10.17487/RFC9053</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9053">https://www.rfc-editor.org/rfc/rfc9053</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9162">[RFC9162]</dt>
+        <dd>
+<span class="refAuthor">Laurie, B.</span>, <span class="refAuthor">Messeri, E.</span>, and <span class="refAuthor">R. Stradling</span>, <span class="refTitle">"Certificate Transparency Version 2.0"</span>, <span class="seriesInfo">RFC 9162</span>, <span class="seriesInfo">DOI 10.17487/RFC9162</span>, <time datetime="2021-12" class="refDate">December 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9162">https://www.rfc-editor.org/rfc/rfc9162</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9942">[RFC9942]</dt>
+        <dd>
+<span class="refAuthor">Steele, O.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Delignat-Lavaud, A.</span>, and <span class="refAuthor">C. Fournet</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE) Receipts"</span>, <span class="seriesInfo">RFC 9942</span>, <span class="seriesInfo">DOI 10.17487/RFC9942</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9942">https://www.rfc-editor.org/rfc/rfc9942</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9943">[RFC9943]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Delignat-Lavaud, A.</span>, <span class="refAuthor">Fournet, C.</span>, <span class="refAuthor">Deshpande, Y.</span>, and <span class="refAuthor">S. Lasker</span>, <span class="refTitle">"An Architecture for Trustworthy and Transparent Digital Supply Chains"</span>, <span class="seriesInfo">RFC 9943</span>, <span class="seriesInfo">DOI 10.17487/RFC9943</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9943">https://www.rfc-editor.org/rfc/rfc9943</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="UAX15">[UAX15]</dt>
+      <dd>
+<span class="refAuthor">The Unicode Consortium</span>, <span class="refTitle">"Unicode Standard Annex #15: Unicode Normalization Forms"</span>, <time datetime="2025" class="refDate">2025</time>, <span>&lt;<a href="https://www.unicode.org/reports/tr15/">https://www.unicode.org/reports/tr15/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-14.2">
+        <h3 id="name-informative-references">
+<a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="AP2">[AP2]</dt>
+        <dd>
+<span class="refAuthor">Google LLC</span>, <span class="refTitle">"Agent Payments Protocol (AP2) Specification"</span>, <time datetime="2025" class="refDate">2025</time>, <span>&lt;<a href="https://ap2-protocol.org/specification/">https://ap2-protocol.org/specification/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="DID-WEB">[DID-WEB]</dt>
+        <dd>
+<span class="refAuthor">W3C Credentials Community Group</span>, <span class="refTitle">"did:web Method Specification"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://w3c-ccg.github.io/did-method-web/">https://w3c-ccg.github.io/did-method-web/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="EUAIACT">[EUAIACT]</dt>
+        <dd>
+<span class="refAuthor">European Parliament and Council</span>, <span class="refTitle">"Regulation (EU) 2024/1689 (Artificial Intelligence Act), Articles 12, 14 and 72"</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">https://eur-lex.europa.eu/eli/reg/2024/1689/oj</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.emirdag-scitt-ai-agent-execution">[I-D.emirdag-scitt-ai-agent-execution]</dt>
+        <dd>
+<span class="refAuthor">Emirdag, P.</span>, <span class="refTitle">"AI Agent Execution Profile of SCITT"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-emirdag-scitt-ai-agent-execution-00</span>, <time datetime="2026-04" class="refDate">April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-emirdag-scitt-ai-agent-execution-00">https://datatracker.ietf.org/doc/html/draft-emirdag-scitt-ai-agent-execution-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.gilda-wimse-agent-audit-record">[I-D.gilda-wimse-agent-audit-record]</dt>
+        <dd>
+<span class="refAuthor">Gilda, S.</span>, <span class="refTitle">"An Audit Record Format for AI Agent Authorization Decisions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-gilda-wimse-agent-audit-record-01</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-gilda-wimse-agent-audit-record-01">https://datatracker.ietf.org/doc/html/draft-gilda-wimse-agent-audit-record-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-scitt-scrapi">[I-D.ietf-scitt-scrapi]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Geater, J.</span>, and <span class="refAuthor">A. Delignat-Lavaud</span>, <span class="refTitle">"Supply Chain Integrity, Transparency, and Trust (SCITT) Reference APIs"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-scitt-scrapi-11</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-scitt-scrapi-11">https://datatracker.ietf.org/doc/html/draft-ietf-scitt-scrapi-11</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-wimse-aims">[I-D.ietf-wimse-aims]</dt>
+        <dd>
+<span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Lombardo, J.</span>, <span class="refAuthor">Rosomakho, Y.</span>, <span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Steele, N.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"AI Identity Management System"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-aims-00</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-aims-00">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-aims-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.kuehlewind-audit-architecture">[I-D.kuehlewind-audit-architecture]</dt>
+        <dd>
+<span class="refAuthor">Kuehlewind, M.</span> and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"An Architecture for Auditing Agent Delegation and Interactions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-kuehlewind-audit-architecture-01</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-kuehlewind-audit-architecture-01">https://datatracker.ietf.org/doc/html/draft-kuehlewind-audit-architecture-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.mih-scitt-agent-action-capsule">[I-D.mih-scitt-agent-action-capsule]</dt>
+        <dd>
+<span class="refAuthor">Mih, S.</span>, <span class="refTitle">"An Agent Action Capsule Profile for SCITT"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-mih-scitt-agent-action-capsule-05</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-mih-scitt-agent-action-capsule-05">https://datatracker.ietf.org/doc/html/draft-mih-scitt-agent-action-capsule-05</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.noa-scitt-ai-agent-receipt">[I-D.noa-scitt-ai-agent-receipt]</dt>
+        <dd>
+<span class="refAuthor">Toraman, T.</span>, <span class="refTitle">"A SCITT Profile for AI-Agent Action Receipts"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-noa-scitt-ai-agent-receipt-01</span>, <time datetime="2026-08" class="refDate">August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-noa-scitt-ai-agent-receipt-01">https://datatracker.ietf.org/doc/html/draft-noa-scitt-ai-agent-receipt-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.pidlisnyi-aps">[I-D.pidlisnyi-aps]</dt>
+        <dd>
+<span class="refAuthor">Pidlisnyi, O.</span>, <span class="refTitle">"Agent Passport System (APS): Verifiable Authority, Lifecycle, Enforcement, and Evidence for AI Agents"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-pidlisnyi-aps-04</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-pidlisnyi-aps-04">https://datatracker.ietf.org/doc/html/draft-pidlisnyi-aps-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.sharif-agent-audit-trail">[I-D.sharif-agent-audit-trail]</dt>
+        <dd>
+<span class="refAuthor">Sharif, S.</span>, <span class="refTitle">"Agent Audit Trail: A Standard Logging Format for Autonomous AI Systems"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-sharif-agent-audit-trail-06</span>, <time datetime="2026" class="refDate">2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-sharif-agent-audit-trail-06">https://datatracker.ietf.org/doc/html/draft-sharif-agent-audit-trail-06</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.thaha-wimse-agent-evidence-binding">[I-D.thaha-wimse-agent-evidence-binding]</dt>
+        <dd>
+<span class="refAuthor">Thaha, S.</span>, <span class="refTitle">"Evidence Binding for AI Agent Credentials"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-thaha-wimse-agent-evidence-binding-00</span>, <time datetime="2026-10" class="refDate">October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-thaha-wimse-agent-evidence-binding-00">https://datatracker.ietf.org/doc/html/draft-thaha-wimse-agent-evidence-binding-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IN-TOTO">[IN-TOTO]</dt>
+        <dd>
+<span class="refAuthor">in-toto project</span>, <span class="refTitle">"in-toto Attestation Framework Specification"</span>, <time datetime="2024" class="refDate">2024</time>, <span>&lt;<a href="https://github.com/in-toto/attestation">https://github.com/in-toto/attestation</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="METR-HF">[METR-HF]</dt>
+        <dd>
+<span class="refAuthor">METR</span>, <span class="refTitle">"Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident"</span>, <time datetime="2026-08" class="refDate">August 2026</time>, <span>&lt;<a href="https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/">https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="NIST-AASI">[NIST-AASI]</dt>
+        <dd>
+<span class="refAuthor">National Institute of Standards and Technology, Center for AI Standards and Innovation</span>, <span class="refTitle">"AI Agent Standards Initiative"</span>, <time datetime="2026-02" class="refDate">February 2026</time>, <span>&lt;<a href="https://www.nist.gov/caisi/ai-agent-standards-initiative">https://www.nist.gov/caisi/ai-agent-standards-initiative</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6838">[RFC6838]</dt>
+        <dd>
+<span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7942">[RFC7942]</dt>
+        <dd>
+<span class="refAuthor">Sheffer, Y.</span> and <span class="refAuthor">A. Farrel</span>, <span class="refTitle">"Improving Awareness of Running Code: The Implementation Status Section"</span>, <span class="seriesInfo">BCP 205</span>, <span class="seriesInfo">RFC 7942</span>, <span class="seriesInfo">DOI 10.17487/RFC7942</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7942">https://www.rfc-editor.org/rfc/rfc7942</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9334">[RFC9334]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Remote ATtestation procedureS (RATS) Architecture"</span>, <span class="seriesInfo">RFC 9334</span>, <span class="seriesInfo">DOI 10.17487/RFC9334</span>, <time datetime="2023-01" class="refDate">January 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9334">https://www.rfc-editor.org/rfc/rfc9334</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9711">[RFC9711]</dt>
+      <dd>
+<span class="refAuthor">Lundblade, L.</span>, <span class="refAuthor">Mandyam, G.</span>, <span class="refAuthor">O'Donoghue, J.</span>, and <span class="refAuthor">C. Wallace</span>, <span class="refTitle">"The Entity Attestation Token (EAT)"</span>, <span class="seriesInfo">RFC 9711</span>, <span class="seriesInfo">DOI 10.17487/RFC9711</span>, <time datetime="2025-04" class="refDate">April 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9711">https://www.rfc-editor.org/rfc/rfc9711</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="vectors">
+<section id="appendix-A">
+      <h2 id="name-test-vectors">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-test-vectors" class="section-name selfRef">Test Vectors</a>
+      </h2>
+<p id="appendix-A-1">The vectors below were generated with a script included in the repository named in the document header. Keys are Ed25519 (COSE <code>alg</code> -8, EdDSA, <span>[<a href="#RFC9053" class="cite xref">RFC9053</a>]</span>). Diagnostic notation shows maps in the order written; the canonical encoding sorts keys as required by <span><a href="https://rfc-editor.org/rfc/rfc8949#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>, and the hashes and signatures are over that canonical encoding. The CWT claim <code>aee_type</code> uses its text-string key pending assignment of TBD1.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<div id="keys">
+<section id="appendix-A.1">
+        <h3 id="name-keys">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-keys" class="section-name selfRef">Keys</a>
+        </h3>
+<p id="appendix-A.1-1">Issuer (Evidence Service) Ed25519 seed: 32 octets of 0x11; public key <code>d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737</code>. Agent Ed25519 seed: 32 octets of 0x22; public key <code>a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0</code>.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="agent-credential-statement">
+<section id="appendix-A.2">
+        <h3 id="name-agent-credential-statement-2">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-agent-credential-statement-2" class="section-name selfRef">Agent Credential Statement</a>
+        </h3>
+<p id="appendix-A.2-1">Payload (diagnostic notation):<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<div class="lang-cbor-diag sourcecode" id="appendix-A.2-2">
+<pre>
+{
+  1: 1,
+  2: "wimse://agents.example.com/agent/billing-assistant",
+  3: {1: 1, 3: -8, -1: 6,
+      -2: h'a09aa5f47a6759802ff955f8dc2d2a14
+         a5c99d23be97f864127ff9383455a4f0'},
+  4: {1: 1,
+      2: h'355acb442721073848a4b78577b31cd2
+         958587696cf8378ab050011c8a042638'},
+  5: {1: "example-harness", 2: "3.2.0"},
+  6: {1: 2, 3: "example-model-2026-06", 4: "model-provider.example"},
+  7: {1: 1790000000, 2: 1792592000},
+  9: "did:web:agents.example.com:billing-assistant",
+  10: {1: 2, 2: "acme-finance.example"},
+  11: [
+    {1: "wimse://agents.example.com/agent/billing-assistant", 2: 1,
+     3: "agents.example.com", 4: 1790000000, 5: 1792592000},
+    {1: "spiffe://prod.example.net/ns/finance/sa/billing", 2: 2,
+     3: "prod.example.net", 4: 1790000000, 5: 1792592000}
+  ],
+  12: 2
+}
+</pre><a href="#appendix-A.2-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2-3">The principal digest is SHA-256 over the pepper <code>operator-pepper-0001</code> followed by <code>user:alice@example.com</code>. Digest of the canonical payload: <code>78609922cbf577ed463878b1ee1c80034b16d1362bdd297096285f5a45483389</code>.<a href="#appendix-A.2-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-4">The Signed Statement over this payload has protected header <code>{1: -8, 3: "application/aee-statement+cbor", 4: h'10ba682c8ad13513', 15: {1: "https://harness.example/issuer", 2: "wimse://agents.example.com/agent/billing-assistant", "aee_type": 1}}</code>. The complete COSE_Sign1 objects for this and the following statements, with signatures, are in the <code>vectors</code> directory of the repository named in the document header.<a href="#appendix-A.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="configuration-integrity-entries">
+<section id="appendix-A.3">
+        <h3 id="name-configuration-integrity-ent">
+<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-configuration-integrity-ent" class="section-name selfRef">Configuration Integrity Entries</a>
+        </h3>
+<p id="appendix-A.3-1">Three entries, ordered by name as <a href="#config" class="auto internal xref">Section 5.3</a> requires, each <code>[name, [-16, digest], class]</code>:<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.3-2">
+<pre>
+CLAUDE.md               2  b7151d3ad953353923932e171b27567b
+                           a78524f13ba853e6c912ea3d43653610
+SYSTEM_PROMPT           1  fe6ff403a894e40e32eacf012889e4bf
+                           1cc74be70216ceb8250cf3419f6434ff
+tools/send_invoice.json 6  1c9c542a99e6804c6ce08d17c38fa2f3
+                           068507cf2c6f7d97a092e111a1651707
+config_digest              c852d911944a0984f8b3a68eb852925d
+                           ae836326d42567528f1a10e84051fe7d
+</pre><a href="#appendix-A.3-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="execution-receipts">
+<section id="appendix-A.4">
+        <h3 id="name-execution-receipts">
+<a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-execution-receipts" class="section-name selfRef">Execution Receipts</a>
+        </h3>
+<p id="appendix-A.4-1">The policy pack digest used throughout is <code>[-16, h'563a0a3a0c09b773b7f07dd66931dc56605cb0e56d53d1da9cdefe6ae4c56f4d']</code>, the SHA-256 of the octets <code>{"pack":"example-deployment-pack","v":"1.0.0"}</code>.<a href="#appendix-A.4-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-2">Receipt seq 0 (task_start) has keys 1: 5, 2: 0, 3: 32 zero octets, 4: 1, 6: 1, 7 and 8 as in seq 2 below, 9 and 10 as in the credential, 11: 0 and 14: 1790001000000.<a href="#appendix-A.4-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-3">record-hash(0): <code>6bd6ef790a9378198160cdc99a4d530c397499f61cf0e26dd3966ec1b9759250</code><a href="#appendix-A.4-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-4">Receipt seq 1 (inference, model door) has the same keys 7 to 10 as seq 2 below, with 2: 1, 3: record-hash(0), 4: 3, 6: 1, 11: 1, 14: 1790001000120, 16: "example-model-2026-06", 18: 1, and request and response digests over the octets <code>&lt;prompt bytes&gt;</code> and <code>&lt;completion bytes&gt;</code> respectively.<a href="#appendix-A.4-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-5">record-hash(1): <code>8d4afb604cf6eab23015b91242ba7842cade95901fb56d2d1874924b1d8c502e</code><a href="#appendix-A.4-5" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-6">Receipt seq 2 (tool_call, tool door, decision confirm, parent_seq 1, with agent signature):<a href="#appendix-A.4-6" class="pilcrow">¶</a></p>
+<div class="lang-cbor-diag sourcecode" id="appendix-A.4-7">
+<pre>
+{
+  1: 5, 2: 2,
+  3: h'8d4afb604cf6eab23015b91242ba7842
+       cade95901fb56d2d1874924b1d8c502e',
+  4: 4, 5: 1, 6: 3,
+  7: [-16, h'563a0a3a0c09b773b7f07dd66931dc56
+             605cb0e56d53d1da9cdefe6ae4c56f4d'],
+  8: [-16, h'c852d911944a0984f8b3a68eb852925d
+             ae836326d42567528f1a10e84051fe7d'],
+  9: "wimse://agents.example.com/agent/billing-assistant",
+  10: {1: 1,
+       2: h'355acb442721073848a4b78577b31cd2
+            958587696cf8378ab050011c8a042638'},
+  11: 2,
+  12: [-16, h'989a658a232f0329b3372261bdd4d3be
+              c9e31d57094015433bf54fbd2aeca8f5'],
+  14: 1790001000350,
+  15: h'...',   / COSE_Sign1, 226 octets, see below /
+  16: "send_invoice",
+  17: "api.customer.example",
+  18: 2
+}
+</pre><a href="#appendix-A.4-7" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.4-8">The <code>agent_sig</code> at key 15 is a COSE_Sign1 (tag 18) with detached payload and protected header <code>{1: -8, 3: "application/aee-statement+cbor", 4: h'1325b850c2871916', 15: {1: agent_id, 2: agent_id}}</code>, over the canonical encoding of the receipt without key 15.<a href="#appendix-A.4-8" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-9">record-hash(2): <code>06f7d122b1d4f2fbefc111942cb11da8409ed96ef954d3cb12d274888fa87161</code><a href="#appendix-A.4-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="execution-epoch-statement">
+<section id="appendix-A.5">
+        <h3 id="name-execution-epoch-statement-2">
+<a href="#appendix-A.5" class="section-number selfRef">A.5. </a><a href="#name-execution-epoch-statement-2" class="section-name selfRef">Execution Epoch Statement</a>
+        </h3>
+<p id="appendix-A.5-1">The epoch over seq 0 to 2 has 3: 0, 4: 2, 5: 32 zero octets, 6: record-hash(2), 8: 3 and <code>epoch_root</code> <code>27668adbe564d23701843942b5067b0341f9661512b083634ad1f64ceb6b8ba4</code>, the RFC 9162 Merkle Tree Hash over the three record-hashes with the leaf and node prefixes of <span><a href="https://rfc-editor.org/rfc/rfc9162#section-2.1.1" class="relref">Section 2.1.1</a> of [<a href="#RFC9162" class="cite xref">RFC9162</a>]</span>.<a href="#appendix-A.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="mapping-to-regulatory-and-standards-contexts">
+<section id="appendix-B">
+      <h2 id="name-mapping-to-regulatory-and-s">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-mapping-to-regulatory-and-s" class="section-name selfRef">Mapping to Regulatory and Standards Contexts</a>
+      </h2>
+<p id="appendix-B-1">This informative mapping does not claim compliance. Execution Receipts, Evidence Chains and TS registration relate to Article 12 event recording under <span>[<a href="#EUAIACT" class="cite xref">EUAIACT</a>]</span>; <code>confirm</code>, <code>block</code> and the policy per receipt relate to Article 14 oversight. The open format relates to pillar 2 of <span>[<a href="#NIST-AASI" class="cite xref">NIST-AASI</a>]</span>.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="acknowledgements">
+<section id="appendix-C">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-C-1">The authors thank the SCITT, WIMSE and RATS communities and the authors cited in <a href="#related" class="auto internal xref">Section 12</a>.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-D">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Shameer Thaha</span></div>
+<div dir="auto" class="left"><span class="org">Individual Contributor</span></div>
+<div dir="auto" class="left"><span class="region">Dubai</span></div>
+<div dir="auto" class="left"><span class="country-name">United Arab Emirates</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:shameerthaha@gmail.com" class="email">shameerthaha@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Shaibi Shamsudeen</span></div>
+<div dir="auto" class="left"><span class="org">Individual Contributor</span></div>
+<div dir="auto" class="left"><span class="country-name">United Arab Emirates</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:shaibis@gmail.com" class="email">shaibis@gmail.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
