@@ -1780,12 +1780,12 @@ Internet-Draft          Agent Execution Evidence            October 2026
    This section records the status of known implementations per
    [RFC7942] and is to be removed before publication as an RFC.
 
-
-
-
-
-
-
+   Sijil is an open-source implementation of the Harness-side Decision
+   Points, the Evidence Chain, epoch roots and the Bundle verifier
+   described in this document, with registration against a SCITT
+   Transparency Service through [I-D.ietf-scitt-scrapi].  Coverage: all
+   statement types in CBOR form; JSON form partial.  Maturity:
+   prototype.  Licence: Apache 2.0.  Contact: see Authors' Addresses.
 
 
 
@@ -1793,14 +1793,6 @@ Thaha & Shamsudeen        Expires 8 April 2027                 [Page 32]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-   Sijil, by FoundationFlow, is an open-source implementation of the
-   Harness-side Decision Points, the Evidence Chain, epoch roots and the
-   Bundle verifier described in this document, with registration against
-   a SCITT Transparency Service through [I-D.ietf-scitt-scrapi].
-   Coverage: all statement types in CBOR form; JSON form partial.
-   Maturity: prototype.  Licence: Apache 2.0.  Contact: see Authors'
-   Addresses.
 
 14.  References
 
@@ -1840,16 +1832,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
               May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 33]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [RFC8610]  Birkholz, H., Vigano, C., and C. Bormann, "Concise Data
               Definition Language (CDDL)", RFC 8610,
               DOI 10.17487/RFC8610, June 2019,
@@ -1859,6 +1841,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
               Canonicalization Scheme (JCS)", RFC 8785,
               DOI 10.17487/RFC8785, June 2020,
               <https://www.rfc-editor.org/rfc/rfc8785>.
+
+
+
+
+Thaha & Shamsudeen        Expires 8 April 2027                 [Page 33]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [RFC8949]  Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", STD 94, RFC 8949,
@@ -1898,14 +1888,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [AP2]      Google LLC, "Agent Payments Protocol (AP2) Specification",
               2025, <https://ap2-protocol.org/specification/>.
 
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 34]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [DID-WEB]  W3C Credentials Community Group, "did:web Method
               Specification", 2023,
               <https://w3c-ccg.github.io/did-method-web/>.
@@ -1914,6 +1896,15 @@ Internet-Draft          Agent Execution Evidence            October 2026
               2024/1689 (Artificial Intelligence Act), Articles 12, 14
               and 72", June 2024,
               <https://eur-lex.europa.eu/eli/reg/2024/1689/oj>.
+
+
+
+
+
+Thaha & Shamsudeen        Expires 8 April 2027                 [Page 34]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [I-D.emirdag-scitt-ai-agent-execution]
               Emirdag, P., "AI Agent Execution Profile of SCITT", Work
@@ -1953,15 +1944,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               <https://datatracker.ietf.org/doc/html/draft-kuehlewind-
               audit-architecture-01>.
 
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 35]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [I-D.mih-scitt-agent-action-capsule]
               Mih, S., "An Agent Action Capsule Profile for SCITT", Work
               in Progress, Internet-Draft, draft-mih-scitt-agent-action-
@@ -1972,6 +1954,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [I-D.noa-scitt-ai-agent-receipt]
               Toraman, T., "A SCITT Profile for AI-Agent Action
               Receipts", Work in Progress, Internet-Draft, draft-noa-
+
+
+
+Thaha & Shamsudeen        Expires 8 April 2027                 [Page 35]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
               scitt-ai-agent-receipt-01, August 2026,
               <https://datatracker.ietf.org/doc/html/draft-noa-scitt-ai-
               agent-receipt-01>.
@@ -2008,16 +1998,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               <https://metr.org/blog/2026-08-26-openai-hugging-face-
               incident-investigation/>.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 36]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [NIST-AASI]
               National Institute of Standards and Technology, Center for
               AI Standards and Innovation, "AI Agent Standards
@@ -2028,6 +2008,15 @@ Internet-Draft          Agent Execution Evidence            October 2026
               Specifications and Registration Procedures", BCP 13,
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
+
+
+
+
+
+Thaha & Shamsudeen        Expires 8 April 2027                 [Page 36]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
               Code: The Implementation Status Section", BCP 205,
@@ -2064,6 +2053,17 @@ A.1.  Keys
 A.2.  Agent Credential Statement
 
    Payload (diagnostic notation):
+
+
+
+
+
+
+
+
+
+
+
 
 
 

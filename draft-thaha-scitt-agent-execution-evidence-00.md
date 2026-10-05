@@ -1017,7 +1017,7 @@ AP2 Mandates {{AP2}}:
 
 This section records the status of known implementations per {{RFC7942}} and is to be removed before publication as an RFC.
 
-Sijil, by FoundationFlow, is an open-source implementation of the Harness-side Decision Points, the Evidence Chain, epoch roots and the Bundle verifier described in this document, with registration against a SCITT Transparency Service through {{I-D.ietf-scitt-scrapi}}. Coverage: all statement types in CBOR form; JSON form partial. Maturity: prototype. Licence: Apache 2.0. Contact: see Authors' Addresses.
+Sijil is an open-source implementation of the Harness-side Decision Points, the Evidence Chain, epoch roots and the Bundle verifier described in this document, with registration against a SCITT Transparency Service through {{I-D.ietf-scitt-scrapi}}. Coverage: all statement types in CBOR form; JSON form partial. Maturity: prototype. Licence: Apache 2.0. Contact: see Authors' Addresses.
 
 --- back
 
