@@ -165,8 +165,15 @@ informative:
   NIST.SP.800-63-4:
     title: "Digital Identity Guidelines"
     author:
-      - org: National Institute of Standards and Technology
-    date: 2025-08
+      - ins: D. Temoshok
+      - ins: D. Proud-Madruga
+      - ins: Y. Choong
+      - ins: R. Galluzzo
+      - ins: S. Gupta
+      - ins: C. LaSalle
+      - ins: N. Lefkovitz
+      - ins: A. Regenscheid
+    date: 2025-07
     seriesinfo:
       NIST Special Publication: 800-63-4
       DOI: 10.6028/NIST.SP.800-63-4
