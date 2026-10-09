@@ -5,7 +5,7 @@
 Supply Chain Integrity, Transparency, and Trust                 S. Thaha
 Internet-Draft                                             S. Shamsudeen
 Intended status: Standards Track                  Individual Contributor
-Expires: 8 April 2027                                       October 2026
+Expires: 12 April 2027                                      October 2026
 
 
  Agent Execution Evidence: A SCITT Profile for Verifiable Records of AI
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 1]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 1]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -101,41 +101,41 @@ Table of Contents
        5.4.1.  Evidence Chain  . . . . . . . . . . . . . . . . . . .  17
        5.4.2.  Execution Epoch Statement . . . . . . . . . . . . . .  17
      5.5.  Assurance Statement . . . . . . . . . . . . . . . . . . .  18
-       5.5.1.  Assurance Levels  . . . . . . . . . . . . . . . . . .  20
-       5.5.2.  Revocation  . . . . . . . . . . . . . . . . . . . . .  21
-   6.  Registration Policy . . . . . . . . . . . . . . . . . . . . .  21
-   7.  Bundle  . . . . . . . . . . . . . . . . . . . . . . . . . . .  23
-   8.  Verification  . . . . . . . . . . . . . . . . . . . . . . . .  24
+       5.5.1.  Agent Identity Assurance Levels (AIAL)  . . . . . . .  20
+       5.5.2.  Revocation  . . . . . . . . . . . . . . . . . . . . .  22
+   6.  Registration Policy . . . . . . . . . . . . . . . . . . . . .  22
+   7.  Bundle  . . . . . . . . . . . . . . . . . . . . . . . . . . .  24
+   8.  Verification  . . . . . . . . . . . . . . . . . . . . . . . .  25
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 2]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 2]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
-     8.1.  Meaning of PASS . . . . . . . . . . . . . . . . . . . . .  26
-       8.1.1.  Derivable Risk Facts  . . . . . . . . . . . . . . . .  26
-   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  27
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  28
-   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  29
-     11.1.  Media Types  . . . . . . . . . . . . . . . . . . . . . .  29
-     11.2.  CWT Claims . . . . . . . . . . . . . . . . . . . . . . .  30
-     11.3.  CoAP Content-Formats . . . . . . . . . . . . . . . . . .  31
-   12. Related Work  . . . . . . . . . . . . . . . . . . . . . . . .  31
-   13. Implementation Status . . . . . . . . . . . . . . . . . . . .  32
-   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  33
-     14.1.  Normative References . . . . . . . . . . . . . . . . . .  33
-     14.2.  Informative References . . . . . . . . . . . . . . . . .  34
-   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .  37
-     A.1.  Keys  . . . . . . . . . . . . . . . . . . . . . . . . . .  37
-     A.2.  Agent Credential Statement  . . . . . . . . . . . . . . .  37
-     A.3.  Configuration Integrity Entries . . . . . . . . . . . . .  38
-     A.4.  Execution Receipts  . . . . . . . . . . . . . . . . . . .  39
-     A.5.  Execution Epoch Statement . . . . . . . . . . . . . . . .  40
-   Appendix B.  Mapping to Regulatory and Standards Contexts . . . .  40
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  40
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  40
+     8.1.  Meaning of PASS . . . . . . . . . . . . . . . . . . . . .  27
+       8.1.1.  Derivable Risk Facts  . . . . . . . . . . . . . . . .  27
+   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  28
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  29
+   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  30
+     11.1.  Media Types  . . . . . . . . . . . . . . . . . . . . . .  31
+     11.2.  CWT Claims . . . . . . . . . . . . . . . . . . . . . . .  31
+     11.3.  CoAP Content-Formats . . . . . . . . . . . . . . . . . .  32
+   12. Related Work  . . . . . . . . . . . . . . . . . . . . . . . .  32
+   13. Implementation Status . . . . . . . . . . . . . . . . . . . .  33
+   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  34
+     14.1.  Normative References . . . . . . . . . . . . . . . . . .  34
+     14.2.  Informative References . . . . . . . . . . . . . . . . .  35
+   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .  38
+     A.1.  Keys  . . . . . . . . . . . . . . . . . . . . . . . . . .  38
+     A.2.  Agent Credential Statement  . . . . . . . . . . . . . . .  38
+     A.3.  Configuration Integrity Entries . . . . . . . . . . . . .  39
+     A.4.  Execution Receipts  . . . . . . . . . . . . . . . . . . .  40
+     A.5.  Execution Epoch Statement . . . . . . . . . . . . . . . .  41
+   Appendix B.  Mapping to Regulatory and Standards Contexts . . . .  41
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  41
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  41
 
 1.  Introduction
 
@@ -165,7 +165,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 3]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 3]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -221,7 +221,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 4]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 4]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -277,7 +277,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 5]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 5]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -333,7 +333,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 6]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 6]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -389,7 +389,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 7]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 7]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -445,7 +445,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 8]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 8]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -501,7 +501,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 9]
+Thaha & Shamsudeen        Expires 12 April 2027                 [Page 9]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -557,7 +557,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 10]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 10]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -613,7 +613,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 11]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 11]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -669,7 +669,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 12]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 12]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -725,7 +725,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 13]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 13]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -781,7 +781,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 14]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 14]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -837,7 +837,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 15]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 15]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -893,7 +893,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 16]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 16]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -949,7 +949,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 17]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 17]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1005,7 +1005,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 18]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 18]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1031,7 +1031,8 @@ Internet-Draft          Agent Execution Evidence            October 2026
      2 => digest,              ; subject_digest: digest of the
                                ; payload of the revoked statement
      3 => uint,                ; reason_code (1 key-compromise,
-                               ; 2 superseded, 3 withdrawn, 4 other)
+                               ; 2 superseded, 3 withdrawn, 4 other,
+                               ; 5 closed)
      4 => uint,                ; iat
      ? 5 => tstr               ; reason
    }
@@ -1043,28 +1044,32 @@ Internet-Draft          Agent Execution Evidence            October 2026
    assessed_scope, risk_assessment, monitoring_summary and
    logical_agent_id.  The last MUST equal the referenced credential's
    logical_agent_id.  The scope digests commit to the agent's effective
-   models, tools, data, permissions and delegation powers.
-   capability_profile_digest commits to the complete capability profile,
-   including the declared purpose, objectives and intended use repeated
-   in keys 5 through 7.  This profile defines the required coverage but
-   not the document formats or a universal capability taxonomy.
+   models, tools, data, permissions and delegation powers.  The approved
+   model scope MUST identify each model by a dated version identifier,
+   never by an alias that the provider can repoint, and by weights
+   digest where the weights are available to the deployer.  A change to
+   either is a material change. capability_profile_digest commits to the
+   complete capability profile, including the declared purpose,
+   objectives and intended use repeated in keys 5 through 7.  This
+   profile defines the required coverage but not the document formats or
+   a universal capability taxonomy.
 
    scheme_id identifies the risk-classification method and tier is
    meaningful only within that scheme.  This profile does not define a
    universal risk scale.  The scheme SHOULD consider autonomy, effective
    capabilities, access to sensitive data or resources, delegation
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 19]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    powers, potential consequences and control effectiveness. higher_risk
    is the Agent Assurance Assessor's explicit determination that the
    independent-assessment and monitoring rules below apply;
    risk_assessment_digest commits to its rationale and inputs.
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 19]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    monitoring_summary is backward-looking.  It states the completed
    monitoring period, coverage, maximum interval between reviews,
@@ -1076,7 +1081,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
    named suite; the summary intentionally avoids publishing sensitive
    operational details.
 
-5.5.1.  Assurance Levels
+5.5.1.  Agent Identity Assurance Levels (AIAL)
 
     +=======+=========================================================+
     | Level | Basis                                                   |
@@ -1096,7 +1101,30 @@ Internet-Draft          Agent Execution Evidence            October 2026
     |       | period and coverage.                                    |
     +-------+---------------------------------------------------------+
 
-                         Table 1: Assurance Levels
+              Table 1: Agent Identity Assurance Levels (AIAL)
+
+   The assurance_level value is an Agent Identity Assurance Level
+   (AIAL).  These levels grade the assessment of an agent's purpose,
+   capabilities, deployment and controls.  They are not the
+   Authenticator Assurance Levels of [NIST.SP.800-63-4], do not express
+   authentication strength, and SHOULD NOT be abbreviated as "AAL".  As
+   the name indicates, they are closest in role to that guideline's
+   Identity Assurance Levels, which grade proofing before a credential
+   is issued.  Following the same separation, this profile treats
+   assessment depth, the strength of the binding between an agent and
+   its credential key, and the security of identity propagation as
+   independent dimensions.  A level carries no statement about how the
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 20]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
+   credential key is protected; a Relying Party that requires a
+   hardware-bound or attested key MUST require it separately in policy,
+   for example through accepted RATS Evidence about key storage.
 
    At levels 3 and 4, the Agent Assurance Assessor MUST be a Third-Party
    Agent Assurance Assessor, and assessor MUST differ from the
@@ -1115,13 +1143,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    capability profile, deployment and controls; acceptance of RATS
    Evidence alone does not establish either level.
 
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 20]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    For higher_risk agents, a pass result MUST use level 4, include a
    monitoring_summary, use status checking, and have disposition
    continue.  Before a required monitoring period is complete, the
@@ -1133,12 +1154,30 @@ Internet-Draft          Agent Execution Evidence            October 2026
    assurance until the required action is complete; suspend and withdraw
    MUST also be reflected through Section 5.5.2.
 
+   A deviation detected during monitoring MUST result in immediate
+   suspension: the status of the Assurance Statement MUST be set to 0x02
+   (SUSPENDED) without waiting for the next replacement statement or the
+   end of the monitoring period.  Suspension is temporary and is lifted
+   only by restoring the status after the deviation is resolved, or by a
+   replacement statement.  While a statement is suspended, a Decision
+   Point that enforces assurance MUST refuse further model and tool
+   calls by the agent, and a Relying Party MUST NOT accept the agent's
+   operational assurance.
+
    Higher-risk agents therefore require independent assessment and
    continuing operational monitoring.  Assurance remains valid only
    while the applicable assessment, monitoring and reassessment
    requirements are satisfied.  Each monitoring_summary covers a
    completed observation window, and replacement statements make
    monitoring continuing rather than a one-time probation period.
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 21]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    Monitoring is an additional safeguard after the initial risk-based
    audit; it does not guarantee that an agent will never act
    maliciously.  Its value depends on what the Harness and external
@@ -1156,6 +1195,18 @@ Internet-Draft          Agent Execution Evidence            October 2026
    payload.  A Revocation Statement MAY also revoke an Agent Credential
    Statement or a Policy Pack Statement.
 
+   Reason code 3 (withdrawn) records an adverse finding.  Reason code 5
+   (closed) records an administrative retirement with no adverse
+   finding, for example an agent retired by its Responsible Entity or an
+   expired licence that was not renewed.  An agent is closed by a
+   Revocation Statement with reason code 5 that revokes its Agent
+   Credential Statement; the Issuer of that credential issues it at the
+   direction of the Responsible Entity.  Relying Parties MUST NOT treat
+   closed as evidence of misconduct. withdrawn and closed are final: a
+   closed or withdrawn agent can operate again only under a new Agent
+   Credential Statement and a new assessment.  Suspension through the
+   status list is the only reversible state.
+
 6.  Registration Policy
 
    Section 5.1.1 of [RFC9943] requires a TS to apply a Registration
@@ -1171,17 +1222,18 @@ Internet-Draft          Agent Execution Evidence            October 2026
       Section 11.1; and the payload MUST be well-formed. sub MUST match
       the type-specific subject defined in Section 3.
 
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 21]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    Agent Credential (1):  validity.nbf MUST be less than validity.exp.
       The agent_key MUST be a COSE_Key whose alg is in the TS's accepted
       set.  If the TS is configured to require it, credential_ref MUST
       be present. agent_id MUST appear in runtime_identities, and each
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 22]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       entry's valid_from MUST be less than its valid_until.  If
       lifecycle_class is derived, derived_from MUST be present and an
       Agent Credential Statement with that logical_agent_id MUST already
@@ -1226,18 +1278,17 @@ Internet-Draft          Agent Execution Evidence            October 2026
       its responsible_entity.  A derived agent's level MUST NOT exceed
       its parent's. validity.nbf MUST be less than validity.exp;
       scheme_id, tier, declared_purpose, objectives and intended_use
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 22]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       MUST be nonempty.  If present, a monitoring period MUST end after
       it starts and review_frequency MUST be non-zero.  A higher-risk
       pass MUST meet the level 4, monitoring, status and disposition
       requirements of Section 5.5.
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 23]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    Revocation (8):  A statement whose payload digest equals
       subject_digest MUST already be registered, and the Issuer of the
@@ -1285,7 +1336,12 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 23]
+
+
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 24]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1341,7 +1397,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 24]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 25]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1397,7 +1453,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 25]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 26]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1453,7 +1509,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 26]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 27]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1509,7 +1565,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 27]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 28]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1565,7 +1621,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 28]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 29]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1594,6 +1650,12 @@ Internet-Draft          Agent Execution Evidence            October 2026
       checkable, but organizational independence, competence and
       accreditation are not established by this protocol.
 
+   Key binding:  An assurance level and the protection of the credential
+      key are independent.  An agent assessed at level 4 whose key is
+      held in software can be impersonated by any process that copies
+      the key, and its records then carry that level.  Relying Parties
+      MUST NOT infer key protection from the level.
+
    Monitoring limits:  Monitoring detects only deviations visible in its
       declared coverage.  An agent can behave maliciously within an
       approved scope, evade an instrumented Decision Point, or exploit a
@@ -1609,22 +1671,21 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 11.  IANA Considerations
 
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 30]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
 11.1.  Media Types
 
    IANA is requested to register the following media types in the "Media
    Types" registry per [RFC6838].
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 29]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
      +=============+====================+============================+
      | Type name   | Subtype name       | Reference                  |
@@ -1672,12 +1733,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 30]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 31]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1733,7 +1789,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 31]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 32]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1789,7 +1845,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 32]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 33]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1845,7 +1901,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 33]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 34]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1901,7 +1957,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 34]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 35]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1957,7 +2013,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 35]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 36]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2004,19 +2060,24 @@ Internet-Draft          Agent Execution Evidence            October 2026
               Initiative", February 2026, <https://www.nist.gov/caisi/
               ai-agent-standards-initiative>.
 
+   [NIST.SP.800-63-4]
+              National Institute of Standards and Technology, "Digital
+              Identity Guidelines", NIST Special Publication 800-63-4,
+              DOI 10.6028/NIST.SP.800-63-4, August 2025,
+              <https://doi.org/10.6028/NIST.SP.800-63-4>.
+
+
+
+
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 37]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
               Specifications and Registration Procedures", BCP 13,
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 36]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
               Code: The Implementation Status Section", BCP 205,
@@ -2064,12 +2125,7 @@ A.2.  Agent Credential Statement
 
 
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 37]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 38]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2125,7 +2181,7 @@ A.3.  Configuration Integrity Entries
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 38]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 39]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2181,7 +2237,7 @@ A.4.  Execution Receipts
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 39]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 40]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2237,4 +2293,4 @@ Authors' Addresses
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 40]
+Thaha & Shamsudeen        Expires 12 April 2027                [Page 41]

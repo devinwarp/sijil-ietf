@@ -162,6 +162,14 @@ normative:
     target: https://www.unicode.org/reports/tr15/
 
 informative:
+  NIST.SP.800-63-4:
+    title: "Digital Identity Guidelines"
+    author:
+      - org: National Institute of Standards and Technology
+    date: 2025-08
+    seriesinfo:
+      NIST Special Publication: 800-63-4
+      DOI: 10.6028/NIST.SP.800-63-4
   RFC6838:
     title: Media Type Specifications and Registration Procedures
     author:
@@ -758,19 +766,20 @@ revocation = {
   2 => digest,              ; subject_digest: digest of the
                             ; payload of the revoked statement
   3 => uint,                ; reason_code (1 key-compromise,
-                            ; 2 superseded, 3 withdrawn, 4 other)
+                            ; 2 superseded, 3 withdrawn, 4 other,
+                            ; 5 closed)
   4 => uint,                ; iat
   ? 5 => tstr               ; reason
 }
 ~~~
 
-The `assessor` value MUST equal the `iss` value in the protected CWT Claims of the Assurance Statement. The COSE signature therefore authenticates the identified Agent Assurance Assessor as the Issuer. The JSON member names for keys 12 through 16 are `assurance_level`, `assessed_scope`, `risk_assessment`, `monitoring_summary` and `logical_agent_id`. The last MUST equal the referenced credential's `logical_agent_id`. The scope digests commit to the agent's effective models, tools, data, permissions and delegation powers. `capability_profile_digest` commits to the complete capability profile, including the declared purpose, objectives and intended use repeated in keys 5 through 7. This profile defines the required coverage but not the document formats or a universal capability taxonomy.
+The `assessor` value MUST equal the `iss` value in the protected CWT Claims of the Assurance Statement. The COSE signature therefore authenticates the identified Agent Assurance Assessor as the Issuer. The JSON member names for keys 12 through 16 are `assurance_level`, `assessed_scope`, `risk_assessment`, `monitoring_summary` and `logical_agent_id`. The last MUST equal the referenced credential's `logical_agent_id`. The scope digests commit to the agent's effective models, tools, data, permissions and delegation powers. The approved model scope MUST identify each model by a dated version identifier, never by an alias that the provider can repoint, and by weights digest where the weights are available to the deployer. A change to either is a material change. `capability_profile_digest` commits to the complete capability profile, including the declared purpose, objectives and intended use repeated in keys 5 through 7. This profile defines the required coverage but not the document formats or a universal capability taxonomy.
 
 `scheme_id` identifies the risk-classification method and `tier` is meaningful only within that scheme. This profile does not define a universal risk scale. The scheme SHOULD consider autonomy, effective capabilities, access to sensitive data or resources, delegation powers, potential consequences and control effectiveness. `higher_risk` is the Agent Assurance Assessor's explicit determination that the independent-assessment and monitoring rules below apply; `risk_assessment_digest` commits to its rationale and inputs.
 
 `monitoring_summary` is backward-looking. It states the completed monitoring period, coverage, maximum interval between reviews, evidence commitment, detected deviations and resulting disposition. The evidence MUST support monitoring for deviations from the assessed scope and approved controls, including policy violations and unexpected behaviour. A non-zero `deviation_count` requires `findings_digest`. The full findings MUST be investigated under the named suite; the summary intentionally avoids publishing sensitive operational details.
 
-### Assurance Levels
+### Agent Identity Assurance Levels (AIAL)
 
 | Level | Basis |
 |-------|-------|
@@ -778,7 +787,9 @@ The `assessor` value MUST equal the `iss` value in the protected CWT Claims of t
 | 2 | Level 1 plus accepted RATS Evidence, such as an EAT {{RFC9711}}, for the assessed runtime and Harness. |
 | 3 | Level 2 plus a Third-Party Agent Assurance Assessor's review of the accepted RATS Evidence, capability profile, deployment and controls under the named suite. |
 | 4 | Level 3 plus continuing operational monitoring, including registered Evidence Chains, for the stated period and coverage. |
-{: title="Assurance Levels"}
+{: title="Agent Identity Assurance Levels (AIAL)"}
+
+The `assurance_level` value is an Agent Identity Assurance Level (AIAL). These levels grade the assessment of an agent's purpose, capabilities, deployment and controls. They are not the Authenticator Assurance Levels of {{NIST.SP.800-63-4}}, do not express authentication strength, and SHOULD NOT be abbreviated as "AAL". As the name indicates, they are closest in role to that guideline's Identity Assurance Levels, which grade proofing before a credential is issued. Following the same separation, this profile treats assessment depth, the strength of the binding between an agent and its credential key, and the security of identity propagation as independent dimensions. A level carries no statement about how the credential key is protected; a Relying Party that requires a hardware-bound or attested key MUST require it separately in policy, for example through accepted RATS Evidence about key storage.
 
 At levels 3 and 4, the Agent Assurance Assessor MUST be a Third-Party Agent Assurance Assessor, and `assessor` MUST differ from the credential's `responsible_entity`. Identifier inequality is mechanically checkable but does not prove organizational independence. A `derived` agent's level MUST NOT exceed its parent's. Assessor recognition, suite suitability and accreditation remain Relying Party policy; the numbers have no meaning beyond this section.
 
@@ -786,11 +797,15 @@ At levels 3 and 4, accepted RATS Evidence and any resulting Attestation Results 
 
 For `higher_risk` agents, a `pass` result MUST use level 4, include a `monitoring_summary`, use status checking, and have disposition `continue`. Before a required monitoring period is complete, the result MUST be `partial`, not `pass`. The Agent Assurance Assessor MUST issue a replacement statement at the required review frequency. A material change to purpose, capabilities, policy, configuration, deployment, controls or identity binding requires reassessment. A disposition of `reassess`, `suspend` or `withdraw` invalidates operational assurance until the required action is complete; `suspend` and `withdraw` MUST also be reflected through {{revocation}}.
 
+A deviation detected during monitoring MUST result in immediate suspension: the status of the Assurance Statement MUST be set to `0x02` (SUSPENDED) without waiting for the next replacement statement or the end of the monitoring period. Suspension is temporary and is lifted only by restoring the status after the deviation is resolved, or by a replacement statement. While a statement is suspended, a Decision Point that enforces assurance MUST refuse further model and tool calls by the agent, and a Relying Party MUST NOT accept the agent's operational assurance.
+
 Higher-risk agents therefore require independent assessment and continuing operational monitoring. Assurance remains valid only while the applicable assessment, monitoring and reassessment requirements are satisfied. Each `monitoring_summary` covers a completed observation window, and replacement statements make monitoring continuing rather than a one-time probation period. Monitoring is an additional safeguard after the initial risk-based audit; it does not guarantee that an agent will never act maliciously. Its value depends on what the Harness and external evidence sources can observe and how reliably approved controls are enforced.
 
 ### Revocation
 
 An Assurance Statement is revocable by either of two mechanisms, and an Agent Assurance Assessor MUST support at least one: a Token Status List {{I-D.ietf-oauth-status-list}} referenced from key 11, in which status `0x01` (INVALID) or `0x02` (SUSPENDED) withdraws the statement; or a Revocation Statement with the same Issuer registered on the same TS, whose `subject_digest` equals the digest of the Assurance Statement payload. A Revocation Statement MAY also revoke an Agent Credential Statement or a Policy Pack Statement.
+
+Reason code 3 (`withdrawn`) records an adverse finding. Reason code 5 (`closed`) records an administrative retirement with no adverse finding, for example an agent retired by its Responsible Entity or an expired licence that was not renewed. An agent is closed by a Revocation Statement with reason code 5 that revokes its Agent Credential Statement; the Issuer of that credential issues it at the direction of the Responsible Entity. Relying Parties MUST NOT treat `closed` as evidence of misconduct. `withdrawn` and `closed` are final: a closed or withdrawn agent can operate again only under a new Agent Credential Statement and a new assessment. Suspension through the status list is the only reversible state.
 
 # Registration Policy {#regpol}
 
@@ -941,6 +956,9 @@ Unicode-based injection:
 
 Assessment independence:
 : Level 1 can be self-asserted. At level 2, the Agent Assurance Assessor can still be the Responsible Entity, but accepted RATS Evidence adds technical runtime evidence. Levels 3 and 4 require a Third-Party Agent Assurance Assessor because an operator assessing controls it designed can share their assumptions and blind spots. The identifier-separation rule is checkable, but organizational independence, competence and accreditation are not established by this protocol.
+
+Key binding:
+: An assurance level and the protection of the credential key are independent. An agent assessed at level 4 whose key is held in software can be impersonated by any process that copies the key, and its records then carry that level. Relying Parties MUST NOT infer key protection from the level.
 
 Monitoring limits:
 : Monitoring detects only deviations visible in its declared coverage. An agent can behave maliciously within an approved scope, evade an instrumented Decision Point, or exploit a control that is present but ineffective. Relying Parties MUST evaluate coverage, evidence sources, review frequency and control enforcement rather than treating level 4 as a guarantee of safe behaviour.

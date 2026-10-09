@@ -19,14 +19,14 @@
 <meta content="draft-thaha-scitt-agent-execution-evidence-00" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.1
-    Python 3.14.7
+    Python 3.14.8
     ConfigArgParse 1.8.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.3
     natsort 8.4.0
-    platformdirs 4.12.3
+    platformdirs 4.12.4
     pycountry 26.2.16
     PyYAML 6.0.3
     requests 2.34.2
@@ -1232,7 +1232,7 @@ li > p:last-of-type:only-child {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Thaha &amp; Shamsudeen</td>
-<td class="center">Expires 8 April 2027</td>
+<td class="center">Expires 12 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1250,7 +1250,7 @@ li > p:last-of-type:only-child {
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-08">8 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-12">12 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1387,7 +1387,7 @@ li > p:last-of-type:only-child {
                 <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-assurance-statement" class="internal xref">Assurance Statement</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5.2.1">
-                    <p id="section-toc.1-1.5.2.5.2.1.1"><a href="#section-5.5.1" class="auto internal xref">5.5.1</a>.  <a href="#name-assurance-levels" class="internal xref">Assurance Levels</a></p>
+                    <p id="section-toc.1-1.5.2.5.2.1.1"><a href="#section-5.5.1" class="auto internal xref">5.5.1</a>.  <a href="#name-agent-identity-assurance-le" class="internal xref">Agent Identity Assurance Levels (AIAL)</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5.2.2">
                     <p id="section-toc.1-1.5.2.5.2.2.1"><a href="#section-5.5.2" class="auto internal xref">5.5.2</a>.  <a href="#name-revocation" class="internal xref">Revocation</a></p>
@@ -2032,24 +2032,25 @@ revocation = {
   2 =&gt; digest,              ; subject_digest: digest of the
                             ; payload of the revoked statement
   3 =&gt; uint,                ; reason_code (1 key-compromise,
-                            ; 2 superseded, 3 withdrawn, 4 other)
+                            ; 2 superseded, 3 withdrawn, 4 other,
+                            ; 5 closed)
   4 =&gt; uint,                ; iat
   ? 5 =&gt; tstr               ; reason
 }
 </pre><a href="#section-5.5-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.5-3">The <code>assessor</code> value <span class="bcp14">MUST</span> equal the <code>iss</code> value in the protected CWT Claims of the Assurance Statement. The COSE signature therefore authenticates the identified Agent Assurance Assessor as the Issuer. The JSON member names for keys 12 through 16 are <code>assurance_level</code>, <code>assessed_scope</code>, <code>risk_assessment</code>, <code>monitoring_summary</code> and <code>logical_agent_id</code>. The last <span class="bcp14">MUST</span> equal the referenced credential's <code>logical_agent_id</code>. The scope digests commit to the agent's effective models, tools, data, permissions and delegation powers. <code>capability_profile_digest</code> commits to the complete capability profile, including the declared purpose, objectives and intended use repeated in keys 5 through 7. This profile defines the required coverage but not the document formats or a universal capability taxonomy.<a href="#section-5.5-3" class="pilcrow">¶</a></p>
+<p id="section-5.5-3">The <code>assessor</code> value <span class="bcp14">MUST</span> equal the <code>iss</code> value in the protected CWT Claims of the Assurance Statement. The COSE signature therefore authenticates the identified Agent Assurance Assessor as the Issuer. The JSON member names for keys 12 through 16 are <code>assurance_level</code>, <code>assessed_scope</code>, <code>risk_assessment</code>, <code>monitoring_summary</code> and <code>logical_agent_id</code>. The last <span class="bcp14">MUST</span> equal the referenced credential's <code>logical_agent_id</code>. The scope digests commit to the agent's effective models, tools, data, permissions and delegation powers. The approved model scope <span class="bcp14">MUST</span> identify each model by a dated version identifier, never by an alias that the provider can repoint, and by weights digest where the weights are available to the deployer. A change to either is a material change. <code>capability_profile_digest</code> commits to the complete capability profile, including the declared purpose, objectives and intended use repeated in keys 5 through 7. This profile defines the required coverage but not the document formats or a universal capability taxonomy.<a href="#section-5.5-3" class="pilcrow">¶</a></p>
 <p id="section-5.5-4"><code>scheme_id</code> identifies the risk-classification method and <code>tier</code> is meaningful only within that scheme. This profile does not define a universal risk scale. The scheme <span class="bcp14">SHOULD</span> consider autonomy, effective capabilities, access to sensitive data or resources, delegation powers, potential consequences and control effectiveness. <code>higher_risk</code> is the Agent Assurance Assessor's explicit determination that the independent-assessment and monitoring rules below apply; <code>risk_assessment_digest</code> commits to its rationale and inputs.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
 <p id="section-5.5-5"><code>monitoring_summary</code> is backward-looking. It states the completed monitoring period, coverage, maximum interval between reviews, evidence commitment, detected deviations and resulting disposition. The evidence <span class="bcp14">MUST</span> support monitoring for deviations from the assessed scope and approved controls, including policy violations and unexpected behaviour. A non-zero <code>deviation_count</code> requires <code>findings_digest</code>. The full findings <span class="bcp14">MUST</span> be investigated under the named suite; the summary intentionally avoids publishing sensitive operational details.<a href="#section-5.5-5" class="pilcrow">¶</a></p>
-<div id="assurance-levels">
+<div id="agent-identity-assurance-levels-aial">
 <section id="section-5.5.1">
-          <h4 id="name-assurance-levels">
-<a href="#section-5.5.1" class="section-number selfRef">5.5.1. </a><a href="#name-assurance-levels" class="section-name selfRef">Assurance Levels</a>
+          <h4 id="name-agent-identity-assurance-le">
+<a href="#section-5.5.1" class="section-number selfRef">5.5.1. </a><a href="#name-agent-identity-assurance-le" class="section-name selfRef">Agent Identity Assurance Levels (AIAL)</a>
           </h4>
-<span id="name-assurance-levels-2"></span><table class="center" id="table-1">
+<span id="name-agent-identity-assurance-lev"></span><table class="center" id="table-1">
             <caption>
 <a href="#table-1" class="selfRef">Table 1</a>:
-<a href="#name-assurance-levels-2" class="selfRef">Assurance Levels</a>
+<a href="#name-agent-identity-assurance-lev" class="selfRef">Agent Identity Assurance Levels (AIAL)</a>
             </caption>
 <thead>
               <tr>
@@ -2076,10 +2077,12 @@ revocation = {
               </tr>
             </tbody>
           </table>
-<p id="section-5.5.1-2">At levels 3 and 4, the Agent Assurance Assessor <span class="bcp14">MUST</span> be a Third-Party Agent Assurance Assessor, and <code>assessor</code> <span class="bcp14">MUST</span> differ from the credential's <code>responsible_entity</code>. Identifier inequality is mechanically checkable but does not prove organizational independence. A <code>derived</code> agent's level <span class="bcp14">MUST NOT</span> exceed its parent's. Assessor recognition, suite suitability and accreditation remain Relying Party policy; the numbers have no meaning beyond this section.<a href="#section-5.5.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.5.1-3">At levels 3 and 4, accepted RATS Evidence and any resulting Attestation Results are the technical runtime evidence base for the independent assessment. The Third-Party Agent Assurance Assessor <span class="bcp14">MAY</span> perform the RATS Verifier role or consume Attestation Results from an accepted RATS Verifier. It <span class="bcp14">MUST</span> also evaluate the declared capability profile, deployment and controls; acceptance of RATS Evidence alone does not establish either level.<a href="#section-5.5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.5.1-4">For <code>higher_risk</code> agents, a <code>pass</code> result <span class="bcp14">MUST</span> use level 4, include a <code>monitoring_summary</code>, use status checking, and have disposition <code>continue</code>. Before a required monitoring period is complete, the result <span class="bcp14">MUST</span> be <code>partial</code>, not <code>pass</code>. The Agent Assurance Assessor <span class="bcp14">MUST</span> issue a replacement statement at the required review frequency. A material change to purpose, capabilities, policy, configuration, deployment, controls or identity binding requires reassessment. A disposition of <code>reassess</code>, <code>suspend</code> or <code>withdraw</code> invalidates operational assurance until the required action is complete; <code>suspend</code> and <code>withdraw</code> <span class="bcp14">MUST</span> also be reflected through <a href="#revocation" class="auto internal xref">Section 5.5.2</a>.<a href="#section-5.5.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.5.1-5">Higher-risk agents therefore require independent assessment and continuing operational monitoring. Assurance remains valid only while the applicable assessment, monitoring and reassessment requirements are satisfied. Each <code>monitoring_summary</code> covers a completed observation window, and replacement statements make monitoring continuing rather than a one-time probation period. Monitoring is an additional safeguard after the initial risk-based audit; it does not guarantee that an agent will never act maliciously. Its value depends on what the Harness and external evidence sources can observe and how reliably approved controls are enforced.<a href="#section-5.5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-2">The <code>assurance_level</code> value is an Agent Identity Assurance Level (AIAL). These levels grade the assessment of an agent's purpose, capabilities, deployment and controls. They are not the Authenticator Assurance Levels of <span>[<a href="#NIST.SP.800-63-4" class="cite xref">NIST.SP.800-63-4</a>]</span>, do not express authentication strength, and <span class="bcp14">SHOULD NOT</span> be abbreviated as "AAL". As the name indicates, they are closest in role to that guideline's Identity Assurance Levels, which grade proofing before a credential is issued. Following the same separation, this profile treats assessment depth, the strength of the binding between an agent and its credential key, and the security of identity propagation as independent dimensions. A level carries no statement about how the credential key is protected; a Relying Party that requires a hardware-bound or attested key <span class="bcp14">MUST</span> require it separately in policy, for example through accepted RATS Evidence about key storage.<a href="#section-5.5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-3">At levels 3 and 4, the Agent Assurance Assessor <span class="bcp14">MUST</span> be a Third-Party Agent Assurance Assessor, and <code>assessor</code> <span class="bcp14">MUST</span> differ from the credential's <code>responsible_entity</code>. Identifier inequality is mechanically checkable but does not prove organizational independence. A <code>derived</code> agent's level <span class="bcp14">MUST NOT</span> exceed its parent's. Assessor recognition, suite suitability and accreditation remain Relying Party policy; the numbers have no meaning beyond this section.<a href="#section-5.5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-4">At levels 3 and 4, accepted RATS Evidence and any resulting Attestation Results are the technical runtime evidence base for the independent assessment. The Third-Party Agent Assurance Assessor <span class="bcp14">MAY</span> perform the RATS Verifier role or consume Attestation Results from an accepted RATS Verifier. It <span class="bcp14">MUST</span> also evaluate the declared capability profile, deployment and controls; acceptance of RATS Evidence alone does not establish either level.<a href="#section-5.5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-5">For <code>higher_risk</code> agents, a <code>pass</code> result <span class="bcp14">MUST</span> use level 4, include a <code>monitoring_summary</code>, use status checking, and have disposition <code>continue</code>. Before a required monitoring period is complete, the result <span class="bcp14">MUST</span> be <code>partial</code>, not <code>pass</code>. The Agent Assurance Assessor <span class="bcp14">MUST</span> issue a replacement statement at the required review frequency. A material change to purpose, capabilities, policy, configuration, deployment, controls or identity binding requires reassessment. A disposition of <code>reassess</code>, <code>suspend</code> or <code>withdraw</code> invalidates operational assurance until the required action is complete; <code>suspend</code> and <code>withdraw</code> <span class="bcp14">MUST</span> also be reflected through <a href="#revocation" class="auto internal xref">Section 5.5.2</a>.<a href="#section-5.5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-6">A deviation detected during monitoring <span class="bcp14">MUST</span> result in immediate suspension: the status of the Assurance Statement <span class="bcp14">MUST</span> be set to <code>0x02</code> (SUSPENDED) without waiting for the next replacement statement or the end of the monitoring period. Suspension is temporary and is lifted only by restoring the status after the deviation is resolved, or by a replacement statement. While a statement is suspended, a Decision Point that enforces assurance <span class="bcp14">MUST</span> refuse further model and tool calls by the agent, and a Relying Party <span class="bcp14">MUST NOT</span> accept the agent's operational assurance.<a href="#section-5.5.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-7">Higher-risk agents therefore require independent assessment and continuing operational monitoring. Assurance remains valid only while the applicable assessment, monitoring and reassessment requirements are satisfied. Each <code>monitoring_summary</code> covers a completed observation window, and replacement statements make monitoring continuing rather than a one-time probation period. Monitoring is an additional safeguard after the initial risk-based audit; it does not guarantee that an agent will never act maliciously. Its value depends on what the Harness and external evidence sources can observe and how reliably approved controls are enforced.<a href="#section-5.5.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="revocation">
@@ -2088,6 +2091,7 @@ revocation = {
 <a href="#section-5.5.2" class="section-number selfRef">5.5.2. </a><a href="#name-revocation" class="section-name selfRef">Revocation</a>
           </h4>
 <p id="section-5.5.2-1">An Assurance Statement is revocable by either of two mechanisms, and an Agent Assurance Assessor <span class="bcp14">MUST</span> support at least one: a Token Status List <span>[<a href="#I-D.ietf-oauth-status-list" class="cite xref">I-D.ietf-oauth-status-list</a>]</span> referenced from key 11, in which status <code>0x01</code> (INVALID) or <code>0x02</code> (SUSPENDED) withdraws the statement; or a Revocation Statement with the same Issuer registered on the same TS, whose <code>subject_digest</code> equals the digest of the Assurance Statement payload. A Revocation Statement <span class="bcp14">MAY</span> also revoke an Agent Credential Statement or a Policy Pack Statement.<a href="#section-5.5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.5.2-2">Reason code 3 (<code>withdrawn</code>) records an adverse finding. Reason code 5 (<code>closed</code>) records an administrative retirement with no adverse finding, for example an agent retired by its Responsible Entity or an expired licence that was not renewed. An agent is closed by a Revocation Statement with reason code 5 that revokes its Agent Credential Statement; the Issuer of that credential issues it at the direction of the Responsible Entity. Relying Parties <span class="bcp14">MUST NOT</span> treat <code>closed</code> as evidence of misconduct. <code>withdrawn</code> and <code>closed</code> are final: a closed or withdrawn agent can operate again only under a new Agent Credential Statement and a new assessment. Suspension through the status list is the only reversible state.<a href="#section-5.5.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2338,14 +2342,19 @@ inclusion-path = [
           <p id="section-10-2.20.1">Level 1 can be self-asserted. At level 2, the Agent Assurance Assessor can still be the Responsible Entity, but accepted RATS Evidence adds technical runtime evidence. Levels 3 and 4 require a Third-Party Agent Assurance Assessor because an operator assessing controls it designed can share their assumptions and blind spots. The identifier-separation rule is checkable, but organizational independence, competence and accreditation are not established by this protocol.<a href="#section-10-2.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-10-2.21">Monitoring limits:</dt>
+<dt id="section-10-2.21">Key binding:</dt>
         <dd style="margin-left: 1.5em" id="section-10-2.22">
-          <p id="section-10-2.22.1">Monitoring detects only deviations visible in its declared coverage. An agent can behave maliciously within an approved scope, evade an instrumented Decision Point, or exploit a control that is present but ineffective. Relying Parties <span class="bcp14">MUST</span> evaluate coverage, evidence sources, review frequency and control enforcement rather than treating level 4 as a guarantee of safe behaviour.<a href="#section-10-2.22.1" class="pilcrow">¶</a></p>
+          <p id="section-10-2.22.1">An assurance level and the protection of the credential key are independent. An agent assessed at level 4 whose key is held in software can be impersonated by any process that copies the key, and its records then carry that level. Relying Parties <span class="bcp14">MUST NOT</span> infer key protection from the level.<a href="#section-10-2.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-10-2.23">Limits:</dt>
+<dt id="section-10-2.23">Monitoring limits:</dt>
         <dd style="margin-left: 1.5em" id="section-10-2.24">
-          <p id="section-10-2.24.1">This profile produces evidence about calls that pass through Decision Points. Behaviour entirely inside the model, inside a tool, or through a channel the Harness does not mediate is not recorded.<a href="#section-10-2.24.1" class="pilcrow">¶</a></p>
+          <p id="section-10-2.24.1">Monitoring detects only deviations visible in its declared coverage. An agent can behave maliciously within an approved scope, evade an instrumented Decision Point, or exploit a control that is present but ineffective. Relying Parties <span class="bcp14">MUST</span> evaluate coverage, evidence sources, review frequency and control enforcement rather than treating level 4 as a guarantee of safe behaviour.<a href="#section-10-2.24.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-10-2.25">Limits:</dt>
+        <dd style="margin-left: 1.5em" id="section-10-2.26">
+          <p id="section-10-2.26.1">This profile produces evidence about calls that pass through Decision Points. Behaviour entirely inside the model, inside a tool, or through a channel the Harness does not mediate is not recorded.<a href="#section-10-2.26.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -2664,6 +2673,10 @@ inclusion-path = [
 <dt id="NIST-AASI">[NIST-AASI]</dt>
         <dd>
 <span class="refAuthor">National Institute of Standards and Technology, Center for AI Standards and Innovation</span>, <span class="refTitle">"AI Agent Standards Initiative"</span>, <time datetime="2026-02" class="refDate">February 2026</time>, <span>&lt;<a href="https://www.nist.gov/caisi/ai-agent-standards-initiative">https://www.nist.gov/caisi/ai-agent-standards-initiative</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="NIST.SP.800-63-4">[NIST.SP.800-63-4]</dt>
+        <dd>
+<span class="refAuthor">National Institute of Standards and Technology</span>, <span class="refTitle">"Digital Identity Guidelines"</span>, <span class="seriesInfo">NIST Special Publication 800-63-4</span>, <span class="seriesInfo">DOI 10.6028/NIST.SP.800-63-4</span>, <time datetime="2025-08" class="refDate">August 2025</time>, <span>&lt;<a href="https://doi.org/10.6028/NIST.SP.800-63-4">https://doi.org/10.6028/NIST.SP.800-63-4</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6838">[RFC6838]</dt>
         <dd>
