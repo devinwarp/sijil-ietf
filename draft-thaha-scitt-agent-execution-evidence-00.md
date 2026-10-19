@@ -58,6 +58,14 @@ normative:
     seriesinfo:
       RFC: 8610
       DOI: 10.17487/RFC8610
+  RFC7493:
+    title: The I-JSON Message Format
+    author:
+      - ins: T. Bray
+    date: 2015-03
+    seriesinfo:
+      RFC: 7493
+      DOI: 10.17487/RFC7493
   RFC8785:
     title: JSON Canonicalization Scheme (JCS)
     author:
@@ -154,6 +162,33 @@ normative:
     date: 2026-06
     seriesinfo:
       Internet-Draft: draft-ietf-oauth-status-list-21
+  RFC8485:
+    title: Vectors of Trust
+    author:
+      - ins: J. Richer
+      - ins: L. Johansson
+    date: 2018-10
+    seriesinfo:
+      RFC: 8485
+      DOI: 10.17487/RFC8485
+  RFC8693:
+    title: OAuth 2.0 Token Exchange
+    author:
+      - ins: M. Jones
+      - ins: A. Nadalin
+      - ins: B. Campbell
+      - ins: J. Bradley
+      - ins: C. Mortimore
+    date: 2020-01
+    seriesinfo:
+      RFC: 8693
+      DOI: 10.17487/RFC8693
+  DID-WEB:
+    title: "did:web Method Specification"
+    author:
+      - org: W3C Credentials Community Group
+    date: 2023
+    target: https://w3c-ccg.github.io/did-method-web/
   UAX15:
     title: "Unicode Standard Annex #15: Unicode Normalization Forms"
     author:
@@ -177,6 +212,23 @@ informative:
     seriesinfo:
       NIST Special Publication: 800-63-4
       DOI: 10.6028/NIST.SP.800-63-4
+  RFC3198:
+    title: Terminology for Policy-Based Management
+    author:
+      - ins: A. Westerinen
+      - ins: J. Schnizlein
+      - ins: J. Strassner
+      - ins: M. Scherling
+      - ins: B. Quinn
+      - ins: S. Herzog
+      - ins: A. Huynh
+      - ins: M. Carlson
+      - ins: J. Perry
+      - ins: S. Waldbusser
+    date: 2001-11
+    seriesinfo:
+      RFC: 3198
+      DOI: 10.17487/RFC3198
   RFC6838:
     title: Media Type Specifications and Registration Procedures
     author:
@@ -198,6 +250,17 @@ informative:
       BCP: 205
       RFC: 7942
       DOI: 10.17487/RFC7942
+  RFC8705:
+    title: OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens
+    author:
+      - ins: B. Campbell
+      - ins: J. Bradley
+      - ins: N. Sakimura
+      - ins: T. Lodderstedt
+    date: 2020-02
+    seriesinfo:
+      RFC: 8705
+      DOI: 10.17487/RFC8705
   RFC9334:
     title: Remote ATtestation procedureS (RATS) Architecture
     author:
@@ -210,6 +273,19 @@ informative:
     seriesinfo:
       RFC: 9334
       DOI: 10.17487/RFC9334
+  RFC9449:
+    title: OAuth 2.0 Demonstrating Proof of Possession (DPoP)
+    author:
+      - ins: D. Fett
+      - ins: B. Campbell
+      - ins: J. Bradley
+      - ins: T. Lodderstedt
+      - ins: M. Jones
+      - ins: D. Waite
+    date: 2023-09
+    seriesinfo:
+      RFC: 9449
+      DOI: 10.17487/RFC9449
   RFC9711:
     title: The Entity Attestation Token (EAT)
     author:
@@ -230,6 +306,27 @@ informative:
     date: 2026-06
     seriesinfo:
       Internet-Draft: draft-ietf-scitt-scrapi-11
+  I-D.ietf-oauth-transaction-tokens:
+    title: Transaction Tokens
+    author:
+      - ins: A. Tulshibagwale
+      - ins: G. Fletcher
+      - ins: P. Kasselman
+    date: 2026-07
+    seriesinfo:
+      Internet-Draft: draft-ietf-oauth-transaction-tokens-11
+  I-D.ietf-oauth-identity-chaining:
+    title: OAuth Identity and Authorization Chaining Across Domains
+    author:
+      - ins: A. Schwenkschuster
+      - ins: P. Kasselman
+      - ins: K. Burgin
+      - ins: M. Jenkins
+      - ins: B. Campbell
+      - ins: A. Parecki
+    date: 2026-07
+    seriesinfo:
+      Internet-Draft: draft-ietf-oauth-identity-chaining-17
   I-D.ietf-wimse-aims:
     title: AI Identity Management System
     author:
@@ -246,9 +343,9 @@ informative:
     title: An Audit Record Format for AI Agent Authorization Decisions
     author:
       - ins: S. Gilda
-    date: 2026-09
+    date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-gilda-wimse-agent-audit-record-01
+      Internet-Draft: draft-gilda-wimse-agent-audit-record-02
   I-D.kuehlewind-audit-architecture:
     title: An Architecture for Auditing Agent Delegation and Interactions
     author:
@@ -275,9 +372,10 @@ informative:
     title: AI Agent Execution Profile of SCITT
     author:
       - ins: P. Emirdag
-    date: 2026-04
+      - ins: D. Feichtinger
+    date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-emirdag-scitt-ai-agent-execution-00
+      Internet-Draft: draft-emirdag-scitt-ai-agent-execution-01
   I-D.pidlisnyi-aps:
     title: "Agent Passport System (APS): Verifiable Authority, Lifecycle, Enforcement, and Evidence for AI Agents"
     author:
@@ -288,14 +386,15 @@ informative:
   I-D.sharif-agent-audit-trail:
     title: "Agent Audit Trail: A Standard Logging Format for Autonomous AI Systems"
     author:
-      - ins: S. Sharif
-    date: 2026
+      - ins: R. Sharif
+    date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-sharif-agent-audit-trail-06
+      Internet-Draft: draft-sharif-agent-audit-trail-08
   I-D.thaha-wimse-agent-evidence-binding:
     title: Evidence Binding for AI Agent Credentials
     author:
       - ins: S. Thaha
+      - ins: S. Shamsudeen
     date: 2026-10
     seriesinfo:
       Internet-Draft: draft-thaha-wimse-agent-evidence-binding-00
@@ -329,16 +428,10 @@ informative:
       - org: in-toto project
     date: 2024
     target: https://github.com/in-toto/attestation
-  DID-WEB:
-    title: "did:web Method Specification"
-    author:
-      - org: W3C Credentials Community Group
-    date: 2023
-    target: https://w3c-ccg.github.io/did-method-web/
 
 --- abstract
 
-AI agents act through calls to models and tools. Identity work establishes who an agent is and what it may do, but leaves execution-evidence formats and assurance criteria out of scope. This document profiles the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture for signed Agent Credential, Policy Pack, Configuration Integrity, Execution Receipt and Assurance Statements. It binds persistent identity, declared capabilities, risk-based assessment and time-bounded operational monitoring to a hash-chained record of an agent run. It also defines Registration Policy, offline verification and Bundle requirements. It does not define an accreditation scheme, universal risk classification, identity registry or policy language.
+AI agents act through calls to models, tools and other agents. Identity work establishes who an agent is and what it may do, but leaves execution-evidence formats and assurance criteria out of scope. This document profiles the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture for Signed Statements that bind an agent's registered identity, declared capabilities, risk-based assessment and supervised operational status to a hash-chained record of every call the agent makes. It also defines admission records produced where a call is received, and the linking of records for requests that pass between agents of different operators. It specifies Registration Policy, offline verification and Bundle requirements. It does not define an accreditation scheme, a universal risk classification, an identifier scheme or a policy language.
 
 --- middle
 
@@ -346,21 +439,27 @@ AI agents act through calls to models and tools. Identity work establishes who a
 
 An AI agent is a workload whose behaviour is driven, in whole or in part, by a non-deterministic decision process, typically a large language model (LLM), and which acts on the world by invoking tools, services and resources. Every consequential thing an agent does passes through one of two doors: a call to a model (an inference) or a call to a tool. If evidence is produced at those two doors, bound to the agent's identity and to the policy in force, and registered in an append-only, non-equivocating log, a third party can later establish what the agent did, under which rules, and with which configuration, without trusting the operator's own logs.
 
-The WIMSE AI Identity Management System {{I-D.ietf-wimse-aims}} describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but states that evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in {{I-D.kuehlewind-audit-architecture}} identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile.
+The WIMSE AI Identity Management System {{I-D.ietf-wimse-aims}} describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but leaves the format of those logs open; it states that posture evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in {{I-D.kuehlewind-audit-architecture}} identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile.
 
-Several individual drafts already profile SCITT for agent actions ({{related}}). Each records that an action happened and its disposition. Three gaps remain that this profile addresses:
+Several individual drafts already profile SCITT for agent actions ({{related}}). Each records that an action happened and its disposition. Four gaps remain that this profile addresses:
 
-1. Binding of identity to a per-call evidence chain. An agent identifier in an audit record is only as good as the link between that identifier, the key that signed the record, the record before it, and the persistent agent the identifier is an instance of. This profile defines an Agent Credential Statement that records that mapping, and requires every Execution Receipt to carry the runtime identifier, the preceding record hash and optionally a per-call agent signature, so that a chain of receipts is bound to one credential and cannot be spliced.
+1. An identity that a party other than the operator vouches for, bound to a per-call evidence chain. A workload identifier proves which software is making a call, but the operator of that software issues it to itself, within its own trust domain. It does not say which agent the software is, who is accountable for it, or whether it is the agent that was assessed, and an agent that runs in several environments has several unrelated identifiers (Section 3.1.2 of {{I-D.ietf-wimse-arch}}). This profile separates a long-term agent identity, issued by an Agent Registration Authority that Relying Parties accept, from the runtime identities under which the operator's software authenticates ({{identification}}). An Agent Credential Statement records which runtime identities belong to the agent, and every Execution Receipt carries the runtime identifier, the preceding record hash and optionally a per-call agent signature, so that a chain of receipts is bound to one registered agent and cannot be spliced.
 
-2. Integrity of instruction files, system prompts and tool manifests. An agent's behaviour is determined as much by its system prompt, instruction files, skills, hooks, tool manifests and persisted memory as by its model, and injection through these files, including through invisible Unicode, is a documented attack class. This profile defines a Configuration Integrity Statement that commits to digests of these inputs after mandatory Unicode normalization, and requires every Execution Receipt to reference the configuration in force.
+2. Integrity of instruction files, system prompts and tool manifests. An agent's behaviour is determined as much by its system prompt, instruction files, skills, hooks, tool manifests and memory as by its model, and injection through these inputs, including through invisible Unicode, is a documented attack class. This profile defines a Configuration Integrity Statement that commits to digests of the static inputs after mandatory Unicode normalization, requires every Execution Receipt to reference the configuration in force, and commits to the state of memory at the start and end of each Task.
 
-3. Revocable operational assurance bound to running evidence. An assessment is useful only while the assessed identity, capabilities, policy, configuration and deployment remain applicable. This profile binds an Assurance Statement to those values, records its risk basis and monitoring coverage, and supports reassessment, suspension and withdrawal.
+3. Revocable operational assurance bound to running evidence, under supervision. An assessment is useful only while the assessed identity, capabilities, policy, configuration and deployment remain applicable. This profile binds an Assurance Statement to those values, records its risk basis and monitoring coverage, and lets a Supervisory Authority, separate from the assessor, restrict, suspend or withdraw it.
+
+4. Evidence where a call is received, and across calls between agents. Agents increasingly call services operated by other parties, and those services are increasingly agents themselves. A request can pass through several agents, each run by a different operator, before it reaches the system that acts on it. For example, an assistant acting for an individual asks a platform's agent to file an application; that agent queries a records service; the records service calls an identity-verification service. Records produced only on the calling side cannot support the decision made on the serving side, and records kept separately on each side cannot show that they describe the same call.
+
+A Serving Party decides on every call whether to act. It is the only party that can apply its own conditions whatever the caller's operator does, but it sees one call at a time and not the history that led to it. The decision is made per call, not per session or per credential, because what it depends on changes between calls: an agent's assurance can be suspended within minutes, one agent can act for many Principals with different permissions, and operations on the same service carry different risk. This profile therefore defines an admission record that a Serving Party produces for every call it receives, stating what it checked and what it decided. That record is the Serving Party's evidence of its own conduct and gives an auditor a second, independent record of the call. Only the caller's record shows why a call was made; only the Serving Party's record shows what was admitted and on what basis; comparing the two, when both parties' chains are verified together, shows a call that either side omitted.
+
+When a request passes through intermediaries, four questions need answers that no single hop's record supplies: which agent originated the request and for which Principal; whether any intermediary used authority broader than that Principal's; whether suspending an agent stops the work it started further along; and which operator's agent did what. The WIMSE architecture requires that "each hop in the chain MUST explicitly scope and re-bind the security context" and that autonomous actions "MUST be clearly distinguished from delegated ones" (Section 3.4.11 of {{I-D.ietf-wimse-arch}}). This profile links each hop's records to those of the hop before it and carries the principal of the transaction, a transaction identifier and the sequence of acting agents with the request, so that a verifier can answer these questions from evidence rather than from the operators' accounts.
 
 A declared objective, attested runtime and guardrails do not constrain every means an agent may choose. During a 2026 cyber-capability evaluation, agents created an unsanctioned coordination channel, pursued scorer tampering, crossed task boundaries and investigated altering their traces {{METR-HF}}. This motivates third-party review of whether capabilities and controls are proportionate to purpose.
 
 Monitoring is a distinct safeguard after assessment: for highly autonomous or otherwise higher-risk agents, it checks observed operation against the assessed scope and approved controls and supports reassessment, suspension or withdrawal. Article 72 of {{EUAIACT}} requires proportionate lifetime monitoring for legally classified high-risk AI systems. This profile's `higher_risk` value is not that legal classification and does not establish compliance.
 
-This document is a profile of {{RFC9943}} and {{RFC9942}}. It does not change the SCITT architecture and does not define an identity registry, a policy language or an accreditation scheme.
+This document is a profile of {{RFC9943}} and {{RFC9942}}. It does not change the SCITT architecture and does not define an identifier scheme, how a registry or Supervisory Authority is established, a policy language or an accreditation scheme.
 
 ## Requirements Notation
 
@@ -368,7 +467,15 @@ This document is a profile of {{RFC9943}} and {{RFC9942}}. It does not change th
 
 # Terminology {#terminology}
 
-This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in {{Section 3 of RFC9943}}.
+This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in {{Section 3 of RFC9943}}; Workload, Trust Domain and Workload Identity Credential as defined in {{Section 2 of I-D.ietf-wimse-arch}}; Actor and Delegation as in Sections 1.1 and 4.1 of {{RFC8693}}; and Call Chain and Transaction as defined in {{Section 3 of I-D.ietf-oauth-transaction-tokens}}, except that a Call Chain here may cross Trust Domains. The principal of the transaction is the subject named by the `sub` claim of a Transaction Token ({{Section 9.2 of I-D.ietf-oauth-transaction-tokens}}). This profile uses delegation semantics only, never impersonation.
+
+The terms below are either profiled from existing IETF vocabulary, as stated in each definition, or introduced by this document. Agent Registration Authority, Calling Agent, Caller Reference, Linked Evidence Chains, Linked Verification, Principal Link, Responsible Entity, Serving Party, Sub-agent and Supervisory Authority have no equivalent in the IETF specifications cited here.
+
+Actor Chain:
+: The ordered list of Actors that have acted on a request, least recent first. It is the list form of a chain of delegation expressed by nested `act` claims ({{Section 4.1 of RFC8693}}): the most deeply nested `act` is the first entry and the outermost `act`, the current actor, is the last. The term "actor chain" is used in {{Section 3.4.9 of I-D.ietf-wimse-arch}}.
+
+Admission:
+: The authorization decision a Serving Party makes for one call, recorded as an Execution Receipt of type `admission` ({{admission}}). It is a policy decision in the sense of {{RFC3198}}, made per call and recorded.
 
 Agent:
 : A workload whose behaviour is driven, in whole or in part, by a non-deterministic decision process (typically an LLM) and that invokes tools, services or resources, as in Section 4 of {{I-D.ietf-wimse-aims}}.
@@ -376,23 +483,29 @@ Agent:
 Agent Assurance Assessor:
 : A SCITT Issuer that evaluates an agent and issues Assurance Statements ({{assurance}}). It MAY be the Responsible Entity at assurance levels 1 and 2. At levels 3 and 4 it MUST be a Third-Party Agent Assurance Assessor.
 
-Third-Party Agent Assurance Assessor:
-: An Agent Assurance Assessor that is organizationally independent of the Responsible Entity and agent operator, and whose identity and signing key a Relying Party accepts under its trust policy. This profile-specific role can perform the RATS Verifier role or consume Attestation Results from an accepted RATS Verifier, but also assesses the agent's capabilities, deployment and controls. Existing IETF specifications do not define qualification, independence-testing or accreditation criteria for this role.
-
-Capability Profile:
-: A declaration of an agent's purpose and effective model, tool, data, permission and delegation scope, committed to by digest in an Assurance Statement.
+Agent Registration Authority:
+: A SCITT Issuer that issues long-term agent identities: it verifies the Responsible Entity, records what was declared for the agent, assigns the `logical_agent_id` and `lineage_id`, and maintains the registration's status ({{identification}}). How an authority is established is out of scope. The name is unrelated to SCITT Registration, which is the act of entering a Signed Statement into a TS.
 
 Bundle:
 : A self-contained set of Transparent Statements and Execution Receipts sufficient for offline verification of a segment of an Evidence Chain ({{bundle}}).
 
+Caller Reference:
+: The member of an admission receipt that identifies the Calling Agent's Execution Receipt for the same call ({{linking}}).
+
+Calling Agent, Serving Party:
+: For a given call, the agent that makes it, and the workload, possibly itself an agent, that receives it and decides whether to act on it. These are roles in one call, not kinds of agent: an agent is a Serving Party for the call it receives and a Calling Agent for the calls it then makes. In the terms of {{RFC8693}}, the Calling Agent is the current actor. A Serving Party that verifies evidence before admitting a call acts as a Relying Party.
+
+Capability Profile:
+: The operator's declaration of an agent's purpose and effective model, tool, data, permission and delegation scope, including the functions of any Sub-agents, committed to by digest at registration and in an Assurance Statement.
+
 Decision Point:
-: A point in the Harness at which a call is intercepted, a policy decision taken and an Execution Receipt produced: the model door (every inference) and the tool door (every tool invocation, its result and any resulting egress).
+: A point at which a call is intercepted, a policy decision taken and enforced, and an Execution Receipt produced. It combines a Policy Decision Point and a Policy Enforcement Point ({{RFC3198}}) and adds recording. In a Harness these are the model door (every inference) and the tool door (every tool invocation, its result and any resulting egress); at a Serving Party, the ingress door (every call received).
 
 Evidence Chain:
-: An ordered sequence of Execution Receipts, each carrying the hash of its predecessor, scoped to one Agent Credential Statement ({{chain}}).
+: An ordered sequence of Execution Receipts, each carrying the hash of its predecessor, scoped to one Agent Credential or Serving Party Credential Statement ({{chain}}).
 
 Evidence Service:
-: The service, operated by or for the Harness operator, that issues Execution Receipt and Execution Epoch Statements and registers them with a TS; the SCITT Issuer for those statements.
+: The service, operated by or for the Harness or Serving Party operator, that issues Execution Receipt and Execution Epoch Statements and registers them with a TS; the SCITT Issuer for those statements.
 
 Execution Receipt:
 : A single record produced at a Decision Point ({{receipt}}); registered with a TS, individually or through an epoch root, it becomes an Execution Receipt Statement.
@@ -400,8 +513,11 @@ Execution Receipt:
 Harness:
 : The runtime that hosts an agent, mediates its calls to models and tools, and operates the Decision Points.
 
+Linked Evidence Chains, Linked Verification:
+: The Evidence Chains of the parties to one Call Chain, linked through Caller References; and their verification together ({{linked-verification}}).
+
 Logical Agent, Runtime Identity:
-: The persistent identity of an agent across environments, named by a `logical_agent_id`; and a workload identifier under which the agent authenticates in one environment for one period. One Logical Agent MAY have several Runtime Identities.
+: The persistent identity of an agent across environments, named by a `logical_agent_id` issued by an Agent Registration Authority; and a workload identifier ({{Section 3.1.2 of I-D.ietf-wimse-arch}}) under which the agent authenticates in one Trust Domain for one period. A Logical Agent is a logical workload in the sense of {{Section 2 of I-D.ietf-wimse-arch}} that is an agent. One Logical Agent MAY have several Runtime Identities.
 
 Operational Assurance:
 : Time-bounded confidence that an identified agent's assessed capabilities, deployment and controls remain within their approved scope, based on assessment and, where required, continuing monitoring.
@@ -410,25 +526,66 @@ Policy Pack:
 : A versioned document that configures Decision Points, layered by digest reference to a parent ({{pack}}). The policy document format is out of scope.
 
 Principal:
-: The natural person, organization or workload on whose behalf an agent acts for a given Task.
+: The natural person, organization or workload on whose behalf an agent acts for a given Task. It is the "delegated subject (user or system)" of Section 11 of {{I-D.ietf-wimse-aims}}, and is used as in {{Section 1.1 of RFC8693}}.
+
+Principal Link:
+: A digest that lets the two parties to a call show that they recorded the same Principal without revealing it ({{linking}}).
 
 Responsible Entity:
-: The legal or natural person accountable for a Logical Agent, as declared in its Agent Credential Statement.
+: The legal or natural person accountable for a Logical Agent, as registered in its Agent Registration Statement.
+
+Sub-agent:
+: An agent instantiated by another agent, its parent, to perform a declared function within the parent's Tasks. A Sub-agent has no Logical Agent identity of its own and acts under its parent's ({{subagents}}).
+
+Supervisory Authority:
+: The Issuer that a Relying Party's or TS's policy designates for a scheme named by `scheme_id`. It publishes the scheme, holds the status of Assurance Statements issued under it, and alone restricts, suspends or withdraws them ({{supervision}}).
 
 Task:
-: A unit of agent work delimited by `task_start` and `task_end` Execution Receipts, with its own sequence counter.
+: A unit of agent work delimited by `task_start` and `task_end` Execution Receipts and named by the `seq` of its `task_start`.
 
-The Agent Credential, Policy Pack, Configuration Integrity, Execution Receipt and Assurance Statements are the five Signed Statement types this profile defines ({{credential}} to {{assurance}}).
+Third-Party Agent Assurance Assessor:
+: An Agent Assurance Assessor that is organizationally independent of the Responsible Entity and agent operator, and whose identity and signing key a Relying Party accepts under its trust policy. This profile-specific role can perform the RATS Verifier role or consume Attestation Results from an accepted RATS Verifier, but also assesses the agent's capabilities, deployment and controls. Existing IETF specifications do not define qualification, independence-testing or accreditation criteria for this role.
+
+This profile defines eleven Signed Statement types: Agent Registration, Model Provider, Agent Credential, Serving Party Credential, Policy Pack, Configuration Integrity, Configuration Drift, Execution Receipt, Execution Epoch, Assurance and Revocation Statements ({{registration}} to {{assurance}}).
 
 # Identifiers {#ids}
 
-This profile imports identifiers and does not define a registry.
+This profile imports identifier schemes and does not define one.
 
-An agent identifier is a URI. It SHOULD be a Workload Identifier as defined in {{I-D.ietf-wimse-identifier}} (the `spiffe` or `wimse` scheme). It MAY be a `did:web` identifier {{DID-WEB}}. Implementations MUST treat agent identifiers as opaque strings for comparison purposes; two identifiers are equal if and only if their octet sequences are equal.
+`logical_agent_id`:
+: MUST be a `did:web` identifier {{DID-WEB}} whose domain name, the first component of the method-specific identifier after percent-decoding, equals the host component of the `iss` of the Agent Registration Statement that assigned it, for example `did:web:register.example:agent:a1b2c3` issued by `https://register.example`. The identifier itself thus shows which authority vouches for the agent.
 
-The CWT Claims header parameter (label 15) required by {{Section 6 of RFC9943}} MUST carry the Issuer in `iss` (label 1). In `sub` (label 2), Agent Credential, Configuration Integrity, Configuration Drift, Execution Receipt and Execution Epoch Statements carry the applicable Runtime Identity; Assurance Statements carry `logical_agent_id`; Policy Pack Statements carry `pack_id`; and Revocation Statements repeat the `sub` of the statement revoked.
+Runtime Identity:
+: SHOULD be a Workload Identifier as defined in {{I-D.ietf-wimse-identifier}} (the `spiffe` or `wimse` scheme). Section 6 of {{I-D.ietf-wimse-aims}} requires that an agent be assigned exactly one WIMSE identifier; within any one such deployment, that identifier is the agent's Runtime Identity there, and the Logical Agent sits above the Runtime Identities of all its deployments.
 
-A Principal is carried as a claim inside the statement payload, not in the COSE header, because a Principal is not an Artifact subject in the SCITT sense and because the header is visible to the TS. A Principal of kind natural person MUST be represented by a 32-octet digest computed as SHA-256 over the concatenation of an operator-held pepper and the canonical identifier of the person ({{privacy}}). A Principal of kind organization or workload MAY be represented in clear text.
+`service_id`:
+: A URI under a domain that the Serving Party controls, using the `https`, `spiffe`, `wimse` or `did:web` scheme.
+
+Implementations MUST treat all identifiers as opaque strings for comparison purposes; two identifiers are equal if and only if their octet sequences are equal.
+
+The CWT Claims header parameter (label 15) required by {{Section 6 of RFC9943}} MUST carry the Issuer in `iss` (label 1). In `sub` (label 2), Agent Credential, Configuration Integrity, Configuration Drift, Execution Receipt and Execution Epoch Statements carry the applicable Runtime Identity (or `service_id`); Agent Registration and Assurance Statements carry `logical_agent_id`; Serving Party Credential Statements carry `service_id`; Model Provider Statements carry `model_id`; Policy Pack Statements carry `pack_id`; and Revocation Statements repeat the `sub` of the statement revoked.
+
+A Principal is carried as a claim inside the statement payload, not in the COSE header, because a Principal is not an Artifact subject in the SCITT sense and because the header is visible to the TS. A Principal of kind natural person MUST be represented by a 32-octet digest computed as SHA-256 over the concatenation of a pepper held by the statement's Issuer and the canonical identifier of the person ({{privacy}}). A Principal of kind organization or workload MAY be represented in clear text.
+
+# Agent Identification {#identification}
+
+A Relying Party that must decide whether to act on an agent's request, or hold someone accountable afterwards, needs an identity that persists across environments and that a party other than the operator vouches for. This profile obtains it in the following steps.
+
+1. Declaration. The operator submits to an Agent Registration Authority the agent's Capability Profile and, for each model in it, the Model Provider Statement ({{provider}}) where the provider has issued one. The Capability Profile identifies each model by a dated version identifier and, where available, by the digest of that statement.
+
+2. Verification. The authority verifies the Responsible Entity by its own identity-proofing procedures, which are out of scope. It SHOULD require the operator to prove possession, at registration, of the agent key it will name in its first Agent Credential Statement.
+
+3. Registration. The authority issues an Agent Registration Statement ({{registration}}) assigning the `logical_agent_id` and `lineage_id` and committing to what was declared, and registers it on a TS. The registered statement is the authoritative record of the agent's identity.
+
+4. Operation. The operator issues Agent Credential Statements ({{credential}}) that reference the registration and list the agent's Runtime Identities, key, Harness, model binding and Sub-agents. These change as the agent moves between environments and its keys rotate; the registration does not.
+
+5. Status. The authority maintains the registration's status in a Token Status List {{I-D.ietf-oauth-status-list}} and ends it, where required, with a Revocation Statement: reason code 5 (`closed`) for administrative retirement and 3 (`withdrawn`) for an adverse finding.
+
+6. Change and lineage. A change to the declared Capability Profile, or a new Model Provider Statement for a model in it, requires a superseding Agent Registration Statement with the same `logical_agent_id` and `lineage_id`, and reassessment; the authority MUST revoke the superseded registration with reason code 2 (`superseded`), so that credentials naming it cease to verify. A change of Responsible Entity, for example on a transfer between organizations, requires a new registration with a new `logical_agent_id` and the same `lineage_id`; the previous registration is closed, and the agent MUST be reassessed before use. The `lineage_id` keeps the history of earlier registrations, adverse entries included, linked to the agent.
+
+A Relying Party is configured with the set of Agent Registration Authorities it accepts. An agent registered by an authority in another jurisdiction is verified identically and accepted only if that authority is in the set; how authorities come to recognize one another is out of scope. An organization MAY act as the Agent Registration Authority for its own agents; whether a Relying Party accepts it is a matter of policy.
+
+An Agent Registration Authority MAY also publish registrations through other channels. Such channels are not authoritative: the registered statement and its status prevail.
 
 # Common Encoding {#common}
 
@@ -437,17 +594,21 @@ Each statement type defined here is a CBOR map with integer keys. Hash algorithm
 ~~~ cddl
 aee-statement = agent-credential / policy-pack / config-integrity
               / config-drift / execution-receipt / execution-epoch
-              / assurance / revocation
+              / assurance / revocation / agent-registration
+              / serving-party-credential / model-provider
 
 aee-type = &(
-  agent-credential:    1,
-  policy-pack:         2,
-  config-integrity:    3,
-  config-drift:        4,
-  execution-receipt:   5,
-  execution-epoch:     6,
-  assurance:           7,
-  revocation:          8
+  agent-credential:          1,
+  policy-pack:               2,
+  config-integrity:          3,
+  config-drift:              4,
+  execution-receipt:         5,
+  execution-epoch:           6,
+  assurance:                 7,
+  revocation:                8,
+  agent-registration:        9,
+  serving-party-credential: 10,
+  model-provider:           11
 )
 
 ; A digest is a COSE hash algorithm identifier and the digest value.
@@ -460,24 +621,88 @@ validity = {
 }
 
 principal = {
-  1 => principal-kind,
-  2 => bstr / tstr   ; 32-octet digest for natural persons,
+  1 => principal-kind,  ; kind
+  2 => bstr / tstr,  ; id: 32-octet digest for natural persons,
                      ; otherwise an identifier
+  ? 3 => principal-assurance,  ; principal_assurance
+  ? 4 => delegation-ref        ; delegation_ref
 }
 principal-kind = &( natural-person: 1, organization: 2, workload: 3 )
+
+; How strongly the Principal was verified, as a Vector of Trust
+; (RFC 8485): the vector (at least its identity proofing
+; component) and the trustmark URL of the trust framework
+; that defines the values.
+principal-assurance = {
+  1 => tstr,         ; vot, for example "P2"
+  2 => tstr,         ; vtm, trustmark URL
+  ? 3 => tstr        ; verifier: who performed the proofing
+}
+
+; The Principal's grant of authority to this agent.
+delegation-ref = {
+  1 => digest,       ; token_digest of the delegation token
+  ? 2 => status-ref  ; status of this delegation
+}
 ~~~
+
+In the JSON form, `kind` determines whether `id` is a base64url digest or a clear-text identifier. `principal_assurance` records how strongly the Principal's identity was verified, using the identity proofing dimension of {{Section 2.1 of RFC8485}}; each jurisdiction's trust framework, named by the trustmark, defines the values, so that Principals proofed under different trust frameworks are recorded by the same mechanism. `delegation_ref` lets one Principal's delegation be revoked without revoking the agent: its status entry is maintained by whoever granted the delegation. Both are fixed for a Task, as the rest of `principal` is ({{chain}}).
+
+No statement defined here contains a floating-point value, and an Issuer MUST NOT emit one, including NaN or an infinity. Text strings MUST be valid UTF-8. A payload that violates either rule, or that has duplicate map keys, is malformed: an Issuer MUST NOT repair it before signing or hashing, and a TS or Relying Party MUST reject it.
 
 Each statement is carried as the payload of a COSE_Sign1 Signed Statement per {{Section 6 of RFC9943}}. The protected header MUST contain `alg` (label 1); `content type` (label 3) set to `application/aee-statement+cbor` or `application/aee-statement+json`; `kid` (label 4), `x5t` (label 34) or `x5chain` (label 33) per {{Section 6 of RFC9943}}; and the CWT Claims header parameter (label 15) with `iss`, `sub` and the `aee_type` claim ({{iana-cwt}}), whose value MUST equal key 1 of the payload. Duplicating the type in the header lets a TS apply type-specific Registration Policy ({{regpol}}) from the non-opaque header, as {{Section 3 of RFC9943}} requires, without parsing the payload.
 
 ## JSON Alternative Encoding {#json}
 
-A statement MAY instead be encoded as a JSON object. Each integer key is replaced by the member name given for it in the CDDL comment of its type (for example key 7 of an Execution Receipt is `policy_pack_digest`); group names such as `principal`, `harness`, `model_binding`, `validity`, `runtime_identities` and `assessed_scope` name nested objects, and enumerated values use the lowercase names of their CDDL group. Byte strings are base64url without padding, and a `digest` is an object `{"alg": <name>, "value": <base64url>}` where `<name>` is a hash name from the IANA "Named Information Hash Algorithm Registry" (for example `"sha-256"`). Before signing or hashing, the JSON form MUST be canonicalized with {{RFC8785}}. The content type is `application/aee-statement+json`. A single Evidence Chain MUST use one encoding throughout.
+A statement MAY instead be encoded as a JSON object. Each integer key is replaced by the member name given for it in the CDDL comment of its type (for example key 7 of an Execution Receipt is `policy_pack_digest`); group names such as `principal`, `harness`, `model_binding`, `validity`, `runtime_identities` and `assessed_scope` name nested objects, and enumerated values use the lowercase names of their CDDL group. Byte strings are base64url without padding, and a `digest` is an object `{"alg": <name>, "value": <base64url>}` where `<name>` is a hash name from the IANA "Named Information Hash Algorithm Registry" (for example `"sha-256"`). The JSON form MUST be I-JSON {{RFC7493}}, which excludes lone surrogates and duplicate member names, and integers in it MUST NOT exceed 2^53 - 1 in absolute value. Before signing or hashing, it MUST be canonicalized with {{RFC8785}}. The content type is `application/aee-statement+json`. A single Evidence Chain MUST use one encoding throughout.
 
 # Statement Types
 
+## Agent Registration Statement {#registration}
+
+An Agent Registration Statement is the authoritative record of a Logical Agent's identity ({{identification}}). Its Issuer is an Agent Registration Authority.
+
+~~~ cddl
+agent-registration = {
+  1 => 9,                   ; aee-type
+  2 => tstr,                ; logical_agent_id (see {{ids}})
+  3 => principal,           ; responsible_entity
+  4 => tstr,                ; lineage_id
+  5 => digest,              ; capability_profile_digest, as declared
+  6 => [ * digest ],        ; provider_statement_digests
+  7 => validity,            ; validity
+  ? 8 => status-ref,        ; status: Token Status List reference
+  ? 9 => tstr,              ; scheme_id: registration scheme (URI)
+  ? 10 => digest            ; prior_registration_digest
+}
+~~~
+
+`capability_profile_digest` commits to the Capability Profile the operator declared, and `provider_statement_digests` to the payloads of the Model Provider Statements it references. `lineage_id` is an opaque identifier assigned by the authority that outlives `logical_agent_id`. `prior_registration_digest` names the registration this one supersedes or, on a change of Responsible Entity, follows. A natural-person `responsible_entity` is hashed with a pepper held by the authority ({{privacy}}).
+
+## Model Provider Statement {#provider}
+
+A Model Provider Statement records what a model provider states about one version of a model. Its Issuer is the model provider. An operator SHOULD reference one for every model in its Capability Profile where the provider has issued one; a Supervisory Authority's scheme or a Relying Party MAY require it.
+
+~~~ cddl
+model-provider = {
+  1 => 11,                  ; aee-type
+  2 => tstr,                ; model_id: dated version identifier
+  3 => tstr,                ; provider
+  ? 4 => digest,            ; weights_digest
+  5 => digest,              ; evaluations_digest
+  6 => digest,              ; safeguards_digest
+  7 => [ + tstr ],          ; permitted_uses
+  ? 8 => digest,            ; training_data_summary_digest
+  ? 9 => digest,            ; change_commitments_digest
+  10 => uint                ; iat, seconds since the Unix epoch
+}
+~~~
+
+`model_id` MUST be a dated version identifier, never an alias that the provider can repoint. `evaluations_digest` commits to the provider's capability and dangerous-capability evaluations, and `safeguards_digest` to the safeguards applied. The documents are retained by the provider; their formats are out of scope. A new model version or weights digest requires a new statement and, for any agent using it, a superseding registration and reassessment ({{identification}}).
+
 ## Agent Credential Statement {#credential}
 
-An Agent Credential Statement binds an agent identifier to the public key the agent uses for per-call signatures, to the Principal it acts for, to the Harness that hosts it, and to how its model is bound. It also records the agent's identity continuity: which persistent Logical Agent this runtime is an instance of, who is accountable for it, and under which Runtime Identities it may appear. Its Issuer is the Harness operator or the identity provider that issued the agent's workload credential.
+An Agent Credential Statement binds an agent identifier to the public key the agent uses for per-call signatures, to the Principal it acts for, to the Harness that hosts it, and to how its model is bound. It also records the agent's identity continuity: which registered Logical Agent this runtime is an instance of, and under which Runtime Identities it and its Sub-agents may appear. Its Issuer is the Harness operator or the identity provider that issued the agent's workload credential.
 
 The continuity fields exist because workload identifiers do not, by themselves, say what they name. Section 3.1.2 of {{I-D.ietf-wimse-arch}} states that a workload identifier "MAY represent a logical workload, a service implemented by one or more workloads, or a specific workload instance, depending on deployment policy", and that "two credentials containing the same workload identifier value represent the same workload only when validated under the same trust domain and issuer trust configuration". An agent that moves between a development cluster, a production cluster and a cloud identity platform acquires a different identifier in each, meaningful only within its trust domain. A Relying Party cannot correlate those identifiers by inspection. This profile therefore records the mapping from a Logical Agent to its Runtime Identities as a signed, registered statement, and verifies receipts against it, rather than assuming correlation.
 
@@ -497,7 +722,9 @@ agent-credential = {
   10 => principal,          ; responsible_entity
   11 => [ + runtime-identity ],  ; runtime_identities
   12 => lifecycle-class,    ; lifecycle_class
-  ? 20 => tstr              ; derived_from (lifecycle derived only)
+  13 => digest,             ; registration_digest: digest of the
+                            ; Agent Registration Statement payload
+  ? 14 => [ + subagent ]    ; subagents
 }
 
 runtime-identity = {
@@ -507,32 +734,61 @@ runtime-identity = {
   4 => uint,                ; valid_from, seconds since Unix epoch
   5 => uint                 ; valid_until
 }
-id-scheme = &( wimse: 1, spiffe: 2, did: 3, entra: 4,
+id-scheme = &( wimse: 1, spiffe: 2, did: 3, oidc: 4,
                cloud-native: 5, other: 6 )
-lifecycle-class = &( ephemeral: 1, persistent: 2, derived: 3 )
+lifecycle-class = &( ephemeral: 1, persistent: 2 )
+
+subagent = {
+  1 => tstr,                ; subagent_ref, unique within the parent
+  2 => tstr,                ; function, as declared
+  ? 3 => COSE_Key,          ; subagent_key
+  ? 4 => [ + runtime-identity ]  ; runtime_identities
+}
 
 harness = {
   1 => tstr,                ; name
   2 => tstr,                ; version
-  ? 3 => digest             ; digest of the harness binary/image
+  ? 3 => digest             ; digest: of the harness binary/image
 }
 
 model-binding = {
-  1 => binding-mode,
+  1 => binding-mode,        ; mode
   ? 2 => digest,            ; weights_digest (mode 1 only)
   ? 3 => tstr,              ; model_id as named by the provider
   ? 4 => tstr,              ; provider
-  ? 5 => bstr               ; tee_evidence: digest of or reference
+  ? 5 => bstr,              ; tee_evidence: digest of or reference
                             ; to RATS Evidence (mode 3 only)
+  ? 6 => digest             ; provider_statement_digest
 }
 binding-mode = &( weights-digest: 1, api: 2, api-tee: 3 )
 ~~~
 
 The binding modes have the following meaning. `weights-digest`: the Harness loads the model locally and `weights_digest` commits to the weights. `api`: the model is invoked through a remote API; only `model_id` and `provider` are known. `api-tee`: as `api`, but the provider supplies attestation Evidence for the serving environment, referenced by `tee_evidence`. Relying Parties MUST NOT infer from mode `api` anything about which model actually served a request; only the provider's claim is recorded.
 
-`logical_agent_id` is the persistent identifier of the Logical Agent. It MUST be a Workload Identifier {{I-D.ietf-wimse-identifier}} or a `did:web` identifier {{DID-WEB}}; this profile MUST NOT be used with a newly minted identifier scheme for this purpose. `responsible_entity` names the accountable party; a natural person is hashed as described in {{privacy}}. `runtime_identities` lists every identifier under which the agent may produce Execution Receipts while this credential is valid, each with its scheme, trust domain and validity window. The `agent_id` in key 2 MUST appear in `runtime_identities`. `lifecycle_class` is `ephemeral` for an agent instantiated for one Task, `persistent` for a long-running agent, and `derived` for an agent spawned by another agent; a `derived` agent MUST carry `derived_from` set to the `logical_agent_id` of its parent, and its assurance level ({{assurance}}) MUST NOT exceed its parent's.
+`registration_digest` names the Agent Registration Statement in force. `logical_agent_id` and `responsible_entity` MUST equal those of that registration. `provider_statement_digest`, where present, names the Model Provider Statement for the bound model and MUST be among the registration's `provider_statement_digests`. `runtime_identities` lists every identifier under which the agent may produce Execution Receipts while this credential is valid, each with its scheme, trust domain and validity window. The `agent_id` in key 2 MUST appear in `runtime_identities`. `lifecycle_class` is `ephemeral` for an agent instantiated for one Task and `persistent` for a long-running agent. `subagents` lists the Sub-agents the agent may instantiate ({{subagents}}).
 
 An Agent Credential Statement is valid for Execution Receipts whose `ts` lies within its `validity`. Rotation of the agent key is performed by registering a new Agent Credential Statement; the old statement remains valid for receipts within its own window.
+
+### Sub-agents {#subagents}
+
+A Sub-agent acts under its parent's identity and credential; it is not separately registered. Each function a Sub-agent may perform MUST be declared in the parent's Capability Profile, so that the assessment covers it, and each Sub-agent MUST be listed in the parent's Agent Credential Statement with a `subagent_ref` unique within the parent and its declared `function`. A Sub-agent that runs as a separate workload SHOULD have its own `subagent_key` and Runtime Identities, so that compromise of one Sub-agent does not expose the parent's key. Every Execution Receipt produced for a Sub-agent carries `subagent` ({{receipt}}), so that each action is attributable to a specific Sub-agent and function. A Sub-agent's work is a Task delegated from a Task of its parent ({{chain}}). An agent that outlives its parent, or that serves other agents, is not a Sub-agent and MUST be registered in its own right.
+
+## Serving Party Credential Statement {#serving}
+
+A Serving Party that is itself an agent uses its Agent Credential Statement. A Serving Party that is not an agent scopes its Evidence Chain with a Serving Party Credential Statement, whose Issuer is the Serving Party's operator.
+
+~~~ cddl
+serving-party-credential = {
+  1 => 10,                  ; aee-type
+  2 => tstr,                ; service_id (see {{ids}})
+  3 => COSE_Key,            ; service_key
+  4 => principal,           ; responsible_entity
+  5 => validity,            ; validity
+  ? 6 => [ + runtime-identity ]  ; runtime_identities
+}
+~~~
+
+The `agent_id` of each receipt in the chain carries the `service_id` or one of the listed `runtime_identities`. A Serving Party Credential is not registered by an Agent Registration Authority; the Serving Party identifies itself under its own domain.
 
 ## Policy Pack Statement {#pack}
 
@@ -552,7 +808,7 @@ layer = &( jurisdiction: 1, sector: 2, institution: 3,
            deployment: 4 )
 ~~~
 
-Policy Packs form a chain from the most general to the most specific layer (jurisdiction, sector, institution, deployment). A pack with a `parent_pack_digest` MUST have a `layer` strictly greater than its parent's. A child pack MAY only tighten: for every Decision Point and every input, the decision under the child MUST NOT be less restrictive than under any ancestor, with restrictiveness ordered `block` > `confirm` > `record` > `allow` ({{receipt}}). A Relying Party MUST walk the parent chain to a root and verify that every pack is registered ({{verification}}); whether a child semantically tightens its parent cannot be established offline from digests, and an Assurance Statement ({{assurance}}) is how a party asserts it.
+Policy Packs form a chain from the most general to the most specific layer (jurisdiction, sector, institution, deployment). A pack with a `parent_pack_digest` MUST have a `layer` strictly greater than its parent's. A child pack can only tighten: for every Decision Point and every input, the decision under the child MUST NOT be less restrictive than under any ancestor, with restrictiveness ordered `block` > `confirm` > `record` > `allow` ({{receipt}}). A Relying Party MUST walk the parent chain to a root and verify that every pack is registered ({{verification}}); whether a child semantically tightens its parent cannot be established offline from digests, and an Assurance Statement ({{assurance}}) is how a party asserts it.
 
 ## Configuration Integrity Statement {#config}
 
@@ -579,8 +835,7 @@ config-class = &(
   hook:             4,
   mcp_config:       5,
   tool_manifest:    6,
-  tool_description: 7,
-  memory:           8
+  tool_description: 7
 )
 
 config-drift = {
@@ -600,7 +855,9 @@ drift-entry = [
 ]
 ~~~
 
-`config_digest` is computed over the canonical CBOR encoding (or the JCS encoding, in the JSON form) of the `entries` array alone. It is the value that Execution Receipts reference.
+Memory written by the agent at runtime is not configuration: it changes between and within Tasks, and committing it here would require new statements before every call. It is committed per Task instead, by `memory_digest` ({{receipt}}). Operator-authored seed memory files MAY be listed as `instruction_file` entries.
+
+`config_digest` is computed over the canonical CBOR encoding (or the JCS encoding, in the JSON form) of the `entries` array alone. It is the value that Execution Receipts reference. A Decision Point MUST block a call to a tool absent from the tool manifest committed by the configuration in force.
 
 ### Unicode Normalization Before Digesting {#normalization}
 
@@ -612,7 +869,7 @@ A Configuration Drift Statement SHOULD be issued whenever a new Configuration In
 
 ## Execution Receipt Statement {#receipt}
 
-An Execution Receipt is the per-call record. One is produced at every Decision Point for every call, whatever the decision, including blocked calls. Its Issuer, when registered individually, is the Evidence Service.
+An Execution Receipt is the per-call record. One is produced at every Decision Point for every call, whatever the decision, including blocked calls; a refused call is recorded with the `record_type` of the action refused. Its Issuer, when registered individually, is the Evidence Service.
 
 ~~~ cddl
 execution-receipt = {
@@ -627,14 +884,24 @@ execution-receipt = {
   8 => digest,              ; config_integrity_digest in force
   9 => tstr,                ; agent_id: Runtime Identity in force
   10 => principal,          ; principal
-  11 => uint,               ; task_seq, per Task, from 0
+  11 => uint,               ; task_seq: seq of the Task's task_start
   ? 12 => digest,           ; request_digest
   ? 13 => digest,           ; response_digest
   14 => uint,               ; ts, milliseconds since the Unix epoch
   ? 15 => bstr .cbor COSE_Sign1,  ; agent_sig (per-call signature)
   ? 16 => tstr,             ; target: model_id or tool name
-  ? 17 => tstr,             ; egress_host (lowercase host, no port)
-  ? 18 => decision-point    ; decision_point
+  ? 17 => tstr,            ; egress_host (lowercase A-label, no port)
+  ? 18 => decision-point,   ; decision_point
+  ? 19 => uint,             ; confirm_seq: the confirm it resolves
+  ? 20 => tstr,             ; caller_agent_id (admission only)
+  ? 21 => caller-ref,       ; caller_ref (admission only)
+  ? 22 => admission-basis,  ; admission_basis (admission only)
+  ? 23 => [ + tstr ],       ; actor_chain, least recent first
+  ? 24 => bstr .size 32,    ; principal_link
+  ? 25 => tstr,             ; txn: transaction identifier
+  ? 26 => digest,           ; memory_digest (task_start, task_end)
+  ? 27 => subagent-ref,     ; subagent
+  ? 28 => uint              ; delegated_from (task_start only)
 }
 record-type = &(
   task_start:  1,
@@ -642,10 +909,32 @@ record-type = &(
   inference:   3,
   tool_call:   4,
   tool_result: 5,
-  egress:      6
+  egress:      6,
+  admission:   7
 )
 decision = &( allow: 1, block: 2, confirm: 3, record: 4 )
-decision-point = &( model: 1, tool: 2, network: 3 )
+decision-point = &( model: 1, tool: 2, network: 3, ingress: 4 )
+
+caller-ref = {
+  1 => tstr,                ; evidence_service: the caller's
+                            ; Evidence Service (its Issuer)
+  2 => uint,                ; seq of the caller's receipt
+  3 => bstr .size 32        ; record_hash of the caller's receipt
+}
+admission-basis = {
+  ? 1 => digest,            ; assurance_statement_digest
+  ? 2 => 1..4,              ; assurance_level relied on
+  3 => uint,                ; status_checked_at, seconds since
+                            ; the Unix epoch
+  ? 4 => uint,              ; status_value observed
+  ? 5 => digest,            ; registration_digest
+  ? 6 => digest             ; token_digest of the token presented
+}
+subagent-ref = {
+  1 => tstr,                ; subagent_ref
+  2 => tstr,                ; function
+  ? 3 => uint               ; instance
+}
 ~~~
 
 The members have the following semantics.
@@ -654,22 +943,26 @@ The members have the following semantics.
 : Define the Evidence Chain ({{chain}}).
 
 `record_type`:
-: `task_start` and `task_end` delimit a Task; `inference` records one model request/response pair; `tool_call` and `tool_result` record a tool invocation and its result; `egress` records a network connection made by a tool or by the Harness on the agent's behalf.
+: `task_start` and `task_end` delimit a Task; `inference` records one model request/response pair; `tool_call` and `tool_result` record a tool invocation and its result; `egress` records a network connection made by a tool or by the Harness on the agent's behalf; `admission` records a Serving Party's decision on a call it received ({{admission}}).
 
 `parent_seq`:
-: For `tool_call`, the `seq` of the `inference` receipt whose response requested the call; for `tool_result`, that of the corresponding `tool_call`; for `egress`, that of the `tool_call` (or `inference`) that caused it. It MUST be less than `seq` and MUST reference a receipt of the required type. This is the causal link between what the model asked for and what the Harness did.
+: For `tool_call`, the `seq` of the `inference` receipt whose response requested the call; for `tool_result`, that of the corresponding `tool_call` (for a confirmed call, its `allow` outcome); for `egress`, that of the `tool_call` (or `inference`) that caused it; for a `task_start` caused by an admitted call, that of the `admission` receipt. It MUST be less than `seq` and MUST reference a receipt of the required type. This is the causal link between what the model asked for and what the Harness did.
 
 `decision`:
-: `allow`: the call proceeded. `block`: refused by policy. `confirm`: confirmation from a Principal or operator was required and obtained; a `confirm` receipt MUST be followed, before the corresponding `tool_result`, by a `tool_call` receipt for the same target with decision `allow` and the same `parent_seq`, or the call is to be read as not having proceeded. `record`: proceeded without policy evaluation.
+: `allow`: the call proceeded. `block`: refused by policy. At the model door a `block` can follow forwarding when the decision depends on the response, for example when the responding model is not permitted or concurrent calls exceeded a limit; the response is then not passed to the agent. `record`: proceeded without policy evaluation. A call that the Harness observes only after another party executed it, such as a tool a model platform ran server-side, MUST be recorded as `record`, never `allow` or `block`, because no decision preceded it.
+: `confirm`: policy required confirmation from a Principal or operator before the call could proceed. It appears only on `tool_call` receipts. A `confirm` receipt MUST be followed by exactly one `tool_call` receipt with the same `parent_seq`, `target`, `request_digest` and Task that records the outcome: `allow` if confirmation was granted, or `block` if it was refused, not given before its deadline, could not be obtained, or was overridden by an operator halt. Until its outcome is recorded, the call is to be read as not having proceeded. An outcome MUST carry `confirm_seq` naming the `confirm` it resolves; a `tool_call` without `confirm_seq` is not an outcome. A `tool_result` for the call MUST NOT precede an `allow` outcome. A Task MUST NOT end while a `confirm` in it awaits its outcome; when a Task is closed, or the session is lost, with a `confirm` pending, the Evidence Service records the outcome as `block` first.
+
+`confirm_seq`:
+: On an outcome, the `seq` of the `confirm` receipt it resolves. It MUST name an earlier `confirm` receipt with the same `parent_seq`, `target`, `request_digest` and Task, and MUST NOT appear on any other receipt.
 
 `policy_pack_digest`, `config_integrity_digest`:
 : The `pack_digest` and `config_digest` in force at the time of the call. Both MUST be present in every receipt, so that one receipt with its Bundle states the rules and configuration it was produced under.
 
 `agent_id`:
-: The Runtime Identity under which the agent is authenticating at the time of the call. It MUST be listed in `runtime_identities` of the governing Agent Credential Statement with a validity window containing `ts`. Receipts of one chain MAY carry different `agent_id` values as the agent moves between environments; the chain, not the identifier, is the unit of continuity.
+: The Runtime Identity under which the agent, or the Sub-agent named by `subagent`, is authenticating at the time of the call. It MUST be listed, with a validity window containing `ts`, in `runtime_identities` of the governing Agent Credential Statement or of the named Sub-agent's entry in it. On a Serving Party's chain it is the `service_id` or one of its `runtime_identities`. Receipts of one chain MAY carry different `agent_id` values as the agent moves between environments; the chain, not the identifier, is the unit of continuity. A Policy Pack MAY require `agent_id` to be constant within a Task.
 
 `request_digest`, `response_digest`:
-: Digests of the request and response octets as seen at the Decision Point: the model request and response for `inference`, the arguments and returned value for tool records. Content MUST NOT be included in a receipt ({{privacy}}).
+: Digests of the request and response octets as seen at the Decision Point: the model request and response for `inference`, the arguments and returned value for tool records. `response_digest` commits to the octets as received, before the Harness alters, truncates or withholds anything it passes to the agent. Digests require no parsing: a forwarded call whose response is an error, malformed or unparsable MUST still be recorded, with `response_digest` over the octets received, or absent if none were received. Content MUST NOT be included in a receipt ({{privacy}}).
 
 `ts`:
 : Time of production. Receipts in a chain MUST be non-decreasing in `ts`.
@@ -678,13 +971,58 @@ The members have the following semantics.
 : A COSE_Sign1 with detached payload, signed with the credential's `agent_key`, whose Sig_structure payload is the canonical encoding of the receipt map without key 15; its CWT Claims carry the agent identifier in `iss` and `sub`. It distinguishes a receipt the agent itself authorized from one the Harness recorded unilaterally, and MUST be verified when present.
 
 `target`, `egress_host`:
-: The `model_id` or tool name; and, for `egress`, the host connected to. Recording the host, not merely the decision, is what makes the exfiltration class in {{security}} detectable after the fact.
+: The `model_id` or tool name, or for `admission` the operation requested; and, for `egress`, the host connected to. Recording the host, not merely the decision, is what makes the exfiltration class in {{security}} detectable after the fact.
+
+`caller_agent_id`, `caller_ref`, `admission_basis`:
+: See {{admission}} and {{linking}}.
+
+`actor_chain`, `principal_link`, `txn`:
+: The Actor Chain, Principal Link and transaction identifier of the call, on a `tool_call` or `egress` receipt for a call to another party and on an `admission` receipt ({{linking}}). `txn` has the meaning of the `txn` claim of {{I-D.ietf-oauth-transaction-tokens}}. It answers the "transaction or request correlation identifier" required by Section 11 of {{I-D.ietf-wimse-aims}}.
+
+`memory_digest`:
+: On `task_start` and `task_end`, a digest of the agent's memory state at that point, computed over a canonical serialization defined by the Harness and named in its published configuration. Changes between Tasks are thereby visible and attributable without blocking calls.
+
+`subagent`:
+: On every receipt produced for a Sub-agent, its `subagent_ref` and `function`, which MUST match an entry of the governing Agent Credential Statement, and optionally an `instance` number distinguishing concurrent instances. `agent_sig` on such a receipt is made with the Sub-agent's `subagent_key` where one is listed.
+
+`delegated_from`:
+: On a `task_start`, the `seq` of the `task_start` of the Task from which this Task was delegated within the same chain, for example to a Sub-agent ({{chain}}).
 
 ### Evidence Chain {#chain}
 
-The record-hash of an Execution Receipt is SHA-256 over its canonical encoding (canonical CBOR, or JCS for the JSON form), including key 15 when present. An Evidence Chain is scoped to one Agent Credential Statement and MUST begin with a receipt of `seq` 0 whose `prev_hash` is 32 zero octets. Each subsequent receipt carries in `prev_hash` the record-hash of the receipt with `seq` one less. `seq` MUST increase by exactly one. A receipt whose `prev_hash` does not match is not part of the chain.
+The record-hash of an Execution Receipt is SHA-256 over its canonical encoding (canonical CBOR, or JCS for the JSON form), including key 15 when present. An Evidence Chain is scoped to one Agent Credential or Serving Party Credential Statement and MUST begin with a receipt of `seq` 0 whose `prev_hash` is 32 zero octets. Each subsequent receipt carries in `prev_hash` the record-hash of the receipt with `seq` one less. `seq` MUST increase by exactly one. A receipt whose `prev_hash` does not match is not part of the chain.
 
-The `task_seq` counter restarts at 0 at each `task_start`. Receipts of different Tasks MAY interleave in one chain; `task_seq` together with the enclosing `task_start` identifies the Task.
+`task_seq` names the Task: it is the `seq` of the `task_start` receipt that opened it, and a `task_start` carries its own `seq`. Every other receipt MUST name an earlier `task_start` with decision `allow` whose Task has not ended; a Task has at most one `task_end`, and no receipt names a Task after it. A receipt's parent MUST belong to the same Task, except that the parent of a `task_start` caused by an admitted call is that `admission` receipt; every receipt of a Task MUST carry the `principal` of its `task_start`. Receipts of different Tasks MAY interleave in one chain. An `admission` receipt belongs to no Task: its `task_seq` equals its own `seq`, and the Task rules do not apply to it.
+
+A Task with `delegated_from` is a delegated Task. Its `task_start` MUST name an earlier `task_start` of a Task that has not ended, and MUST carry the same `principal` as that Task. Its `policy_pack_digest` MUST equal the parent Task's or name a registered pack whose parent chain ({{pack}}) includes the parent Task's pack, so that the delegated Task's policy descends from the parent's; that a descendant is semantically stricter is asserted as described in {{pack}}. Whether its effective scope is no wider than the parent's cannot yet be checked mechanically ({{open-issues}}).
+
+### Admission {#admission}
+
+An Ingress Decision Point produces an `admission` receipt, with `decision_point` `ingress`, for every call it receives, whatever the decision. Its `decision` is `allow` or `block`; a refused call is recorded as `block`. The receipt records:
+
+* `caller_agent_id`: the Calling Agent's identity, where it was authenticated on the call;
+* `principal`: the Principal asserted by the Calling Agent, as the Serving Party validated it, hashed with the Serving Party's pepper if a natural person;
+* `target` and `request_digest`: the operation requested and the request as received;
+* `caller_ref`, `actor_chain`, `principal_link` and `txn`, where received ({{linking}}); and
+* `admission_basis`: what the decision relied on. A Serving Party that enforces assurance MUST record it on every `allow`, with the Assurance Statement and level relied on, the registration, and when the status was checked and the value observed; it SHOULD also record a digest of the token presented.
+
+A Serving Party MUST NOT admit an operation beyond what its policy permits for the principal of the transaction and for every Actor in `actor_chain`. This goes beyond {{Section 4.1 of RFC8693}}, under which prior actors are informational only: under this profile a Serving Party evaluates every Actor, because authority that widened at any hop is not narrowed by later ones. The status of the Calling Agent's Assurance Statement and registration MUST be no older than the freshness the Serving Party's policy requires when the decision is taken. An agent whose Assurance Statement is RESTRICTED ({{supervision}}) is admitted only for operations within the restricted class.
+
+### Linking Records Across Calls {#linking}
+
+A Calling Agent's `tool_call` or `egress` receipt for a call to another party carries `txn`, `principal_link` and `actor_chain`. The Actor Chain is the one the Calling Agent received with the request it is serving, or empty if it originated the request, with its own `agent_id` appended. The Serving Party's `admission` receipt for the call carries the same values and a `caller_ref` naming the Calling Agent's receipt. The following rules apply:
+
+1. `caller_ref` names a `tool_call` receipt with decision `allow` (for a confirmed call, its `allow` outcome) or an `egress` receipt, by the Issuer of the caller's Evidence Service, its `seq` and its record-hash. At most one `admission` receipt names any one caller receipt.
+
+2. The caller receipt's `ts` is not later than the admission receipt's `ts` plus a clock-skew allowance stated in the Serving Party's Policy Pack.
+
+3. `principal_link` is SHA-256 over the octets of the token by which the Calling Agent presents the Principal's delegation on the call; for HTTP, the access token in the `Authorization` header field, not a Workload Identity Token or proof token. Both parties compute it from the same octets, so they are equal for the same call, while neither reveals the Principal. The caller's and the Serving Party's `principal` values differ when their peppers differ.
+
+4. `txn` is equal on both sides and on every receipt the call causes, across the whole Call Chain.
+
+5. `actor_chain` is equal on both sides, and its last entry equals both the admission's `caller_agent_id` and the caller receipt's `agent_id`. A Serving Party that is itself an agent appends its own `agent_id` on the calls it makes in the Task the admission caused.
+
+A Calling Agent transmits these values with each call by means outside this document; {{I-D.thaha-wimse-agent-evidence-binding}} defines them for HTTP. Records linked in this way form Linked Evidence Chains, verified as in {{linked-verification}}.
 
 ### Execution Epoch Statement {#epoch}
 
@@ -705,7 +1043,7 @@ execution-epoch = {
 
 `epoch_root` is the Merkle Tree Hash, as defined in {{Section 2.1.1 of RFC9162}} with SHA-256, over the ordered record-hashes of receipts `first_seq` through `last_seq`. Because receipts are also hash-chained, `first_prev_hash` and `last_hash` allow adjacent epochs to be checked for continuity without their contents. A Relying Party in possession of a subset of an epoch's receipts verifies them with an inclusion path against `epoch_root`, using the inclusion proof algorithm of {{Section 2.1.3 of RFC9162}}.
 
-Epochs of one chain MUST NOT overlap and MUST be registered in order. An Evidence Service SHOULD close an epoch at every `task_end` and at a bounded interval, so that the time between a call and its appearance in the TS is bounded. That interval is an operational parameter that a Relying Party MAY require to be stated in a Policy Pack.
+Epochs of one chain MUST NOT overlap and MUST be registered in order, and all carry in key 2 the `agent_id` of key 2 of the credential that scopes the chain, whatever Runtime Identity individual receipts carry, so that the continuity check of {{regpol}} applies to the whole chain. An Evidence Service SHOULD close an epoch at every `task_end` and at a bounded interval, so that the time between a call and its appearance in the TS is bounded. That interval is an operational parameter that a Relying Party MAY require to be stated in a Policy Pack.
 
 ## Assurance Statement {#assurance}
 
@@ -729,7 +1067,8 @@ assurance = {
   13 => assessed-scope,     ; assessed_scope
   14 => risk-assessment,    ; risk_assessment
   ? 15 => monitoring-summary, ; monitoring_summary
-  16 => tstr                ; logical_agent_id
+  16 => tstr,               ; logical_agent_id
+  ? 17 => digest            ; independence_declaration_digest
 }
 assessed-scope = {
   1 => digest,              ; capability_profile_digest
@@ -780,11 +1119,11 @@ revocation = {
 }
 ~~~
 
-The `assessor` value MUST equal the `iss` value in the protected CWT Claims of the Assurance Statement. The COSE signature therefore authenticates the identified Agent Assurance Assessor as the Issuer. The JSON member names for keys 12 through 16 are `assurance_level`, `assessed_scope`, `risk_assessment`, `monitoring_summary` and `logical_agent_id`. The last MUST equal the referenced credential's `logical_agent_id`. The scope digests commit to the agent's effective models, tools, data, permissions and delegation powers. The approved model scope MUST identify each model by a dated version identifier, never by an alias that the provider can repoint, and by weights digest where the weights are available to the deployer. A change to either is a material change. `capability_profile_digest` commits to the complete capability profile, including the declared purpose, objectives and intended use repeated in keys 5 through 7. This profile defines the required coverage but not the document formats or a universal capability taxonomy.
+The `assessor` value MUST equal the `iss` value in the protected CWT Claims of the Assurance Statement. The COSE signature therefore authenticates the identified Agent Assurance Assessor as the Issuer. The JSON member names for keys 12 through 17 are `assurance_level`, `assessed_scope`, `risk_assessment`, `monitoring_summary`, `logical_agent_id` and `independence_declaration_digest`. `logical_agent_id` MUST equal the referenced credential's `logical_agent_id`, and `capability_profile_digest` MUST equal that of the Agent Registration Statement the credential names, so that the agent is assessed against what was registered. The scope digests commit to the agent's effective models, tools, data, permissions and delegation powers. The approved model scope MUST identify each model by a dated version identifier, never by an alias that the provider can repoint, and by weights digest where the weights are available to the deployer. A change to either is a material change. `capability_profile_digest` commits to the complete capability profile, including the declared purpose, objectives and intended use repeated in keys 5 through 7. This profile defines the required coverage but not the document formats or a universal capability taxonomy.
 
-`scheme_id` identifies the risk-classification method and `tier` is meaningful only within that scheme. This profile does not define a universal risk scale. The scheme SHOULD consider autonomy, effective capabilities, access to sensitive data or resources, delegation powers, potential consequences and control effectiveness. `higher_risk` is the Agent Assurance Assessor's explicit determination that the independent-assessment and monitoring rules below apply; `risk_assessment_digest` commits to its rationale and inputs.
+`scheme_id` identifies a risk-classification scheme published by a Supervisory Authority ({{supervision}}), and `tier` is meaningful only within that scheme. This profile does not define a universal risk scale. The scheme SHOULD consider autonomy, persistence (`lifecycle_class`), effective capabilities, access to sensitive data or resources, delegation powers, potential consequences and control effectiveness. The Agent Assurance Assessor applies the scheme; it does not define it. Any single trigger the scheme defines is sufficient to place an agent in the tier it names, and a tier can be raised but not lowered by the assessor. `higher_risk` records that, under the scheme, the independent-assessment and monitoring rules below apply; `risk_assessment_digest` commits to the rationale and inputs.
 
-`monitoring_summary` is backward-looking. It states the completed monitoring period, coverage, maximum interval between reviews, evidence commitment, detected deviations and resulting disposition. The evidence MUST support monitoring for deviations from the assessed scope and approved controls, including policy violations and unexpected behaviour. A non-zero `deviation_count` requires `findings_digest`. The full findings MUST be investigated under the named suite; the summary intentionally avoids publishing sensitive operational details.
+`monitoring_summary` is backward-looking. It states the completed monitoring period, coverage, maximum interval between reviews, evidence commitment, detected deviations and resulting disposition. The evidence MUST support monitoring for deviations from the assessed scope and approved controls, including policy violations and unexpected behaviour. A non-zero `deviation_count` requires `findings_digest`. The full findings MUST be investigated under the named suite; the summary intentionally avoids publishing sensitive operational details. A `disposition` other than `continue` means that the assessor no longer supports the assessment. Where a Supervisory Authority is designated for the scheme, the assessor reports `suspend` and `withdraw` dispositions to it, and the Supervisory Authority sets the status or withdraws the statement ({{supervision}}).
 
 ### Agent Identity Assurance Levels (AIAL)
 
@@ -796,23 +1135,36 @@ The `assessor` value MUST equal the `iss` value in the protected CWT Claims of t
 | 4 | Level 3 plus continuing operational monitoring, including registered Evidence Chains, for the stated period and coverage. |
 {: title="Agent Identity Assurance Levels (AIAL)"}
 
-The `assurance_level` value is an Agent Identity Assurance Level (AIAL). These levels grade the assessment of an agent's purpose, capabilities, deployment and controls. They are not the Authenticator Assurance Levels of {{NIST.SP.800-63-4}}, do not express authentication strength, and SHOULD NOT be abbreviated as "AAL". As the name indicates, they are closest in role to that guideline's Identity Assurance Levels, which grade proofing before a credential is issued. Following the same separation, this profile treats assessment depth, the strength of the binding between an agent and its credential key, and the security of identity propagation as independent dimensions. A level carries no statement about how the credential key is protected; a Relying Party that requires a hardware-bound or attested key MUST require it separately in policy, for example through accepted RATS Evidence about key storage.
+The `assurance_level` value is an Agent Identity Assurance Level (AIAL). These levels grade the assessment of an agent's purpose, capabilities, deployment and controls. They are not the Authenticator Assurance Levels of {{NIST.SP.800-63-4}}, do not express authentication strength, and SHOULD NOT be abbreviated as "AAL". "Identity" is in the name because the levels attach to an identified, registered Logical Agent ({{identification}}); they are closest in role to that guideline's Identity Assurance Levels, which grade proofing before a credential is issued. Following the same separation, this profile treats assessment depth, the strength of the binding between an agent and its credential key, and the security of identity propagation as independent dimensions. A level carries no statement about how the credential key is protected, nor about how the operator was verified; a Relying Party that requires a hardware-bound or attested key MUST require it separately in policy, for example through accepted RATS Evidence about key storage. A jurisdiction's profile MAY set key-custody and operator-verification requirements alongside a minimum level, as separate requirements.
 
-At levels 3 and 4, the Agent Assurance Assessor MUST be a Third-Party Agent Assurance Assessor, and `assessor` MUST differ from the credential's `responsible_entity`. Identifier inequality is mechanically checkable but does not prove organizational independence. A `derived` agent's level MUST NOT exceed its parent's. Assessor recognition, suite suitability and accreditation remain Relying Party policy; the numbers have no meaning beyond this section.
+At levels 3 and 4, the Agent Assurance Assessor MUST be a Third-Party Agent Assurance Assessor and MUST include `independence_declaration_digest`, committing to its signed declaration that it is independent of the Responsible Entity and the operator. Where the registered `responsible_entity` is an organization, `assessor` MUST also differ from it. A natural-person `responsible_entity` is a peppered digest that can never equal an assessor identifier, so no comparison is made in that case. Neither the declaration nor identifier inequality proves organizational independence; that remains a matter for the Supervisory Authority's accreditation of assessors. A Sub-agent has no level of its own: it operates under its parent's. Assessor recognition, suite suitability and accreditation remain Relying Party policy; the numbers have no meaning beyond this section.
 
 At levels 3 and 4, accepted RATS Evidence and any resulting Attestation Results are the technical runtime evidence base for the independent assessment. The Third-Party Agent Assurance Assessor MAY perform the RATS Verifier role or consume Attestation Results from an accepted RATS Verifier. It MUST also evaluate the declared capability profile, deployment and controls; acceptance of RATS Evidence alone does not establish either level.
 
-For `higher_risk` agents, a `pass` result MUST use level 4, include a `monitoring_summary`, use status checking, and have disposition `continue`. Before a required monitoring period is complete, the result MUST be `partial`, not `pass`. The Agent Assurance Assessor MUST issue a replacement statement at the required review frequency. A material change to purpose, capabilities, policy, configuration, deployment, controls or identity binding requires reassessment. A disposition of `reassess`, `suspend` or `withdraw` invalidates operational assurance until the required action is complete; `suspend` and `withdraw` MUST also be reflected through {{revocation}}.
-
-A deviation detected during monitoring MUST result in immediate suspension: the status of the Assurance Statement MUST be set to `0x02` (SUSPENDED) without waiting for the next replacement statement or the end of the monitoring period. Suspension is temporary and is lifted only by restoring the status after the deviation is resolved, or by a replacement statement. While a statement is suspended, a Decision Point that enforces assurance MUST refuse further model and tool calls by the agent, and a Relying Party MUST NOT accept the agent's operational assurance.
+For `higher_risk` agents, a `pass` result MUST use level 4, include a `monitoring_summary`, use status checking, and have disposition `continue`. Before a required monitoring period is complete, the result MUST be `partial`, not `pass`. The Agent Assurance Assessor MUST issue a replacement statement at the required review frequency. A material change to purpose, capabilities, policy, configuration, deployment, controls or identity binding requires reassessment. A Relying Party MUST NOT accept operational assurance from a statement whose disposition is `reassess`, `suspend` or `withdraw`; the status and withdrawal that follow are set as described in {{supervision}} and {{revocation}}.
 
 Higher-risk agents therefore require independent assessment and continuing operational monitoring. Assurance remains valid only while the applicable assessment, monitoring and reassessment requirements are satisfied. Each `monitoring_summary` covers a completed observation window, and replacement statements make monitoring continuing rather than a one-time probation period. Monitoring is an additional safeguard after the initial risk-based audit; it does not guarantee that an agent will never act maliciously. Its value depends on what the Harness and external evidence sources can observe and how reliably approved controls are enforced.
 
-### Revocation
+### Supervision {#supervision}
 
-An Assurance Statement is revocable by either of two mechanisms, and an Agent Assurance Assessor MUST support at least one: a Token Status List {{I-D.ietf-oauth-status-list}} referenced from key 11, in which status `0x01` (INVALID) or `0x02` (SUSPENDED) withdraws the statement; or a Revocation Statement with the same Issuer registered on the same TS, whose `subject_digest` equals the digest of the Assurance Statement payload. A Revocation Statement MAY also revoke an Agent Credential Statement or a Policy Pack Statement.
+The party that grants assurance does not monitor and act on its own grant: an assessor that suspended or restored its own statement would be judging its own decision. A Relying Party's policy, and where applicable a TS's Registration Policy, designates for each `scheme_id` the Issuer that acts as its Supervisory Authority. Where one is designated:
 
-Reason code 3 (`withdrawn`) records an adverse finding. Reason code 5 (`closed`) records an administrative retirement with no adverse finding, for example an agent retired by its Responsible Entity or an expired licence that was not renewed. An agent is closed by a Revocation Statement with reason code 5 that revokes its Agent Credential Statement; the Issuer of that credential issues it at the direction of the Responsible Entity. Relying Parties MUST NOT treat `closed` as evidence of misconduct. `withdrawn` and `closed` are final: a closed or withdrawn agent can operate again only under a new Agent Credential Statement and a new assessment. Suspension through the status list is the only reversible state.
+* it publishes the scheme, including its risk triggers and the deviation classes that require immediate suspension;
+* the Token Status List referenced by an Assurance Statement under the scheme MUST be issued by it;
+* only it sets RESTRICTED or SUSPENDED, restores VALID, and withdraws an Assurance Statement under the scheme; and
+* the Agent Assurance Assessor issues verdicts and monitoring summaries and reports deviations to it.
+
+A deviation detected during monitoring MUST be reported to the Supervisory Authority. For deviation classes the scheme marks as requiring it, the Supervisory Authority MUST suspend at once. For others it MAY first restrict the agent, and suspend once the deviation is confirmed, so that a single unverified finding does not take an agent offline. Where no Supervisory Authority is designated, the Agent Assurance Assessor performs these functions, and a Relying Party MAY refuse assurance under such a scheme.
+
+RESTRICTED is Status Type `0x03`, which {{Section 7.1 of I-D.ietf-oauth-status-list}} reserves as application specific; this profile defines its meaning. A status list that can carry it MUST use `bits` of at least 2. While a statement is RESTRICTED, a Decision Point or Serving Party that enforces assurance MUST refuse operations above the risk class the scheme defines for restriction, and SHOULD let in-flight Tasks reach a safe end. While a statement is SUSPENDED, a Decision Point that enforces assurance MUST refuse further model and tool calls by the agent, a Serving Party that enforces assurance MUST refuse its calls, and a Relying Party MUST NOT accept the agent's operational assurance. Restriction and suspension are lifted only by restoring the status to VALID, or by a replacement statement.
+
+A Supervisory Authority acting beyond its scheme, or whose key is compromised, can restrict or suspend any agent assessed under that scheme. Relying Parties accept a Supervisory Authority only for the schemes it is designated for.
+
+### Revocation {#revocation}
+
+An Assurance Statement is revocable by either of two mechanisms, and a deployment MUST support at least one: a Token Status List {{I-D.ietf-oauth-status-list}} referenced from key 11, in which status `0x01` (INVALID) withdraws the statement and `0x02` (SUSPENDED) or `0x03` (RESTRICTED) limits it ({{supervision}}); or a Revocation Statement registered on the same TS whose `subject_digest` equals the digest of the Assurance Statement payload, issued by the Supervisory Authority designated for its scheme or by the Assurance Statement's Issuer. Where a Supervisory Authority is designated, the assessor's own Revocation Statements are limited to reason codes 1 (`key-compromise`) and 2 (`superseded`). A Revocation Statement MAY also revoke an Agent Registration, Model Provider, Agent Credential, Serving Party Credential or Policy Pack Statement, issued by that statement's Issuer.
+
+Reason code 3 (`withdrawn`) records an adverse finding. Reason code 5 (`closed`) records an administrative retirement with no adverse finding, for example an agent retired by its Responsible Entity or a registration that expired without renewal. An agent is closed by a Revocation Statement with reason code 5 that revokes its Agent Registration Statement, issued by the Agent Registration Authority at the direction of the Responsible Entity or on expiry; the Issuer of each of its Agent Credential Statements likewise revokes them. Relying Parties MUST NOT treat `closed` as evidence of misconduct. `withdrawn` and `closed` are final: a closed or withdrawn agent can operate again only under a new registration and a new assessment. Restriction and suspension through the status list are the only reversible states.
 
 # Registration Policy {#regpol}
 
@@ -822,7 +1174,7 @@ All types:
 : The `aee_type` claim MUST match key 1 of the payload; the `content type` MUST be one of the statement media types of {{iana-media}}; and the payload MUST be well-formed. `sub` MUST match the type-specific subject defined in {{ids}}.
 
 Agent Credential (1):
-: `validity.nbf` MUST be less than `validity.exp`. The `agent_key` MUST be a COSE_Key whose `alg` is in the TS's accepted set. If the TS is configured to require it, `credential_ref` MUST be present. `agent_id` MUST appear in `runtime_identities`, and each entry's `valid_from` MUST be less than its `valid_until`. If `lifecycle_class` is `derived`, `derived_from` MUST be present and an Agent Credential Statement with that `logical_agent_id` MUST already be registered.
+: `validity.nbf` MUST be less than `validity.exp`. The `agent_key` MUST be a COSE_Key whose `alg` is in the TS's accepted set. If the TS is configured to require it, `credential_ref` MUST be present. `agent_id` MUST appear in `runtime_identities`, and each entry's `valid_from` MUST be less than its `valid_until`. An Agent Registration Statement whose payload digest equals `registration_digest` MUST already be registered, and its `logical_agent_id` and `responsible_entity` MUST equal this credential's. If present, `provider_statement_digest` MUST be among that registration's `provider_statement_digests`. `subagent_ref` values MUST be unique, and each Sub-agent's `runtime_identities` entries MUST have `valid_from` less than `valid_until`.
 
 Policy Pack (2):
 : If `parent_pack_digest` is present, a Policy Pack Statement whose `pack_digest` equals it MUST already be registered on this TS, and its `layer` MUST be strictly less than this pack's `layer`. The TS MUST NOT register a pack that references itself, directly or through its ancestors.
@@ -834,13 +1186,22 @@ Configuration Drift (4):
 : Configuration Integrity Statements with `config_digest` equal to `prev_config_digest` and to `new_config_digest` MUST both already be registered for the same `agent_id`.
 
 Execution Receipt (5) and Execution Epoch (6):
-: An Agent Credential Statement for `agent_id` with the same Issuer, or an Issuer the TS's policy accepts for that agent, MUST already be registered. A Policy Pack Statement with `pack_digest` equal to `policy_pack_digest` MUST already be registered. A Configuration Integrity Statement with `config_digest` equal to `config_integrity_digest` MUST already be registered, and its registration MUST precede this registration. For an Execution Epoch, `count` MUST equal `last_seq - first_seq + 1`, and if an epoch for the same `agent_id` and Issuer has already been registered, this epoch's `first_seq` MUST equal that epoch's `last_seq + 1` and its `first_prev_hash` MUST equal that epoch's `last_hash`. The TS cannot check receipt contents it does not see; the precedence and continuity checks are what it can and MUST enforce.
+: An Agent Credential or Serving Party Credential Statement for `agent_id` with the same Issuer, or an Issuer the TS's policy accepts for that agent, MUST already be registered. For an individually registered Execution Receipt, a Policy Pack Statement with `pack_digest` equal to `policy_pack_digest` MUST already be registered, and a Configuration Integrity Statement with `config_digest` equal to `config_integrity_digest` MUST already be registered, its registration preceding this registration. An Execution Epoch carries neither digest, so for receipts sealed in an epoch these two checks are made by the Relying Party ({{verification}}, steps 11 and 12). For an Execution Epoch, `count` MUST equal `last_seq - first_seq + 1`, and if an epoch for the same `agent_id` and Issuer has already been registered, this epoch's `first_seq` MUST equal that epoch's `last_seq + 1` and its `first_prev_hash` MUST equal that epoch's `last_hash`. The TS cannot check receipt contents it does not see; the precedence and continuity checks are what it can and MUST enforce.
 
 Assurance (7):
-: `assessor` MUST equal the protected `iss`. Statements whose payload digests equal `policy_pack_digest` and `config_integrity_digest` MUST already be registered on this TS. The referenced Agent Credential Statement MUST already be registered, and its `logical_agent_id` MUST match key 16 and `sub`. At operational assurance level 3 or 4, `assessor` MUST differ from its `responsible_entity`. A derived agent's level MUST NOT exceed its parent's. `validity.nbf` MUST be less than `validity.exp`; `scheme_id`, `tier`, `declared_purpose`, `objectives` and `intended_use` MUST be nonempty. If present, a monitoring period MUST end after it starts and `review_frequency` MUST be non-zero. A higher-risk `pass` MUST meet the level 4, monitoring, status and disposition requirements of {{assurance}}.
+: `assessor` MUST equal the protected `iss`. Statements whose payload digests equal `policy_pack_digest` and `config_integrity_digest` MUST already be registered on this TS. The referenced Agent Credential Statement MUST already be registered, its `logical_agent_id` MUST match key 16 and `sub`, and `capability_profile_digest` MUST equal that of the Agent Registration Statement it names. At operational assurance level 3 or 4, `independence_declaration_digest` MUST be present and, where the registered `responsible_entity` is an organization, `assessor` MUST differ from it. `validity.nbf` MUST be less than `validity.exp`; `scheme_id`, `tier`, `declared_purpose`, `objectives` and `intended_use` MUST be nonempty. If present, a monitoring period MUST end after it starts and `review_frequency` MUST be non-zero. A higher-risk `pass` MUST meet the level 4, monitoring, status and disposition requirements of {{assurance}}.
 
 Revocation (8):
-: A statement whose payload digest equals `subject_digest` MUST already be registered, and the Issuer of the Revocation Statement MUST be the Issuer of that statement.
+: A statement whose payload digest equals `subject_digest` MUST already be registered. The Issuer of the Revocation Statement MUST be the Issuer of that statement or, for an Assurance Statement, the Supervisory Authority that the TS's policy designates for its `scheme_id`.
+
+Agent Registration (9):
+: `logical_agent_id` MUST be a `did:web` identifier whose domain name equals the host of the protected `iss` ({{ids}}). `lineage_id` MUST be nonempty, and `validity.nbf` MUST be less than `validity.exp`. If `prior_registration_digest` is present, a registration with that payload digest and the same `lineage_id` MUST already be registered. If the TS's policy requires it, each of `provider_statement_digests` MUST name a registered Model Provider Statement.
+
+Serving Party Credential (10):
+: `validity.nbf` MUST be less than `validity.exp`, and the `service_key` MUST be a COSE_Key whose `alg` is in the TS's accepted set.
+
+Model Provider (11):
+: `model_id`, `provider` and `permitted_uses` MUST be nonempty.
 
 A TS MUST make these checks reproducible by Auditors as required by {{Section 5.1.1.2 of RFC9943}}; publishing the Registration Policy as a Signed Statement that cites this document by name and version is sufficient.
 
@@ -862,13 +1223,19 @@ inclusion-path = [
 ]
 ~~~
 
-Key 1 MUST contain, as Transparent Statements, the Agent Credential Statement (and its parent's, if `derived`), every Policy Pack Statement in the lineage of every `policy_pack_digest` in key 2, every Configuration Integrity Statement referenced, every Execution Epoch Statement covering a receipt in key 2 (or the receipt's own Transparent Statement), and any Assurance and Revocation Statements the producer wishes considered. Key 3 is REQUIRED for any receipt whose epoch is not wholly present in key 2. Key 4 carries a snapshot of each Status List Token referenced by an Assurance Statement, for offline evaluation as of the snapshot time.
+Key 1 MUST contain, as Transparent Statements, the Agent Credential or Serving Party Credential Statement, the Agent Registration Statement an Agent Credential names, every Policy Pack Statement in the lineage of every `policy_pack_digest` in key 2, every Configuration Integrity Statement referenced, every Execution Epoch Statement covering a receipt in key 2 (or the receipt's own Transparent Statement), and any Assurance and Revocation Statements the producer wishes considered. Key 3 is REQUIRED for any receipt whose epoch is not wholly present in key 2. Key 4 carries a snapshot of each Status List Token referenced by an Assurance or Agent Registration Statement, or by a `delegation_ref`, for offline evaluation as of the snapshot time. Model Provider Statements MAY be included.
+
+A Linked Bundle is an ordered array of Bundles, one for each Evidence Chain of a Call Chain, each sufficient on its own, with media type `application/aee-linked-bundle+cbor`. It is verified as in {{linked-verification}}.
+
+~~~ cddl
+aee-linked-bundle = [ 2* aee-bundle ]
+~~~
 
 The media type of a Bundle is `application/aee-bundle+cbor`. A JSON form with the member names `statements`, `receipts`, `proofs` and `status_tokens`, Transparent Statements as base64url COSE_Sign1, has media type `application/aee-bundle+json`.
 
 # Verification {#verification}
 
-A Relying Party verifies a Bundle by the following steps. The steps are ordered; the first failure terminates verification with the named error. Verification requires the TS's public key(s), the trust anchors for Issuers the Relying Party accepts, and the Relying Party's own list of accepted Agent Assurance Assessors, levels and suites, all obtained out of band. No network access is required.
+A Relying Party verifies a Bundle by the following steps. The steps are ordered; the first failure terminates verification with the named error. Verification requires the TS's public key(s), the trust anchors for Issuers the Relying Party accepts, and the Relying Party's own lists of accepted Agent Registration Authorities, Agent Assurance Assessors, levels and suites, and of the Supervisory Authority designated for each accepted scheme, all obtained out of band. No network access is required. A verifier that does not perform a step MUST NOT report PASS, and input that is malformed at any step fails that step rather than leaving the result undefined.
 
 1. For every Transparent Statement in key 1, verify every Receipt in its `receipts` header (label 394) per {{Section 5.2.1 of RFC9942}} against a trusted TS key, confirming that the Signed Statement is included in the VDS. On failure: `E_RECEIPT_SIG`.
 
@@ -876,39 +1243,58 @@ A Relying Party verifies a Bundle by the following steps. The steps are ordered;
 
 3. For every Transparent Statement, check that the `aee_type` claim, the `content type` and key 1 of the payload agree and that the payload is well-formed. On failure: `E_TYPE_MISMATCH`.
 
-4. Identify exactly one Agent Credential Statement whose Issuer the Relying Party accepts and whose `runtime_identities` contains the `agent_id` of the first receipt in key 2. Check that no Revocation Statement in the Bundle, from the same Issuer, names its payload digest. If `lifecycle_class` is `derived`, the Agent Credential Statement of the parent named by `derived_from` MUST also be present. On failure: `E_CREDENTIAL`.
+4. Identify exactly one Agent Credential or Serving Party Credential Statement whose Issuer the Relying Party accepts and whose identifiers include the `agent_id` of the first receipt in key 2. Check that no Revocation Statement in the Bundle, from the same Issuer, names its payload digest. On failure: `E_CREDENTIAL`. For an Agent Credential, identify the Agent Registration Statement named by `registration_digest`, and check that its Issuer is an accepted Agent Registration Authority, that the domain of its `logical_agent_id` matches that Issuer ({{ids}}), that its `logical_agent_id` and `responsible_entity` equal the credential's, that its `validity` contains every receipt's `ts`, that any status it carries is `0x00` in the Status List Token in key 4 as of that token's snapshot, that no Revocation Statement from its Issuer names it, and that any `provider_statement_digest` in the credential is among its `provider_statement_digests`. On failure: `E_REGISTRATION`.
 
-5. For each receipt in key 2, check that its `agent_id` appears in the credential's `runtime_identities` with `valid_from` <= `ts` < `valid_until`. On failure: `E_RUNTIME_IDENTITY`.
+5. For each receipt in key 2, check that its `agent_id` appears, with `valid_from` <= `ts` < `valid_until`, in the `runtime_identities` of the credential or of the Sub-agent named by the receipt's `subagent`, or equals the `service_id` of a Serving Party Credential. On failure: `E_RUNTIME_IDENTITY`.
 
 6. For each receipt in key 2, in ascending `seq`: check that `seq` is one greater than the preceding receipt's (or that the segment starts at a boundary stated by an Execution Epoch Statement), and that `prev_hash` equals the record-hash of the preceding receipt (or, for the first receipt, the `first_prev_hash` of its epoch, or 32 zero octets at `seq` 0). On failure: `E_CHAIN_GAP` or `E_CHAIN_HASH`.
 
 7. For each receipt, locate the Execution Epoch Statement whose `[first_seq, last_seq]` contains its `seq`, or its individual Transparent Statement. If the whole epoch is present in key 2, recompute `epoch_root` and compare. Otherwise verify the inclusion path from key 3 against `epoch_root`. Check that consecutive epochs are continuous (`first_prev_hash` equals the previous `last_hash`). On failure: `E_EPOCH_ROOT`.
 
-8. For each receipt with `parent_seq`: check that `parent_seq` < `seq`, that the referenced receipt is present in key 2, and that its `record_type` is the one required by {{receipt}}. For each `tool_result`, check that a `tool_call` parent exists; for each `confirm` decision, check the follow-up rule of {{receipt}}. On failure: `E_PARENT_SEQ` or `E_PARENT_TYPE`.
+8. For each receipt with `parent_seq`: check that `parent_seq` < `seq`, that the referenced receipt is present in key 2, and that its `record_type` is the one required by {{receipt}}. For each `tool_result`, check that a `tool_call` parent exists and is the parent of no other `tool_result`. On failure: `E_PARENT_SEQ` or `E_PARENT_TYPE`. Check the Task rules of {{chain}} for every receipt whose Task's `task_start` is in key 2. Check that every `confirm_seq` names an earlier `confirm` receipt in key 2 with the same `parent_seq`, `target`, `request_digest` and Task, and that each `confirm` has at most one outcome. A `confirm` without an outcome in key 2 fails only if its Task's `task_end` is in key 2, or a later receipt of that Task names the `confirm` receipt as its parent; otherwise the call is reported as not proceeded, which does not prevent PASS. On failure of the Task rules or of confirm/outcome pairing: `E_TASK`.
 
-9. For each receipt, check that `ts` is within the Agent Credential's `validity` and is not less than the preceding receipt's `ts`. On failure: `E_KEY_CURRENCY`.
+9. For each receipt, check that `ts` is within the validity of the credential identified in step 4 and is not less than the preceding receipt's `ts`. On failure: `E_KEY_CURRENCY`.
 
-10. For each receipt carrying `agent_sig`, verify the COSE_Sign1 with the `agent_key` of the Agent Credential Statement over the canonical encoding of the receipt without key 15. On failure: `E_AGENT_SIG`.
+10. For each receipt carrying `agent_sig`, verify the COSE_Sign1 over the canonical encoding of the receipt without key 15, with the `subagent_key` of the Sub-agent named by `subagent` where one is listed, otherwise with the `agent_key` of the Agent Credential Statement or the `service_key` of the Serving Party Credential Statement. On failure: `E_AGENT_SIG`.
 
 11. For each distinct `policy_pack_digest` in key 2, locate the Policy Pack Statement and walk `parent_pack_digest` to a root. Every pack on the path MUST be present as a Transparent Statement, layers MUST strictly increase from root to leaf, and the walk MUST terminate. On failure: `E_POLICY_UNREGISTERED` or `E_POLICY_LINEAGE`.
 
-12. For each distinct `config_integrity_digest` in key 2, locate the Configuration Integrity Statement, recompute `config_digest` from `entries`, and check that the TS registration of that statement precedes, in the VDS, the registration of the epoch (or receipt) that references it. Where the VDS exposes leaf indices through the inclusion proof, as RFC9162_SHA256 does, precedence is established by comparing them. On failure: `E_CONFIG_UNREGISTERED` or `E_CONFIG_PRECEDENCE`.
+12. For each distinct `config_integrity_digest` in key 2, locate the Configuration Integrity Statement, recompute `config_digest` from `entries`, and check that the TS registration of that statement precedes, in the VDS, the registration of each receipt that references it, or of the Execution Epoch Statement that contains that receipt. Where the VDS exposes leaf indices through the inclusion proof, as RFC9162_SHA256 does, precedence is established by comparing them. On failure: `E_CONFIG_UNREGISTERED` or `E_CONFIG_PRECEDENCE`.
 
-13. If the Relying Party requires assurance: for each (credential, pack, config) triple observed in key 2, locate an Assurance Statement whose `assessor` equals its protected `iss`, from an accepted Agent Assurance Assessor and suite, with result `pass`, sufficient operational assurance level, matching `logical_agent_id` and digests, and validity containing every receipt timestamp in that triple. Check the declared purpose and capability scope against policy. At levels 3 and 4, require an accepted Third-Party Agent Assurance Assessor and check that its identifier differs from `responsible_entity`; for a derived credential, check that the level does not exceed its parent's. For higher-risk agents, also require level 4 and a monitoring summary whose disposition is `continue`, whose required coverage is accepted, and whose `period_end` is no more than `review_frequency` before each receipt time after conversion to seconds. On failure: `E_ASSURANCE_BINDING`, `E_SCOPE_MISMATCH` or `E_MONITORING_STALE`.
+13. If the Relying Party requires assurance: for each (credential, pack, config) triple observed in key 2, locate an Assurance Statement whose `assessor` equals its protected `iss`, from an accepted Agent Assurance Assessor and suite, with result `pass`, sufficient operational assurance level, matching `logical_agent_id` and digests, and validity containing every receipt timestamp in that triple. Check the declared purpose and capability scope against policy. Check that its `capability_profile_digest` equals the registration's. At levels 3 and 4, require an accepted Third-Party Agent Assurance Assessor and `independence_declaration_digest`, and, where the registered `responsible_entity` is an organization, check that the assessor's identifier differs from it. Where a monitoring summary is present, require its disposition to be `continue`. For higher-risk agents, also require level 4 and a monitoring summary whose required coverage is accepted, and whose `period_end` is no more than `review_frequency` before each receipt time after conversion to seconds. On failure: `E_ASSURANCE_BINDING`, `E_SCOPE_MISMATCH` or `E_MONITORING_STALE`.
 
-14. For each Assurance Statement relied upon: if it carries `status`, evaluate it against the Status List Token in key 4 (verifying the token's signature and `iat`) and require status `0x00`; in any case, require that no Revocation Statement from its Issuer names its payload digest. On failure: `E_ASSURANCE_STATUS`.
+14. For each Assurance Statement relied upon: if it carries `status`, evaluate it against the Status List Token in key 4, verifying the token's signature and `iat` and, where a Supervisory Authority is designated for its scheme, that the token was issued by it. Require status `0x00`; status `0x03` (RESTRICTED) is accepted only for receipts whose operations the Relying Party's policy places within the scheme's restricted class. In any case, require that no Revocation Statement from its Issuer or from the designated Supervisory Authority names its payload digest. On failure: `E_ASSURANCE_STATUS` or `E_RESTRICTED`.
 
-15. If all steps succeed, the result is PASS.
+15. For each receipt carrying `subagent`, check that `subagent_ref` and `function` match an entry of the governing Agent Credential Statement. For each delegated Task whose `task_start` is in key 2, check the rules for delegated Tasks in {{chain}}. On failure: `E_SUBAGENT`.
+
+16. For each `admission` receipt, check that `decision_point` is `ingress`, that `decision` is `allow` or `block`, that every `allow` carries `caller_agent_id`, that the last entry of `actor_chain`, if present, equals `caller_agent_id`, and, if the Relying Party requires that the Serving Party enforce assurance, that every `allow` carries `admission_basis` with `assurance_statement_digest`, `assurance_level` and `registration_digest`. On failure: `E_ADMISSION`.
+
+17. For each `principal` carrying a `delegation_ref` with `status`, evaluate it against the Status List Token in key 4 and require `0x00` as of that token's snapshot. On failure: `E_DELEGATION_STATUS`.
+
+18. If all steps succeed, the result is PASS.
+
+## Linked Verification {#linked-verification}
+
+A Relying Party verifies a Linked Bundle by first verifying each Bundle in it by steps 1 to 18, and then, for each `admission` receipt in one Bundle whose `caller_ref` names a receipt in another, checking that:
+
+1. the named receipt is present, its record-hash equals `caller_ref`'s, its `seq` matches, and its chain's Evidence Service is the Issuer named by `caller_ref`; on failure, `E_CALLER_REF`;
+2. the named receipt is a `tool_call` with decision `allow` or an `egress` receipt, no other admission names it, and its `ts` is not later than the admission's `ts` plus the stated skew; on failure, `E_CALLER_MISMATCH`;
+3. `principal_link` and `txn` are present and equal on both receipts; on failure, `E_PRINCIPAL_LINK`;
+4. `actor_chain` is equal on both receipts, and its last entry equals the caller receipt's `agent_id` and the admission's `caller_agent_id`; on failure, `E_ACTOR_CHAIN`;
+5. where the admission carries `admission_basis` naming an Assurance Statement or registration, that statement is the one the Calling Agent's Bundle relies on, at the level recorded; on failure, `E_ADMISSION_BASIS`; and
+6. where the Serving Party is an agent whose Bundle is in the Linked Bundle, every call it makes in the Task the admission caused carries the same `txn` and an `actor_chain` equal to the admission's with its own `agent_id` appended; on failure, `E_ACTOR_CHAIN`.
+
+A caller receipt for a call to another party that no admission in the Linked Bundle names, and an admission that names no receipt in it, are reported, not failed: the other party's records may simply be absent from the Linked Bundle.
 
 ## Meaning of PASS
 
-A PASS establishes that: the TS committed to each statement in its append-only VDS; each statement was signed by the named Issuer; the receipts form an unbroken chain sealed into that VDS; every call was recorded under a registered policy and configuration; each runtime identifier was declared for that time; and, where required, accepted identity and operational assurance claims matched the run. For higher-risk assurance, the accepted claim also cites a current completed monitoring period and has not been suspended or withdrawn.
+A PASS establishes that: the TS committed to each statement in its append-only VDS; each statement was signed by the named Issuer; the receipts form an unbroken chain sealed into that VDS; every call was recorded under a registered policy and configuration; each runtime identifier was declared for that time; and, where required, accepted identity and operational assurance claims matched the run. For higher-risk assurance, the accepted claim also cites a current completed monitoring period and has not been suspended or withdrawn. A PASS of Linked Verification establishes, in addition, that each linked pair of receipts records the same call, for the same Principal, transaction and Actor Chain, by parties each of which verified on its own; it does not establish that every hop of the Call Chain is present, or that a Serving Party checked more than its `admission_basis` records.
 
 A PASS does not establish that the Harness recorded every call, that a decision was correct, that an `api`-bound model was the one named, that a Policy Pack semantically tightens its parent, that monitoring observed every relevant behaviour, or that an Agent Assurance Assessor's suite is adequate. Harness completeness is the composition point with remote attestation. A Harness can produce RATS Evidence {{RFC9334}}, for example an EAT {{RFC9711}} whose measurements cover the image named by `harness.digest`; a Relying Party MAY require that Evidence, with the Agent Credential payload digest as nonce. This document does not define that binding.
 
 ### Derivable Risk Facts
 
-Two facts relevant to assurance can be tested from a verified chain without any further input, and a Relying Party or an Agent Assurance Assessor MAY compute them. The first is autonomy: over a window, the proportion of tool-door Execution Receipts (`decision_point` 2) with `decision` `allow` to those with `decision` `confirm`. A chain in which every consequential tool call was confirmed by a Principal describes a different agent from one in which none was, even if both passed the same suite. The second is private inference: the `model_binding` mode of the governing credential as it applies to `inference` receipts. Mode `weights-digest` with no independent attestation of the runtime means the operator is the sole witness to which model ran; mode `api-tee`, or `weights-digest` accompanied by level 2 or higher attestation, provides a second witness. This document sets no thresholds for either fact; it notes that both are derivable so that Policy Packs and Agent Assurance Assessors can set them.
+Two facts relevant to assurance can be tested from a verified chain without any further input, and a Relying Party or an Agent Assurance Assessor MAY compute them. The first is autonomy: over a window, the proportion of tool calls that proceeded without confirmation (an `allow` `tool_call` receipt that is not the outcome of a `confirm`) to those that required it. A chain in which every consequential tool call was confirmed by a Principal describes a different agent from one in which none was, even if both passed the same suite. The second is private inference: the `model_binding` mode of the governing credential as it applies to `inference` receipts. Mode `weights-digest` with no independent attestation of the runtime means the operator is the sole witness to which model ran; mode `api-tee`, or `weights-digest` accompanied by level 2 or higher attestation, provides a second witness. This document sets no thresholds for either fact; it notes that both are derivable so that Policy Packs and Agent Assurance Assessors can set them.
 
 # Privacy Considerations {#privacy}
 
@@ -916,10 +1302,16 @@ No content:
 : Execution Receipts carry digests of requests and responses, never their content. Model prompts and tool arguments routinely contain personal data; the design keeps that data in the operator's custody and places only commitments on the TS.
 
 Principal hashing:
-: A natural-person Principal, and a natural-person `responsible_entity`, is represented by SHA-256 over an operator-held pepper and the identifier. The pepper MUST be at least 16 octets of entropy, MUST NOT be registered on the TS, and SHOULD be rotated per deployment. The same Principal is linkable across receipts of one deployment by design, and not across deployments with different peppers.
+: A natural-person Principal, and a natural-person `responsible_entity`, is represented by SHA-256 over a pepper held by the statement's Issuer and the identifier. The pepper MUST be at least 16 octets of entropy, MUST NOT be registered on the TS, and SHOULD be rotated per deployment. The same Principal is linkable across receipts of one deployment by design, and not across deployments with different peppers.
+
+Linking across parties:
+: `principal_link` lets the two parties to one call show that they recorded the same Principal without either revealing it, because it is a digest of a token both already hold. It does not link the Principal across calls unless the same token is presented again. `txn` and `actor_chain` correlate all hops of one transaction and reveal which operators' agents took part; parties SHOULD forward them only to the parties they call, and a Serving Party SHOULD register epoch roots rather than individual admission receipts. `caller_ref` reveals the caller's Evidence Service to the Serving Party.
+
+Registration and principal assurance:
+: An Agent Registration Authority can link all agents of one Responsible Entity. Resolving a `did:web` identifier live tells the authority which agent is being checked and by whom; verifiers SHOULD rely on the registered statement in the Bundle instead. `principal_assurance` reveals how a Principal was verified, which can indicate residence or nationality; it SHOULD be carried only where a Serving Party's policy requires it.
 
 Data minimization:
-: `target` and `egress_host` are the only free-text members of a receipt and MUST NOT contain path, query, user or argument components. Issuers MUST NOT place Principal identifiers or content in identifiers. Purpose, objective, intended-use and risk-tier strings SHOULD use concise categories or URIs rather than sensitive operational detail.
+: `target` and `egress_host` are the only free-text members of a receipt and MUST NOT contain query, user, argument or parameter-value components; a tool name derived from an HTTP operation MAY carry its method and path template. Issuers MUST NOT place Principal identifiers or content in identifiers. Purpose, objective, intended-use and risk-tier strings SHOULD use concise categories or URIs rather than sensitive operational detail.
 
 Retention:
 : Statements registered on a TS cannot be removed. Operators SHOULD prefer registering epoch roots, which reveal only counts and digests, over individual receipts.
@@ -941,7 +1333,28 @@ Equivocation:
 : An operator who shows different chains to different Relying Parties is detected because both must be sealed into the same non-equivocating VDS ({{Section 5.1.3 of RFC9943}}), and the continuity check in {{regpol}} refuses the second epoch. This profile relies on the VDS properties and adds nothing to them.
 
 Omission:
-: A Harness that does not produce a receipt for a call leaves no trace. Mitigation is outside the chain: attestation of the Harness ({{verification}}), independent recording at the tool or network side as described in {{I-D.kuehlewind-audit-architecture}}, and reconciliation of `egress` receipts against network telemetry.
+: A Harness that does not produce a receipt for a call leaves no trace. Mitigation is outside the chain: attestation of the Harness ({{verification}}), independent recording at the Serving Party by `admission` receipts ({{admission}}), and reconciliation of `egress` receipts against network telemetry. A call recorded by one party and not by the other is reported by Linked Verification when both chains are present; neither party can remove the other's record.
+
+Confused deputy:
+: An agent serving several Principals can be induced to use one Principal's authority for another's request. Recording the Principal on every receipt of a Task, carrying the Actor Chain, and requiring a Serving Party to evaluate every Actor ({{admission}}) make the substitution visible and let the Serving Party refuse it; they do not prevent an agent from misusing authority it legitimately holds.
+
+Forged or replayed caller references:
+: A `caller_ref`, `actor_chain` or `principal_link` received with a call is the caller's claim until checked against the caller's registered chain. A forged reference fails Linked Verification; a replayed one names a caller receipt that another admission already names, which is detected when both admissions are in the same Linked Bundle. Actors removed from or inserted into the chain are detected when the chains of all hops are verified together.
+
+Status freshness at admission:
+: An admission decision based on a token or status list older than the suspension of the agent admits a suspended agent. A Serving Party bounds this by the freshness its policy requires and SHOULD check the status list itself for operations its policy marks as high-risk.
+
+Flooding a Serving Party:
+: Because a Serving Party records every call, including refusals, a caller can inflate its records. Serving Parties SHOULD rate-limit before the Ingress Decision Point; a call dropped there is not received and produces no receipt.
+
+Memory poisoning:
+: `memory_digest` makes changes to memory between Tasks visible after the fact; it does not prevent poisoned memory from influencing the next Task. A Policy Pack MAY require review of memory changes between Tasks for higher-risk agents.
+
+Fail-closed evaluation:
+: A Decision Point that cannot evaluate a call MUST NOT let it proceed: for example an input over a size limit, a request it cannot parse, a response item it does not recognise, or an Evidence Service that cannot be reached. It MUST NOT evaluate a truncated or repaired form of the input instead. Where the Evidence Service is reachable, the refusal is recorded as `block`.
+
+Result alteration:
+: `response_digest` commits to what the Decision Point received, not to what the agent was given. A Harness that rebuilds, truncates or withholds a result before passing it on is not distinguishable from the receipt alone.
 
 Key compromise:
 : Compromise of the Evidence Service key allows forged receipts from the time of compromise; earlier epochs remain protected by the TS's Receipts. Compromise of the agent key allows forged `agent_sig` values but not forged receipts. Operators MUST register a Revocation Statement on compromise and SHOULD use short `validity` windows.
@@ -949,11 +1362,17 @@ Key compromise:
 Identity substitution:
 : An attacker who obtains a workload identity in some trust domain cannot have receipts under it accepted for a Logical Agent unless the Agent Credential Statement lists that identity for that time (step 5 of {{verification}}). Issuers SHOULD keep `runtime_identities` minimal and windows short.
 
+Session binding:
+: The Evidence Service MUST authenticate each Decision Point that submits receipts. An agent session at a Decision Point bound only to a network address protects little, since addresses are shared and change. Sessions SHOULD instead be bound to possession of the agent key, for example with a per-request proof of possession {{RFC9449}} or a certificate-bound session {{RFC8705}}, so that a captured session identifier is useless without the key.
+
+Principal attribution:
+: The `principal` in a receipt is asserted by the Evidence Service after it validated the Principal's token; the receipt does not carry a proof. An Evidence Service SHOULD retain, outside the receipt, a digest of each token as presented and of the key set it was verified with, so that an Auditor can repeat the validation. Token lifetime is judged at validation time, not at receipt time, since a Task can outlive the token that opened it; any clock-skew allowance MUST be bounded and stated in the Policy Pack or the Evidence Service's published configuration.
+
 Policy downgrade:
 : Loading a weaker Policy Pack produces receipts naming a different `policy_pack_digest`; a Relying Party that requires a specific root pack detects this at step 11. A Relying Party SHOULD reject chains whose `policy_pack_digest` changes within a Task.
 
 Configuration substitution:
-: The precedence check at step 12 ensures the Configuration Integrity Statement predates the receipts. The Harness MUST compute and compare digests at load time; a mismatch MUST produce a Configuration Drift Statement and a new Configuration Integrity Statement before any further receipt.
+: The precedence check at step 12 ensures the Configuration Integrity Statement predates the receipts. The Harness MUST compute and compare digests at load time and SHOULD re-check them at a bounded interval during a run; a mismatch MUST produce a Configuration Drift Statement and a new Configuration Integrity Statement before any further receipt. Blocking calls to tools absent from the committed tool manifest ({{config}}) prevents a tool server from evading the commitment by not listing a tool.
 
 Domain allowlist exfiltration:
 : Allowing egress to a list of trusted hosts does not stop exfiltration to an attacker-controlled account on an allowed host, or through path and query components. A receipt that records only `decision: allow` does not help an investigator. This profile therefore requires `egress_host` in `egress` receipts and `request_digest` over the full request, so that which host received data in which call is answerable from evidence rather than from the operator's account. It does not prevent the exfiltration.
@@ -962,7 +1381,16 @@ Unicode-based injection:
 : The rule in {{normalization}} makes invisible code points either irrelevant to the digest (profile 1) or a rejection (profile 2). It does not detect injection through visible but misleading text, homoglyphs, or content loaded at runtime outside the configuration set.
 
 Assessment independence:
-: Level 1 can be self-asserted. At level 2, the Agent Assurance Assessor can still be the Responsible Entity, but accepted RATS Evidence adds technical runtime evidence. Levels 3 and 4 require a Third-Party Agent Assurance Assessor because an operator assessing controls it designed can share their assumptions and blind spots. The identifier-separation rule is checkable, but organizational independence, competence and accreditation are not established by this protocol.
+: Level 1 can be self-asserted. At level 2, the Agent Assurance Assessor can still be the Responsible Entity, but accepted RATS Evidence adds technical runtime evidence. Levels 3 and 4 require a Third-Party Agent Assurance Assessor because an operator assessing controls it designed can share their assumptions and blind spots. The presence of an independence declaration is checkable, and identifier separation for an organization is only a weak signal; organizational independence, competence and accreditation are not established by this protocol.
+
+Supervisory and registration authorities:
+: Compromise of a Supervisory Authority's or Agent Registration Authority's key allows agents under it to be suspended, restricted or closed, or unregistered agents to appear registered. Relying Parties accept each authority only for the schemes or namespaces it is designated for, and the domain-match rule of {{ids}} prevents one authority from issuing identifiers in another's namespace.
+
+Transfer without reassessment:
+: A change of Responsible Entity produces a new registration and requires reassessment ({{identification}}). `lineage_id` lets an authority keep a history of adverse findings linked to the agent; it cannot prevent re-registration with another authority that does not share that history.
+
+Sub-agents:
+: A Sub-agent without its own key signs as its parent, so its compromise is its parent's. A Sub-agent not listed in the credential fails verification; whether its declared function is within the Capability Profile is checked by the assessor, not by the verifier.
 
 Key binding:
 : An assurance level and the protection of the credential key are independent. An agent assessed at level 4 whose key is held in software can be impersonated by any process that copies the key, and its records then carry that level. Relying Parties MUST NOT infer key protection from the level.
@@ -985,6 +1413,7 @@ IANA is requested to register the following media types in the "Media Types" reg
 | application | aee-statement+json | this document, {{json}} |
 | application | aee-bundle+cbor | this document, {{bundle}} |
 | application | aee-bundle+json | this document, {{bundle}} |
+| application | aee-linked-bundle+cbor | this document, {{bundle}} |
 {: title="Media types to be registered"}
 
 For each: no required or optional parameters; encoding binary (`+cbor`) or 8bit (`+json`); security considerations in {{security}}; published specification this document; applications: agent harnesses, Transparency Services, auditors; intended usage COMMON; change controller IETF.
@@ -1002,7 +1431,7 @@ Until a key is assigned, implementations use the text string key `"aee_type"`; t
 
 ## CoAP Content-Formats
 
-IANA is requested to register Content-Format identifiers in the "CoAP Content-Formats" registry for `application/aee-statement+cbor` (TBD2) and `application/aee-bundle+cbor` (TBD3), content coding `-`, reference this document, in the range 256-9999. No new COSE header parameters are registered; this document reuses labels 15, 394, 395 and 396.
+IANA is requested to register Content-Format identifiers in the "CoAP Content-Formats" registry for `application/aee-statement+cbor` (TBD2), `application/aee-bundle+cbor` (TBD3) and `application/aee-linked-bundle+cbor` (TBD4), content coding `-`, reference this document, in the range 256-9999. No new COSE header parameters are registered; this document reuses labels 15, 394, 395 and 396.
 
 # Related Work {#related}
 
@@ -1018,7 +1447,10 @@ Standards boundaries:
 : SCITT provides statement transparency, WIMSE provides workload identity, and RATS provides technical attestation and the Verifier role. None defines a Third-Party Agent Assurance Assessor, a universal agent risk classification, a capability-audit method, or assessor qualification and accreditation criteria. This profile defines the assessor role and carries the identifiers, commitments and results needed for interoperability, while leaving recognition and accreditation to relying-party policy, applicable external governance, and possible future work coordinated across the relevant communities.
 
 Audit architecture {{I-D.kuehlewind-audit-architecture}}:
-: Roles and four record types (Interaction, Action, Delegation, Authorization Transition). The Execution Receipt is an Action Record at the Harness vantage; this profile is a candidate for that document's WI-3. Delegation and Authorization Transition records are expected from that work.
+: Roles and four record types (Interaction, Action, Delegation, Authorization Transition). The Execution Receipt is an Action Record at the Harness vantage, and the `admission` receipt is the corresponding record at the serving side; this profile is a candidate for that document's WI-3. A Delegation record composes with `actor_chain` and `delegation_ref`.
+
+OAuth Token Exchange {{RFC8693}}, Transaction Tokens {{I-D.ietf-oauth-transaction-tokens}} and Identity and Authorization Chaining {{I-D.ietf-oauth-identity-chaining}}:
+: Token Exchange expresses a chain of delegation by nested `act` claims; this profile records it as `actor_chain` and, unlike that specification, requires a Serving Party to evaluate prior actors. Transaction Tokens propagate the principal of the transaction and a `txn` identifier along a Call Chain within one Trust Domain; this profile records `txn` on both sides of every call and extends the Call Chain across Trust Domains. Identity and Authorization Chaining carries identity across Trust Domains and leaves the format of transcribed claims open; the Actor Chain is one concrete record of what it carries. This profile complements these specifications with evidence and does not change them.
 
 Agent audit record {{I-D.gilda-wimse-agent-audit-record}}:
 : A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. {{I-D.thaha-wimse-agent-evidence-binding}} defines an in-toto {{IN-TOTO}} predicate type for Execution Receipts, and an audit record's `correlation.externalAnchor` of kind `transparency-log` can point at the SCITT Receipt of the enclosing epoch.
@@ -1038,11 +1470,23 @@ Agent Passport System {{I-D.pidlisnyi-aps}} and Agent Audit Trail {{I-D.sharif-a
 AP2 Mandates {{AP2}}:
 : User-signed credentials expressing purchase authorization. A Mandate is an input to a `tool_call`; its digest belongs in `request_digest`, and the confirmation it embodies corresponds to decision `confirm`.
 
+# Open Issues {#open-issues}
+
+This section is to be removed before publication as an RFC.
+
+* Delegation scope: a mechanical test that a delegated Task's, or a later Actor's, effective scope is no wider than its parent's needs a common representation of scopes ({{chain}}, {{admission}}).
+* Supervisory Decision statement: a statement by which a Supervisory Authority grants, restricts, suspends, restores or withdraws assurance.
+* Trust List statement: a statement by which a Supervisory Authority registers the assessors, schemes and foreign authorities it accepts.
+* Registering RESTRICTED in the OAuth Status Types registry instead of using the application-specific value `0x03`.
+* A registry of record types, so that other profiles can extend them.
+* A reputation statement linked through `lineage_id`, and whether identifier forms other than `did:web` should be allowed for `logical_agent_id`.
+* Whether Serving Parties should also be registered by an authority.
+
 # Implementation Status
 
 This section records the status of known implementations per {{RFC7942}} and is to be removed before publication as an RFC.
 
-Sijil is an open-source implementation of the Harness-side Decision Points, the Evidence Chain, epoch roots and the Bundle verifier described in this document, with registration against a SCITT Transparency Service through {{I-D.ietf-scitt-scrapi}}. Coverage: all statement types in CBOR form; JSON form partial. Maturity: prototype. Licence: Apache 2.0. Contact: see Authors' Addresses.
+Sijil's record model is the basis of the Execution Receipt; no export to the encoding defined here exists yet. Implemented: Harness-side Decision Points (model and tool doors); a hash-chained, signed record of every call, with Tasks, refusals and separately recorded approvals; and an offline verifier that checks the chain, the Task rules, and declared runtime identities with agent registration, key rotation proofs and revocation. Not implemented: COSE wrapping, epochs, Bundles, registration through {{I-D.ietf-scitt-scrapi}}, per-call `agent_sig`, validity-window identity checks, Assurance Statement checks, Principal peppering, and everything this revision adds: Agent Registration, Model Provider and Serving Party Credential Statements, Sub-agent records, `memory_digest`, Supervisory Authority status, `admission` receipts, linking across calls and Linked Verification. A separate script generates the vectors in {{vectors}}. Maturity: prototype. Licence: verifier, agent guard and rule packs Apache 2.0; other components Business Source License 1.1. Contact: see Authors' Addresses.
 
 --- back
 
@@ -1052,7 +1496,26 @@ The vectors below were generated with a script included in the repository named 
 
 ## Keys
 
-Issuer (Evidence Service) Ed25519 seed: 32 octets of 0x11; public key `d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737`. Agent Ed25519 seed: 32 octets of 0x22; public key `a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0`.
+Issuer (Evidence Service) Ed25519 seed: 32 octets of 0x11; public key `d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737`. Agent Ed25519 seed: 32 octets of 0x22; public key `a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0`. Agent Registration Authority Ed25519 seed: 32 octets of 0x33; public key `17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce`. Serving Party Evidence Service Ed25519 seed: 32 octets of 0x44; public key `d759793bbc13a2819a827c76adb6fba8a49aee007f49f2d0992d99b825ad2c48`.
+
+## Agent Registration Statement
+
+Issued by `https://register.example`:
+
+~~~ cbor-diag
+{
+  1: 9,
+  2: "did:web:register.example:agent:billing-assistant",
+  3: {1: 2, 2: "acme-finance.example"},
+  4: "lineage-7f3c2a",
+  5: [-16, h'a8e360e1532afc9025ff475f5a5f4d96
+             e99586a1955e7cdd6b6d0b22a338a0e7'],
+  6: [],
+  7: {1: 1790000000, 2: 1824128000}
+}
+~~~
+
+`capability_profile_digest` is over the octets `<capability profile bytes>`. Digest of the canonical payload: `f994b20f8c780fcd2b2981784c79e1afa1591a1a33d2a9ce90739b0d622716ec`.
 
 ## Agent Credential Statement
 
@@ -1071,7 +1534,7 @@ Payload (diagnostic notation):
   5: {1: "example-harness", 2: "3.2.0"},
   6: {1: 2, 3: "example-model-2026-06", 4: "model-provider.example"},
   7: {1: 1790000000, 2: 1792592000},
-  9: "did:web:agents.example.com:billing-assistant",
+  9: "did:web:register.example:agent:billing-assistant",
   10: {1: 2, 2: "acme-finance.example"},
   11: [
     {1: "wimse://agents.example.com/agent/billing-assistant", 2: 1,
@@ -1079,27 +1542,29 @@ Payload (diagnostic notation):
     {1: "spiffe://prod.example.net/ns/finance/sa/billing", 2: 2,
      3: "prod.example.net", 4: 1790000000, 5: 1792592000}
   ],
-  12: 2
+  12: 2,
+  13: [-16, h'f994b20f8c780fcd2b2981784c79e1af
+              a1591a1a33d2a9ce90739b0d622716ec']
 }
 ~~~
 
-The principal digest is SHA-256 over the pepper `operator-pepper-0001` followed by `user:alice@example.com`. Digest of the canonical payload: `78609922cbf577ed463878b1ee1c80034b16d1362bdd297096285f5a45483389`.
+The principal digest is SHA-256 over the pepper `operator-pepper-0001` followed by `user:alice@example.com`. Digest of the canonical payload: `4593697379adf3ef10053f8ccd652c15bb99268be881a56198194fb3b8abcef5`.
 
-The Signed Statement over this payload has protected header `{1: -8, 3: "application/aee-statement+cbor", 4: h'10ba682c8ad13513', 15: {1: "https://harness.example/issuer", 2: "wimse://agents.example.com/agent/billing-assistant", "aee_type": 1}}`. The complete COSE_Sign1 objects for this and the following statements, with signatures, are in the `vectors` directory of the repository named in the document header.
+The Signed Statement over this payload has protected header `{1: -8, 3: "application/aee-statement+cbor", 4: h'10ba682c8ad13513', 15: {1: "https://harness.example/issuer", 2: "wimse://agents.example.com/agent/billing-assistant", "aee_type": 1}}`. The complete COSE_Sign1 objects for the Agent Registration and Agent Credential Statements, the seq 2 receipt and the epoch, with signatures, are in the `vectors` directory of the repository named in the document header.
 
 ## Configuration Integrity Entries
 
 Three entries, ordered by name as {{config}} requires, each `[name, [-16, digest], class]`:
 
 ~~~
-CLAUDE.md               2  b7151d3ad953353923932e171b27567b
+INSTRUCTIONS.md         2  b7151d3ad953353923932e171b27567b
                            a78524f13ba853e6c912ea3d43653610
 SYSTEM_PROMPT           1  fe6ff403a894e40e32eacf012889e4bf
                            1cc74be70216ceb8250cf3419f6434ff
 tools/send_invoice.json 6  1c9c542a99e6804c6ce08d17c38fa2f3
                            068507cf2c6f7d97a092e111a1651707
-config_digest              c852d911944a0984f8b3a68eb852925d
-                           ae836326d42567528f1a10e84051fe7d
+config_digest              654e7b4e605a07c8657d5f2c01360d23
+                           67022d18a2ee2dfce1a6489e1c6b6781
 ~~~
 
 ## Execution Receipts
@@ -1108,29 +1573,29 @@ The policy pack digest used throughout is `[-16, h'563a0a3a0c09b773b7f07dd66931d
 
 Receipt seq 0 (task_start) has keys 1: 5, 2: 0, 3: 32 zero octets, 4: 1, 6: 1, 7 and 8 as in seq 2 below, 9 and 10 as in the credential, 11: 0 and 14: 1790001000000.
 
-record-hash(0): `6bd6ef790a9378198160cdc99a4d530c397499f61cf0e26dd3966ec1b9759250`
+record-hash(0): `1942de9ac9bd019506aa5e551ede9ae92676942d4278816ab458a9deb16548c0`
 
-Receipt seq 1 (inference, model door) has the same keys 7 to 10 as seq 2 below, with 2: 1, 3: record-hash(0), 4: 3, 6: 1, 11: 1, 14: 1790001000120, 16: "example-model-2026-06", 18: 1, and request and response digests over the octets `<prompt bytes>` and `<completion bytes>` respectively.
+Receipt seq 1 (inference, model door) has the same keys 7 to 10 as seq 2 below, with 2: 1, 3: record-hash(0), 4: 3, 6: 1, 11: 0, 14: 1790001000120, 16: "example-model-2026-06", 18: 1, and request and response digests over the octets `<prompt bytes>` and `<completion bytes>` respectively.
 
-record-hash(1): `8d4afb604cf6eab23015b91242ba7842cade95901fb56d2d1874924b1d8c502e`
+record-hash(1): `3d3b1f63cb07c710049eed093e439600464a47a36b37175372e1fc734f6d39a9`
 
 Receipt seq 2 (tool_call, tool door, decision confirm, parent_seq 1, with agent signature):
 
 ~~~ cbor-diag
 {
   1: 5, 2: 2,
-  3: h'8d4afb604cf6eab23015b91242ba7842
-       cade95901fb56d2d1874924b1d8c502e',
+  3: h'3d3b1f63cb07c710049eed093e439600
+       464a47a36b37175372e1fc734f6d39a9',
   4: 4, 5: 1, 6: 3,
   7: [-16, h'563a0a3a0c09b773b7f07dd66931dc56
              605cb0e56d53d1da9cdefe6ae4c56f4d'],
-  8: [-16, h'c852d911944a0984f8b3a68eb852925d
-             ae836326d42567528f1a10e84051fe7d'],
+  8: [-16, h'654e7b4e605a07c8657d5f2c01360d23
+             67022d18a2ee2dfce1a6489e1c6b6781'],
   9: "wimse://agents.example.com/agent/billing-assistant",
   10: {1: 1,
        2: h'355acb442721073848a4b78577b31cd2
             958587696cf8378ab050011c8a042638'},
-  11: 2,
+  11: 0,
   12: [-16, h'989a658a232f0329b3372261bdd4d3be
               c9e31d57094015433bf54fbd2aeca8f5'],
   14: 1790001000350,
@@ -1143,11 +1608,57 @@ Receipt seq 2 (tool_call, tool door, decision confirm, parent_seq 1, with agent 
 
 The `agent_sig` at key 15 is a COSE_Sign1 (tag 18) with detached payload and protected header `{1: -8, 3: "application/aee-statement+cbor", 4: h'1325b850c2871916', 15: {1: agent_id, 2: agent_id}}`, over the canonical encoding of the receipt without key 15.
 
-record-hash(2): `06f7d122b1d4f2fbefc111942cb11da8409ed96ef954d3cb12d274888fa87161`
+record-hash(2): `7df8cc808530b8a02e78f723ddcda32645e14c66dd61b8525279fa94118f9ec9`
+
+Receipt seq 3 is the `allow` outcome of the `confirm` at seq 2 and a call to a Serving Party. It has the same keys 5 to 18 as seq 2 except 6: 1 and 14: 1790001009000, no key 15, and in addition 3: record-hash(2), 19: 2, 23: `["wimse://agents.example.com/agent/billing-assistant"]`, 24: the `principal_link` `1c8ec66d31e2260b8ebe9e7c602773d0b7b8803689e8a935c3d7d22002cd813d` (SHA-256 over the octets `<delegation token octets>`) and 25: `"txn-0001"`.
+
+record-hash(3): `1b68ca2bcc5f4814ce870f75419b79d8f66b51e13df185ca41cf371c31ab1bf3`
 
 ## Execution Epoch Statement
 
-The epoch over seq 0 to 2 has 3: 0, 4: 2, 5: 32 zero octets, 6: record-hash(2), 8: 3 and `epoch_root` `27668adbe564d23701843942b5067b0341f9661512b083634ad1f64ceb6b8ba4`, the RFC 9162 Merkle Tree Hash over the three record-hashes with the leaf and node prefixes of {{Section 2.1.1 of RFC9162}}.
+The epoch over seq 0 to 2 has 3: 0, 4: 2, 5: 32 zero octets, 6: record-hash(2), 8: 3 and `epoch_root` `99286bfb71a2baa0e9cce47d284e67434fc3d3b47cd424c4ec184e5bc7b27809`, the RFC 9162 Merkle Tree Hash over the three record-hashes with the leaf and node prefixes of {{Section 2.1.1 of RFC9162}}.
+
+## Admission Receipt
+
+The Serving Party `https://api.customer.example` scopes its chain with a Serving Party Credential Statement (payload digest `9f4e1bb87cd23a4e9ccf6a8b80d094378674afad06e13a16ff39723bf69bbead`). Its first receipt records the admission of the call at seq 3:
+
+~~~ cbor-diag
+{
+  1: 5, 2: 0, 3: h'00...00',   / 32 zero octets /
+  4: 7, 6: 1,
+  7: [-16, h'5b582ac36c7eb1ee98d6be83fe7594a8
+             0ae9c11d65a4da796810897772123dce'],
+  8: [-16, h'db4faed7cf5ef7b1127006d60afda3d4
+             7e4970f7f89baf37eb233ec665dc6c68'],
+  9: "https://api.customer.example",
+  10: {1: 1,
+       2: h'461e46747b2b36f5a21c8ef5d0526c9d
+            4c8b8d4d561b92ed4cef35f80b14f3f0'},
+  11: 0,
+  12: [-16, h'989a658a232f0329b3372261bdd4d3be
+              c9e31d57094015433bf54fbd2aeca8f5'],
+  14: 1790001009050,
+  16: "POST /invoices",
+  18: 4,
+  20: "wimse://agents.example.com/agent/billing-assistant",
+  21: {1: "https://harness.example/issuer", 2: 3,
+       3: h'1b68ca2bcc5f4814ce870f75419b79d8
+            f66b51e13df185ca41cf371c31ab1bf3'},
+  22: {3: 1790001009, 4: 0,
+       5: [-16, h'f994b20f8c780fcd2b2981784c79e1af
+                  a1591a1a33d2a9ce90739b0d622716ec'],
+       6: [-16, h'1c8ec66d31e2260b8ebe9e7c602773d0
+                  b7b8803689e8a935c3d7d22002cd813d']},
+  23: ["wimse://agents.example.com/agent/billing-assistant"],
+  24: h'1c8ec66d31e2260b8ebe9e7c602773d0
+        b7b8803689e8a935c3d7d22002cd813d',
+  25: "txn-0001"
+}
+~~~
+
+The pack and configuration digests are over the octets `{"pack":"example-serving-pack","v":"1.0.0"}` and over one `tool_manifest` entry for `openapi.json`. The principal is hashed with the Serving Party's pepper `serving-pepper-0001`, so it differs from the caller's, while `principal_link` and `txn` are equal on both sides. This Serving Party records the registration it checked but does not enforce assurance, so `admission_basis` names no Assurance Statement. The admission and receipt seq 3 satisfy the linking rules of {{linking}}; a full Linked Verification would also need seq 3 sealed in an epoch and the Policy Pack Statements, which are not shown.
+
+record-hash(admission 0): `c0a0e382ff5dfa971f235f73a5c2d0f8b8faf0ffc3dad41f8c564005c486552d`
 
 # Mapping to Regulatory and Standards Contexts
 

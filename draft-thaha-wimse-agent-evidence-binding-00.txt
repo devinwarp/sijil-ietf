@@ -5,7 +5,7 @@
 Workload Identity in Multi System Environments                  S. Thaha
 Internet-Draft                                             S. Shamsudeen
 Intended status: Informational                    Individual Contributor
-Expires: 8 April 2027                                       October 2026
+Expires: 22 April 2027                                      October 2026
 
 
                Evidence Binding for AI Agent Credentials
@@ -20,8 +20,11 @@ Abstract
    workload credential to the persistent agent, governing policy,
    expected Evidence Service and optional Assurance Statement, and
    defines an in-toto predicate type for carrying Execution Receipts in
-   the audit format proposed for WIMSE.  It is input to the AIMS work
-   and makes no change to it.
+   the audit format proposed for WIMSE.  It also describes how a service
+   admits an agent's call by checking its assurance at the moment of the
+   request, and defines an HTTP field that links each call to the
+   caller's evidence.  It is input to the AIMS work and makes no change
+   to it.
 
 About This Document
 
@@ -45,18 +48,20 @@ Status of This Memo
    This Internet-Draft is submitted in full conformance with the
    provisions of BCP 78 and BCP 79.
 
+
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 1]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
    Drafts is at https://datatracker.ietf.org/drafts/current/.
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 1]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
@@ -82,47 +87,48 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.1.  Conventions and Definitions . . . . . . . . . . . . . . .   3
+     1.1.  Conventions and Definitions . . . . . . . . . . . . . . .   4
    2.  Problem Statement . . . . . . . . . . . . . . . . . . . . . .   4
-   3.  Mapping of AIMS Minimum Fields to the Execution Receipt . . .   4
-   4.  The aee_evidence Claim  . . . . . . . . . . . . . . . . . . .   6
-     4.1.  Relying Party Behaviour . . . . . . . . . . . . . . . . .   8
-   5.  Composition with the WIMSE Audit Record . . . . . . . . . . .  10
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
-   7.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  13
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
-     8.1.  JSON Web Token Claims . . . . . . . . . . . . . . . . . .  13
-     8.2.  CBOR Web Token Claims . . . . . . . . . . . . . . . . . .  14
-     8.3.  IETF URN Sub-namespace  . . . . . . . . . . . . . . . . .  14
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  14
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  15
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  17
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  17
+   3.  Mapping of AIMS Minimum Fields to the Execution Receipt . . .   5
+   4.  The aee_evidence Claim  . . . . . . . . . . . . . . . . . . .   7
+     4.1.  Relying Party Behaviour . . . . . . . . . . . . . . . . .  10
+   5.  Admission by a Serving Party  . . . . . . . . . . . . . . . .  12
+   6.  Carrying the Caller Reference and Actor Chain . . . . . . . .  13
+     6.1.  The AEE-Caller-Ref Field  . . . . . . . . . . . . . . . .  13
+     6.2.  Actor Chain and Principal Link  . . . . . . . . . . . . .  14
+     6.3.  Other Protocols . . . . . . . . . . . . . . . . . . . . .  14
+   7.  Composition with the WIMSE Audit Record . . . . . . . . . . .  14
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  16
+   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  17
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
+     10.1.  JSON Web Token Claims  . . . . . . . . . . . . . . . . .  17
+     10.2.  CBOR Web Token Claims  . . . . . . . . . . . . . . . . .  18
+     10.3.  HTTP Field Name  . . . . . . . . . . . . . . . . . . . .  18
+     10.4.  IETF URN Sub-namespace . . . . . . . . . . . . . . . . .  19
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
 
 
 
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 2]
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 2]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
+
+     11.1.  Normative References . . . . . . . . . . . . . . . . . .  19
+     11.2.  Informative References . . . . . . . . . . . . . . . . .  20
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  22
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  22
 
 1.  Introduction
 
    Section 11 of [I-D.ietf-wimse-aims] ("Agent Monitoring, Observability
    and Remediation") requires tamper-evident audit logs and lists the
-   fields an audit event must record at a minimum.  Section 8 states
-   that evidence formats are out of scope, and Section 13 states that
-   compliance criteria are out of scope.  That is a reasonable division:
-   an identity management framework should not pick a log format.  It
-   leaves two practical questions open for an implementer:
+   fields an audit event must record at a minimum.  Section 8 does not
+   require any particular posture assessment mechanism or evidence
+   format, and Section 13 states that compliance criteria are out of
+   scope.  That is a reasonable division: an identity management
+   framework should not pick a log format.  It leaves four practical
+   questions open for an implementer:
 
    1.  In what format are the seven minimum fields recorded so that a
        party other than the operator can verify them?
@@ -131,16 +137,47 @@ Internet-Draft           Agent Evidence Binding             October 2026
        Evidence Service and policy to expect that evidence under, and
        which assurance statement applies?
 
+   3.  Before acting on a call, how does a Serving Party decide, for
+       that call, that the calling agent is registered, currently
+       assured at the level the operation requires, and acting for a
+       Principal entitled to it?
+
+   4.  When a request passes through several agents, how are the
+       principal of the transaction and the Actor Chain carried with it
+       and recorded on each side?
+
    [I-D.thaha-scitt-agent-execution-evidence] answers the first question
    with per-call Execution Receipts and Assurance Statements registered
-   through SCITT [RFC9943].  This document answers the second with one
-   claim, aee_evidence, that an identity server MAY place in a Workload
-   Identity Token [I-D.ietf-wimse-s2s-protocol] or other agent token.
-   It also maps the AIMS fields and defines an in-toto predicate so that
-   the formats compose with [I-D.gilda-wimse-agent-audit-record].
+   through SCITT [RFC9943], and supplies the admission records and
+   linking rules behind the third and fourth.  This document answers the
+   second with one claim, aee_evidence, that an identity server MAY
+   place in a Workload Identity Token [I-D.ietf-wimse-workload-creds] or
+   other agent token; the third with the admission procedure of
+   Section 5; and the fourth with an HTTP field and the use of nested
+   act claims [RFC8693] (Section 6).  It also maps the AIMS fields and
+   defines an in-toto predicate so that the formats compose with
+   [I-D.gilda-wimse-agent-audit-record].
 
-   This document is short by design.  It proposes one claim and one
-   predicate type and defers everything else to the documents it cites.
+   The decision to act is made per call because what it depends on
+   changes between calls: an agent's assurance can be suspended within
+   minutes, one agent can act for many Principals with different
+   permissions, and operations on one service differ in risk.
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 3]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+   Section 3.4.11 of [I-D.ietf-wimse-arch] requires that "each hop in
+   the chain MUST explicitly scope and re-bind the security context";
+   recording that re-binding on both sides of every hop is what lets it
+   be verified afterwards.
+
+   This document is short by design.  It proposes one claim, one
+   predicate type and one HTTP field, and defers everything else to the
+   documents it cites.
 
 1.1.  Conventions and Definitions
 
@@ -151,24 +188,17 @@ Internet-Draft           Agent Evidence Binding             October 2026
    capitals, as shown here.
 
    The terms Agent, Agent Identity Management System and Workload are
-   used as in [I-D.ietf-wimse-aims].  Assurance Statement, Execution
-   Receipt, Evidence Service, Evidence Chain, Policy Pack and Bundle are
-   used as in [I-D.thaha-scitt-agent-execution-evidence].  Issuer,
-   Transparency Service, Signed Statement and Receipt are used as in
-   [RFC9943].
-
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 3]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
+   used as in [I-D.ietf-wimse-aims].  Actor and Delegation are used as
+   in [RFC8693], and Call Chain and Transaction as in
+   [I-D.ietf-oauth-transaction-tokens].  Actor Chain, Admission, Agent
+   Registration Authority, Agent Registration Statement, Assurance
+   Statement, Bundle, Caller Reference, Calling Agent, Evidence Chain,
+   Evidence Service, Execution Receipt, Linked Verification, Policy
+   Pack, Principal Link, Serving Party and Supervisory Authority are
+   used as defined in [I-D.thaha-scitt-agent-execution-evidence], which
+   states which of them have no equivalent in other IETF specifications.
+   Issuer, Transparency Service, Signed Statement and Receipt are used
+   as in [RFC9943].
 
 2.  Problem Statement
 
@@ -180,14 +210,22 @@ Internet-Draft           Agent Evidence Binding             October 2026
    posture assessment or risk state influencing the decision; and
    remediation or revocation events and their cause.
 
-   Three things are needed for a relying party to act on such a log that
-   the framework does not supply:
+   Five things are needed for a relying party to act on such a log, or
+   on a call, that the framework does not supply:
 
    Format:  A field list is not a format.  Two operators recording the
       same seven fields in their own schemas cannot be verified by one
       tool.
 
    Discovery:  A relying party presented with an agent credential has no
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 4]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
       standard way to learn which Evidence Service is expected to hold
       the agent's audit evidence, whether it is registered anywhere
       independent of the operator, or which policy was in force.
@@ -199,48 +237,70 @@ Internet-Draft           Agent Evidence Binding             October 2026
       identifier is only as strong as the link between the identifier,
       the key, and the entries before and after it.
 
+   Admission:  The claim lets a relying party find evidence after the
+      fact, but a Serving Party needs to decide before acting, on every
+      call, because assurance status and delegated authority can change
+      between calls.
+
+   Chains:  Correlating events across chains or systems needs additional
+      context.  Without it, each hop's evidence stands alone and cannot
+      show who started a request, for which Principal, or whether
+      authority widened along the way.
+
    The remainder of this document addresses each in turn.
 
 3.  Mapping of AIMS Minimum Fields to the Execution Receipt
 
    The following list maps each minimum field of Section 11 of
    [I-D.ietf-wimse-aims] to the member of the Execution Receipt
-   Statement defined in Section 5.4 of
+   Statement defined in Section 6.7 of
    [I-D.thaha-scitt-agent-execution-evidence] that carries it.  Integer
    keys are those of the CBOR form; names are those of the JSON form.
 
    Authenticated agent identifier:  agent_id (9), the runtime identity
       in force, which the Agent Credential Statement maps to a
-      logical_agent_id and binds to a key.
+      logical_agent_id issued by an Agent Registration Authority and
+      binds to a key.  On a Serving Party's admission receipt,
+      caller_agent_id (20) is the calling agent's identifier as
+      authenticated.
 
-   Delegated subject, when present:  principal (10).  Natural persons
-      are carried as a peppered digest, not in clear.
+   Delegated subject, when present:  principal (10), with the Actor
+      Chain actor_chain (23) when the agent acts for another agent's
+      request, and principal_link (24) when two parties to a call must
+      show they recorded the same Principal.  Natural persons are
+      carried as a peppered digest, not in clear.
 
    Resource or tool being accessed:  target (16) and egress_host (17).
       Tool name or model identifier; host for network egress.
 
+   Action requested and authorization decision:  record_type (4),
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 4]
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 5]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
 
-   Action requested and authorization decision:  record_type (4),
       decision (6) and request_digest (12). record_type is an event
       category, not the requested operation; decision is one of allow,
-      block, confirm or record as reported by the producer;
-      request_digest commits to the request bytes but does not disclose
-      the requested action without a validated pre-image.
+      block, confirm or record as reported by the producer, and a
+      confirm is followed by a receipt recording its allow or block
+      outcome, which names it in confirm_seq (19); request_digest
+      commits to the request bytes but does not disclose the requested
+      action without a validated pre-image.
 
    Timestamp and correlation identifier:  ts (14), seq (2), task_seq
-      (11) and parent_seq (5). ts is producer-declared. seq together
-      with agent_id is unique per chain, and parent_seq links a tool
-      call to the inference that requested it; both are interpreted
-      inside one Evidence Chain, and task_seq inside one Task.
-      Correlation across chains, Tasks or systems needs additional
-      context; equal sequence values in distinct chains do not identify
-      the same event.
+      (11) and parent_seq (5). ts is producer-declared. seq is unique
+      within an Evidence Chain, and parent_seq links a tool call to the
+      inference that requested it; both are interpreted inside one
+      Evidence Chain, in which task_seq names the Task by the seq of its
+      task_start.  Across chains and systems, txn (25) is the
+      transaction identifier of [I-D.ietf-oauth-transaction-tokens],
+      carried on both sides of every call, and an admission receipt's
+      caller_ref (21) names the caller's receipt for the same call.
+      Equal sequence values in distinct chains do not identify the same
+      event.
 
    Posture or risk state influencing the decision:  policy_pack_digest
       (7) and config_integrity_digest (8) commit to the policy and
@@ -253,39 +313,31 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
    Remediation or revocation events and their cause:  Revocation
       Statement (aee-type 8), Configuration Drift Statement (aee-type
-      4), and an Assurance Statement disposition of reassess, suspend or
-      withdraw, all registered on the same Transparency Service.
-      reason_code exists only on a Revocation Statement and carries a
-      revocation cause; a Configuration Drift Statement carries
-      prev_config_digest, new_config_digest and the changed entries
-      instead.  Recording drift, revocation or a disposition does not by
-      itself prove that a remediation instruction was enforced; the
-      enforcement outcome requires additional audit evidence.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 5]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
+      4), an Assurance Statement disposition of reassess, suspend or
+      withdraw, and a RESTRICTED or SUSPENDED status set by the
+      Supervisory Authority, all registered on or referenced from the
+      same Transparency Service.  A refused call is recorded as block,
+      at the caller's Decision Point or in the Serving Party's admission
+      receipt. reason_code exists only on a Revocation Statement and
+      carries a revocation cause; a Configuration Drift Statement
+      carries prev_config_digest, new_config_digest and the changed
+      entries instead.  Recording drift, revocation or a disposition
+      does not by itself prove that a remediation instruction was
+      enforced; the enforcement outcome requires additional audit
+      evidence.
 
    The mapping is therefore partial: every AIMS minimum field has a
    carrier in a signed, hash-chained receipt or a registered statement
    referenced from it, but those carriers are commitments and producer-
    reported values rather than the underlying facts.  A digest does not
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 6]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    disclose its pre-image, a decision is what the producer recorded,
    policy and configuration digests commit to what the Evidence Service
    declares was in force, the Assurance Statement's risk state is
@@ -294,12 +346,12 @@ Internet-Draft           Agent Evidence Binding             October 2026
    disclosed by the format, not inferred from an event code or digest;
    deployments that need it SHOULD use the audit record of
    [I-D.gilda-wimse-agent-audit-record], linked as described in
-   Section 5.
+   Section 7.
 
 4.  The aee_evidence Claim
 
    This section defines one claim.  It MAY appear in a Workload Identity
-   Token [I-D.ietf-wimse-s2s-protocol], in a JWT or CWT access token
+   Token [I-D.ietf-wimse-workload-creds], in a JWT or CWT access token
    issued to an agent under Section 10 of [I-D.ietf-wimse-aims], or in
    any other JWT [RFC7519] or CWT [RFC8392] that identifies an agent.
    Recipients that do not understand it ignore it, as those
@@ -313,7 +365,8 @@ Internet-Draft           Agent Evidence Binding             October 2026
    policy_pack_digest and logical_agent_id are REQUIRED.
 
    evidence_service (CBOR key 1), REQUIRED:  A URI identifying the
-      Evidence Service that issues Execution Receipt Statements for this
+      Evidence Service that issues Execution Epoch Statements, or
+      individually registered Execution Receipt Statements, for this
       agent.  The URI is the Issuer identifier that appears in the iss
       claim of those statements' CWT Claims header.  It is an
       identifier, not necessarily a retrievable location.
@@ -326,18 +379,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
       form, the array [alg, value].
 
    transparency_service (CBOR key 3), OPTIONAL:  The base URI of the
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 6]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
       Transparency Service with which the Evidence Service registers
       statements, and from which a relying party can resolve
       registration artifacts through [I-D.ietf-scitt-scrapi].  It
@@ -345,6 +386,14 @@ Internet-Draft           Agent Evidence Binding             October 2026
       period.
 
    agent_credential_digest (CBOR key 4), OPTIONAL:  The digest of the
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 7]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
       Agent Credential Statement payload that binds this agent's
       identifier to the key in the token's cnf claim.  When present, the
       public key represented in the Agent Credential Statement MUST
@@ -356,24 +405,50 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
    logical_agent_id (CBOR key 5), REQUIRED:  The persistent identifier
       of the agent across runtime environments, equal to the
-      logical_agent_id of the Agent Credential Statement; a Workload
-      Identifier [I-D.ietf-wimse-identifier] or a did:web identifier,
-      never a newly minted scheme.
+      logical_agent_id of the Agent Credential and Agent Registration
+      Statements: a did:web identifier [DID-WEB] in the domain of the
+      Agent Registration Authority that issued it.  Section 6 of
+      [I-D.ietf-wimse-aims] requires that an agent be assigned exactly
+      one WIMSE identifier; within any one such deployment, that
+      identifier is the agent's runtime identity there, and
+      logical_agent_id names the agent above the runtime identities of
+      all its deployments.
 
    assurance_statement_digest (CBOR key 6), OPTIONAL:  The digest of the
-      applicable Assurance Statement payload.  The statement, rather
-      than this token claim, carries assurance_level, assessed
-      capability scope, risk assessment, monitoring summary, validity
-      and status.  This avoids copying assurance values into credentials
-      where they can become stale.
+      applicable Assurance Statement payload.  The statement carries the
+      authoritative assurance_level, assessed capability scope, risk
+      assessment, monitoring summary, validity and status.
+
+   assurance_level (CBOR key 7) and assurance_status (CBOR key 8),
+   OPTIONAL:  The level of the Assurance Statement named by
+      assurance_statement_digest, and the status value its token issuer
+      observed in the statement's status list when issuing the token.
+      They are a signed cache of the statement, for a fast admission
+      decision, and MUST be present together and only with
+      assurance_statement_digest.  A token issuer MUST NOT include them
+      unless it checked the status when issuing the token, and a Serving
+      Party MUST NOT rely on them unless the token's remaining lifetime
+      does not exceed the status freshness its policy requires.  If they
+      disagree with the statement, the statement prevails.
+
+   registration_digest (CBOR key 9), OPTIONAL:  The digest of the Agent
+      Registration Statement payload for logical_agent_id.
 
    The claim identifies the expected Evidence Service, the policy
-   commitment, the persistent logical identity, optional credential and
-   assurance bindings and an associated Transparency Service.  It does
-   not identify a particular Bundle or evidence period, and it is not a
-   retrieval protocol: Bundle discovery and retrieval are supplied by
-   deployment configuration or another protocol and are outside this
-   document.
+   commitment, the persistent logical identity, optional registration,
+   credential and assurance bindings and an associated Transparency
+   Service.  It does not identify a particular Bundle or evidence
+   period, and it is not a retrieval protocol: Bundle discovery and
+   retrieval are supplied by deployment configuration or another
+   protocol and are outside this document.
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 8]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
 
    This document assumes a token profile in which the authenticated sub
    names the workload that is authenticating; logical_agent_id names the
@@ -386,14 +461,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
    identifier value represent the same workload only when validated
    under the same trust domain and issuer trust configuration".  A
    relying party that receives tokens for the same agent from a
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 7]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
    development cluster, a production cluster and a cloud identity
    platform therefore sees three unrelated sub values.  Carrying
    logical_agent_id in the token gives it the correlation key, and the
@@ -408,6 +475,36 @@ Internet-Draft           Agent Evidence Binding             October 2026
    directly.
 
    Example, as it would appear in a WIT:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                 [Page 9]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
 
    {
      "iss": "https://ids.example.com",
@@ -424,11 +521,13 @@ Internet-Draft           Agent Evidence Binding             October 2026
        },
        "transparency_service": "https://ts.example.net",
        "logical_agent_id":
-         "did:web:agents.example.com:billing-assistant",
+         "did:web:register.example:agent:billing-assistant",
        "assurance_statement_digest": {
          "alg": "sha-256",
          "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-       }
+       },
+       "assurance_level": 3,
+       "assurance_status": 0
      }
    }
 
@@ -441,14 +540,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
        issuer, protection, audience, validity and proof of possession
        where the profile uses one.  None of the following steps adds
        trust to a token that fails its own validation.
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 8]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    2.  Establishes the Evidence Service and Transparency Service trust
        anchors it accepts, obtained out of band or under an accepted
@@ -464,14 +555,22 @@ Internet-Draft           Agent Evidence Binding             October 2026
    4.  Obtains a Bundle for that period from the Evidence Service or
        from the agent's operator, by means outside this document.
 
-   5.  Verifies the Bundle per Section 8 of
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 10]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+   5.  Verifies the Bundle per Section 9 of
        [I-D.thaha-scitt-agent-execution-evidence] against the trust
        anchors of step 2.
 
    6.  Checks each of the following bindings, reporting each failure by
        kind:
 
-       *  issuer binding: the iss of the Execution Receipt Statements
+       *  issuer binding: the iss of the Execution Epoch Statements, or
+          of individually registered Execution Receipt Statements,
           equals evidence_service;
 
        *  runtime identity: the Agent Credential Statement lists the
@@ -480,7 +579,10 @@ Internet-Draft           Agent Evidence Binding             October 2026
           identity, this is the token's sub);
 
        *  logical identity: the Agent Credential Statement's
-          logical_agent_id equals the claim's logical_agent_id;
+          logical_agent_id equals the claim's logical_agent_id, and the
+          Agent Registration Statement it names was issued by an Agent
+          Registration Authority the relying party accepts (and, if
+          registration_digest is present, has that digest);
 
        *  policy binding: every receipt's policy_pack_digest equals the
           claim's policy_pack_digest, or equals a registered descendant
@@ -492,20 +594,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
           does not show that a policy was weaker or that execution under
           the declared policy occurred.
 
-
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                  [Page 9]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
    7.  If agent_credential_digest is present, checks that the Agent
        Credential Statement in the Bundle has that digest and that the
        public key it represents equals the key in the token's cnf,
@@ -513,6 +601,22 @@ Internet-Draft           Agent Evidence Binding             October 2026
        produces a credential-key-bound result; the claim's validity
        without agent_credential_digest is limited to the basic identity-
        and-policy correlation of the other steps.
+
+
+
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 11]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
 
    8.  If assurance_statement_digest is present, checks that the Bundle
        contains that Assurance Statement, that its logical_agent_id,
@@ -542,7 +646,125 @@ Internet-Draft           Agent Evidence Binding             October 2026
    required by policy, an unrecognized claim is not a successful
    evidence verification.
 
-5.  Composition with the WIMSE Audit Record
+5.  Admission by a Serving Party
+
+   A Serving Party that admits calls from agents only if they are
+   registered and assured performs the following steps on every call,
+   before acting on it.  They decide the call; the steps of Section 4.1
+   verify conduct after the fact, and the two are separate.
+
+   1.  Validate the token and the proof of possession for this request
+       under the applicable credential and authentication profiles;
+       [I-D.ietf-wimse-workload-creds] defines the Workload Identity
+       Token, while its proof-of-possession mechanisms are specified
+       separately.
+
+
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 12]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+   2.  Determine the Assurance Statement and Agent Registration
+       Statement that apply, from aee_evidence or by other configured
+       means, and their status.  The status MUST be no older than the
+       freshness the Serving Party's policy requires for the operation.
+       A token's assurance_level and assurance_status MAY be used as
+       that status only within the limits of Section 4.  For operations
+       its policy marks as high-risk, the Serving Party SHOULD check the
+       status list itself.
+
+   3.  Check that the registration is from an accepted Agent
+       Registration Authority and is valid; that the Assurance
+       Statement's level meets the minimum the Serving Party's policy
+       sets for the operation, from an accepted assessor and scheme; and
+       that its status is VALID, or RESTRICTED with the operation within
+       the restricted class the scheme defines.
+
+   4.  Check the Principal and every Actor in the Actor Chain
+       (Section 6) against its policy for the operation, including any
+       status of the Principal's delegation and any minimum Principal
+       assurance it requires.
+
+   5.  Produce an admission receipt recording the decision and its
+       basis, as Section 6.7.2 of
+       [I-D.thaha-scitt-agent-execution-evidence] specifies, whether the
+       call is admitted or refused.
+
+   6.  Act on the call, or refuse it.
+
+   A Serving Party that cannot complete a step refuses the call.  The
+   absence of evidence does not satisfy a policy that requires it.
+
+6.  Carrying the Caller Reference and Actor Chain
+
+6.1.  The AEE-Caller-Ref Field
+
+   A Calling Agent that makes an HTTP request to a Serving Party
+   includes the AEE-Caller-Ref request header field.  It is a Dictionary
+   Structured Field [RFC9651] with the following members:
+
+   es:  A String: the Issuer identifier of the Calling Agent's Evidence
+      Service.
+
+   seq:  An Integer: the seq of the Calling Agent's Execution Receipt
+      for this call.
+
+   h:  A Byte Sequence: the record-hash of that receipt.
+
+   txn:  A String: the transaction identifier.  When the request carries
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 13]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+      a Transaction Token [I-D.ietf-oauth-transaction-tokens], it MUST
+      equal that token's txn claim.
+
+   Unknown members are ignored.  For example, with a line break added
+   for display:
+
+   AEE-Caller-Ref: es="https://harness.example/issuer", seq=3,
+     h=:G2jKK8xfSBTOhw91QZt52PZrUeE98YXKQc83HDGrG/M=:, txn="txn-0001"
+
+   The Serving Party copies these values into the caller_ref and txn of
+   its admission receipt.  They are the caller's claim until Linked
+   Verification checks them against the caller's registered chain
+   (Section 9.1 of [I-D.thaha-scitt-agent-execution-evidence]).  The
+   Calling Agent's receipt is produced before the request is sent, so
+   the hash is available when the field is built.
+
+6.2.  Actor Chain and Principal Link
+
+   The Actor Chain travels in the token presented on the call as nested
+   act claims (Section 4.1 of [RFC8693]), the outermost naming the
+   Calling Agent.  Both parties record it as actor_chain, least recent
+   first.  Each party computes the principal_link as SHA-256 over the
+   octets of the access token in the request's Authorization header
+   field (not the Workload Identity Token or proof token), so no further
+   field is needed.  A Serving Party evaluates every Actor in the chain,
+   not only the current one (Section 5).
+
+6.3.  Other Protocols
+
+   Protocols other than HTTP that carry agent calls, such as tool-
+   invocation protocols, can carry the same members in the metadata they
+   provide for each request.  This document does not define those
+   bindings.
+
+7.  Composition with the WIMSE Audit Record
 
    [I-D.gilda-wimse-agent-audit-record] defines an audit record as an
    in-toto Statement [IN-TOTO] in a DSSE envelope [DSSE], canonicalized
@@ -553,22 +775,21 @@ Internet-Draft           Agent Evidence Binding             October 2026
    Receipt places the call on an identity-bound chain sealed into a
    Transparency Service.
 
+   To let one toolchain carry both, this document defines an in-toto
+   predicate type for the Execution Receipt.
 
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 10]
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 14]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
 
-   To let one toolchain carry both, this document defines an in-toto
-   predicate type for the Execution Receipt.
-
    predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
    The predicate is the JSON form of an Execution Receipt as defined in
-   Section 5.4 of [I-D.thaha-scitt-agent-execution-evidence], unchanged.
+   Section 6.7 of [I-D.thaha-scitt-agent-execution-evidence], unchanged.
    The Statement's subject MUST contain one entry whose name is the
    decimal seq of the receipt and whose digest contains sha256 set to
    the hex-encoded SHA-256 of the JCS serialization [RFC8785] of the
@@ -601,23 +822,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
       it does not establish when the separately created audit record
       existed, or when the underlying action occurred.
 
-
-
-
-
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 11]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
    Neither document is required for the other: deployments may implement
    either format independently where their requirements permit.
    Conformance to [I-D.thaha-scitt-agent-execution-evidence] or to
@@ -629,12 +833,22 @@ Internet-Draft           Agent Evidence Binding             October 2026
    produces both and links them as above gives a relying party a sealed
    chain and a rich decision record for the same call.
 
-   In the terms of [I-D.kuehlewind-audit-architecture], the Execution
-   Receipt is an Action Record produced at the Harness vantage and the
-   aee_evidence claim is part of the audit context carried with the
-   agent's credential.
 
-6.  Security Considerations
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 15]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+   In the terms of [I-D.kuehlewind-audit-architecture], the Execution
+   Receipt is an Action Record produced at the Harness vantage, the
+   admission receipt is the corresponding record at the Serving Party,
+   and the aee_evidence claim is part of the audit context carried with
+   the agent's credential.
+
+8.  Security Considerations
 
    The claim is a pointer and a commitment, not a proof.  It is
    protected by the signature on the token that carries it, and it is
@@ -666,19 +880,31 @@ Internet-Draft           Agent Evidence Binding             October 2026
    referenced statement can expire, become stale under its monitoring
    frequency, or be suspended or withdrawn after token issuance.  A
    relying party that uses it MUST perform the SCITT verification and
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 12]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
    status checks at decision time.  A Bundle is a snapshot of what its
    producer chose to include: the absence of revocation information in a
    supplied Bundle does not establish current non-revocation, and a
    relying party that requires current acceptance applies configured
    freshness rules to the status evidence.
+
+   assurance_level and assurance_status in a token can be stale for up
+   to the token's lifetime.  The lifetime rule of Section 4 bounds this,
+   and the Serving Party's own status check for high-risk operations
+   removes it where it matters most.
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 16]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+   The AEE-Caller-Ref field and the act claims are assertions by the
+   Calling Agent.  A forged field names a receipt that does not exist or
+   does not match, and fails Linked Verification; a replayed one names a
+   receipt that another admission already names, which is detected when
+   both admissions are verified together.  A Serving Party that acts
+   before verifying them relies on its own checks of the token and the
+   Principal, not on the field.
 
    Including transparency_service in the token reveals to any token
    recipient which Transparency Service the operator uses.  Operators
@@ -689,7 +915,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
    [I-D.thaha-scitt-agent-execution-evidence], [I-D.ietf-wimse-aims] and
    [RFC9943] apply.
 
-7.  Privacy Considerations
+9.  Privacy Considerations
 
    The claim carries no information about a Principal, no content, and
    no per-call data.  It adds an Evidence Service identifier, a policy
@@ -702,35 +928,41 @@ Internet-Draft           Agent Evidence Binding             October 2026
    the logical agent.  The digests do not disclose the committed
    payloads.
 
+   AEE-Caller-Ref reveals the Calling Agent's Evidence Service and a
+   transaction identifier to the Serving Party, and the act claims
+   reveal which operators' agents took part in a request.  Calling
+   Agents SHOULD send them only to the Serving Parties they call.
+
    The privacy considerations of
    [I-D.thaha-scitt-agent-execution-evidence], in particular its
    treatment of natural-person Principals, apply to the evidence the
    claim points to.
 
-8.  IANA Considerations
+10.  IANA Considerations
 
-8.1.  JSON Web Token Claims
+10.1.  JSON Web Token Claims
 
    IANA is requested to register the following claim in the "JSON Web
    Token Claims" registry [RFC7519].
 
    *  Claim Name: aee_evidence
 
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 17]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    *  Claim Description: Evidence service, policy, persistent identity
-      and optional assurance binding for agent execution evidence
+      and optional registration and assurance binding for agent
+      execution evidence
 
    *  Change Controller: IETF
 
    *  Reference: Section 4 of this document
 
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 13]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
-8.2.  CBOR Web Token Claims
+10.2.  CBOR Web Token Claims
 
    IANA is requested to register the following claim in the "CBOR Web
    Token (CWT) Claims" registry [RFC8392].
@@ -738,7 +970,8 @@ Internet-Draft           Agent Evidence Binding             October 2026
    *  Claim Name: aee_evidence
 
    *  Claim Description: Evidence service, policy, persistent identity
-      and optional assurance binding for agent execution evidence
+      and optional registration and assurance binding for agent
+      execution evidence
 
    *  JWT Claim Name: aee_evidence
 
@@ -750,18 +983,45 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
    *  Reference: Section 4 of this document
 
-8.3.  IETF URN Sub-namespace
+10.3.  HTTP Field Name
+
+   IANA is requested to register the following field in the "Hypertext
+   Transfer Protocol (HTTP) Field Name Registry" per Section 16.3.1 of
+   [RFC9110]:
+
+   *  Field Name: AEE-Caller-Ref
+
+   *  Status: permanent
+
+   *  Structured Type: Dictionary
+
+   *  Reference: Section 6 of this document
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 18]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+10.4.  IETF URN Sub-namespace
 
    IANA is requested to register the sub-namespace aee in the "IETF URN
    Sub-namespace for Registered Protocol Parameter Identifiers" registry
    per [RFC3553], with this document as the reference and the IETF as
    the change controller, and within it the identifier
    urn:ietf:params:aee:predicate:execution-receipt as defined in
-   Section 5.
+   Section 7.
 
-9.  References
+11.  References
 
-9.1.  Normative References
+11.1.  Normative References
 
    [I-D.ietf-wimse-aims]
               Kasselman, P., Lombardo, J., Rosomakho, Y., Campbell, B.,
@@ -778,13 +1038,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
               execution-evidence-00, October 2026,
               <https://datatracker.ietf.org/doc/html/draft-thaha-scitt-
               agent-execution-evidence-00>.
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 14]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -804,14 +1057,36 @@ Internet-Draft           Agent Evidence Binding             October 2026
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 19]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
               "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
               May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
+
+   [RFC8693]  Jones, M., Nadalin, A., Campbell, B., Bradley, J., and C.
+              Mortimore, "OAuth 2.0 Token Exchange", RFC 8693,
+              DOI 10.17487/RFC8693, January 2020,
+              <https://www.rfc-editor.org/rfc/rfc8693>.
 
    [RFC8785]  Rundgren, A., Jordan, B., and S. Erdtman, "JSON
               Canonicalization Scheme (JCS)", RFC 8785,
               DOI 10.17487/RFC8785, June 2020,
               <https://www.rfc-editor.org/rfc/rfc8785>.
+
+   [RFC9110]  Fielding, R., Nottingham, M., and J. Reschke, "HTTP
+              Semantics", STD 97, RFC 9110, DOI 10.17487/RFC9110, June
+              2022, <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [RFC9651]  Nottingham, M. and P.-H. Kamp, "Structured Field Values
+              for HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
+              <https://www.rfc-editor.org/rfc/rfc9651>.
 
    [RFC9943]  Birkholz, H., Delignat-Lavaud, A., Fournet, C., Deshpande,
               Y., and S. Lasker, "An Architecture for Trustworthy and
@@ -819,7 +1094,11 @@ Internet-Draft           Agent Evidence Binding             October 2026
               DOI 10.17487/RFC9943, June 2026,
               <https://www.rfc-editor.org/rfc/rfc9943>.
 
-9.2.  Informative References
+11.2.  Informative References
+
+   [DID-WEB]  W3C Credentials Community Group, "did:web Method
+              Specification", 2023,
+              <https://w3c-ccg.github.io/did-method-web/>.
 
    [DSSE]     secure-systems-lab, "Dead Simple Signing Envelope", 2023,
               <https://github.com/secure-systems-lab/dsse>.
@@ -827,21 +1106,32 @@ Internet-Draft           Agent Evidence Binding             October 2026
    [I-D.gilda-wimse-agent-audit-record]
               Gilda, S., "An Audit Record Format for AI Agent
               Authorization Decisions", Work in Progress, Internet-
-              Draft, draft-gilda-wimse-agent-audit-record-01, September
+              Draft, draft-gilda-wimse-agent-audit-record-02, October
               2026, <https://datatracker.ietf.org/doc/html/draft-gilda-
-              wimse-agent-audit-record-01>.
-
-   [I-D.ietf-scitt-scrapi]
-              Birkholz, H., Geater, J., and A. Delignat-Lavaud, "Supply
-              Chain Integrity, Transparency, and Trust (SCITT) Reference
+              wimse-agent-audit-record-02>.
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 15]
+
+
+
+
+
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 20]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
 
+   [I-D.ietf-oauth-transaction-tokens]
+              Tulshibagwale, A., Fletcher, G., and P. Kasselman,
+              "Transaction Tokens", Work in Progress, Internet-Draft,
+              draft-ietf-oauth-transaction-tokens-11, July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-oauth-
+              transaction-tokens-11>.
+
+   [I-D.ietf-scitt-scrapi]
+              Birkholz, H., Geater, J., and A. Delignat-Lavaud, "Supply
+              Chain Integrity, Transparency, and Trust (SCITT) Reference
               APIs", Work in Progress, Internet-Draft, draft-ietf-scitt-
               scrapi-11, June 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-scitt-
@@ -855,19 +1145,13 @@ Internet-Draft           Agent Evidence Binding             October 2026
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
               arch-08>.
 
-   [I-D.ietf-wimse-identifier]
-              Rosomakho, Y. and J. Salowey, "Workload Identifier", Work
-              in Progress, Internet-Draft, draft-ietf-wimse-identifier-
-              03, July 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-wimse-identifier-03>.
-
-   [I-D.ietf-wimse-s2s-protocol]
-              Campbell, B., Salowey, J., Schwenkschuster, A., and Y.
-              Sheffer, "WIMSE Workload-to-Workload Authentication", Work
-              in Progress, Internet-Draft, draft-ietf-wimse-s2s-
-              protocol-07, October 2025,
+   [I-D.ietf-wimse-workload-creds]
+              Campbell, B., Salowey, J., Schwenkschuster, A., Sheffer,
+              Y., and Y. Rosomakho, "WIMSE Workload Credentials", Work
+              in Progress, Internet-Draft, draft-ietf-wimse-workload-
+              creds-02, July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              s2s-protocol-07>.
+              workload-creds-02>.
 
    [I-D.kuehlewind-audit-architecture]
               Kuehlewind, M. and H. Birkholz, "An Architecture for
@@ -889,11 +1173,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-
-
-
-
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 16]
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 21]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -949,4 +1229,4 @@ Authors' Addresses
 
 
 
-Thaha & Shamsudeen        Expires 8 April 2027                 [Page 17]
+Thaha & Shamsudeen        Expires 22 April 2027                [Page 22]

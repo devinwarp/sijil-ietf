@@ -45,9 +45,9 @@
     <abstract>
 
 
-<?line 192?>
+<?line 232?>
 
-<t>The WIMSE AI Identity Management System (AIMS) requires tamper-evident agent audit logs but does not specify their format or discovery. This document maps the AIMS minimum fields to the SCITT Agent Execution Evidence profile, defines one claim that binds a workload credential to the persistent agent, governing policy, expected Evidence Service and optional Assurance Statement, and defines an in-toto predicate type for carrying Execution Receipts in the audit format proposed for WIMSE. It is input to the AIMS work and makes no change to it.</t>
+<t>The WIMSE AI Identity Management System (AIMS) requires tamper-evident agent audit logs but does not specify their format or discovery. This document maps the AIMS minimum fields to the SCITT Agent Execution Evidence profile, defines one claim that binds a workload credential to the persistent agent, governing policy, expected Evidence Service and optional Assurance Statement, and defines an in-toto predicate type for carrying Execution Receipts in the audit format proposed for WIMSE. It also describes how a service admits an agent's call by checking its assurance at the moment of the request, and defines an HTTP field that links each call to the caller's evidence. It is input to the AIMS work and makes no change to it.</t>
 
 
 
@@ -74,20 +74,24 @@
   <middle>
 
 
-<?line 196?>
+<?line 236?>
 
 <section anchor="introduction"><name>Introduction</name>
 
-<t>Section 11 of <xref target="I-D.ietf-wimse-aims"/> ("Agent Monitoring, Observability and Remediation") requires tamper-evident audit logs and lists the fields an audit event must record at a minimum. Section 8 states that evidence formats are out of scope, and Section 13 states that compliance criteria are out of scope. That is a reasonable division: an identity management framework should not pick a log format. It leaves two practical questions open for an implementer:</t>
+<t>Section 11 of <xref target="I-D.ietf-wimse-aims"/> ("Agent Monitoring, Observability and Remediation") requires tamper-evident audit logs and lists the fields an audit event must record at a minimum. Section 8 does not require any particular posture assessment mechanism or evidence format, and Section 13 states that compliance criteria are out of scope. That is a reasonable division: an identity management framework should not pick a log format. It leaves four practical questions open for an implementer:</t>
 
 <t><list style="numbers" type="1">
   <t>In what format are the seven minimum fields recorded so that a party other than the operator can verify them?</t>
   <t>Given an agent's credential, how does a relying party learn which Evidence Service and policy to expect that evidence under, and which assurance statement applies?</t>
+  <t>Before acting on a call, how does a Serving Party decide, for that call, that the calling agent is registered, currently assured at the level the operation requires, and acting for a Principal entitled to it?</t>
+  <t>When a request passes through several agents, how are the principal of the transaction and the Actor Chain carried with it and recorded on each side?</t>
 </list></t>
 
-<t><xref target="I-D.thaha-scitt-agent-execution-evidence"/> answers the first question with per-call Execution Receipts and Assurance Statements registered through SCITT <xref target="RFC9943"/>. This document answers the second with one claim, <spanx style="verb">aee_evidence</spanx>, that an identity server <bcp14>MAY</bcp14> place in a Workload Identity Token <xref target="I-D.ietf-wimse-s2s-protocol"/> or other agent token. It also maps the AIMS fields and defines an in-toto predicate so that the formats compose with <xref target="I-D.gilda-wimse-agent-audit-record"/>.</t>
+<t><xref target="I-D.thaha-scitt-agent-execution-evidence"/> answers the first question with per-call Execution Receipts and Assurance Statements registered through SCITT <xref target="RFC9943"/>, and supplies the admission records and linking rules behind the third and fourth. This document answers the second with one claim, <spanx style="verb">aee_evidence</spanx>, that an identity server <bcp14>MAY</bcp14> place in a Workload Identity Token <xref target="I-D.ietf-wimse-workload-creds"/> or other agent token; the third with the admission procedure of <xref target="admission"/>; and the fourth with an HTTP field and the use of nested <spanx style="verb">act</spanx> claims <xref target="RFC8693"/> (<xref target="carrying"/>). It also maps the AIMS fields and defines an in-toto predicate so that the formats compose with <xref target="I-D.gilda-wimse-agent-audit-record"/>.</t>
 
-<t>This document is short by design. It proposes one claim and one predicate type and defers everything else to the documents it cites.</t>
+<t>The decision to act is made per call because what it depends on changes between calls: an agent's assurance can be suspended within minutes, one agent can act for many Principals with different permissions, and operations on one service differ in risk. Section 3.4.11 of <xref target="I-D.ietf-wimse-arch"/> requires that "each hop in the chain <bcp14>MUST</bcp14> explicitly scope and re-bind the security context"; recording that re-binding on both sides of every hop is what lets it be verified afterwards.</t>
+
+<t>This document is short by design. It proposes one claim, one predicate type and one HTTP field, and defers everything else to the documents it cites.</t>
 
 <section anchor="conventions-and-definitions"><name>Conventions and Definitions</name>
 
@@ -99,7 +103,7 @@ appear in all capitals, as shown here.</t>
 
 <?line -18?>
 
-<t>The terms Agent, Agent Identity Management System and Workload are used as in <xref target="I-D.ietf-wimse-aims"/>. Assurance Statement, Execution Receipt, Evidence Service, Evidence Chain, Policy Pack and Bundle are used as in <xref target="I-D.thaha-scitt-agent-execution-evidence"/>. Issuer, Transparency Service, Signed Statement and Receipt are used as in <xref target="RFC9943"/>.</t>
+<t>The terms Agent, Agent Identity Management System and Workload are used as in <xref target="I-D.ietf-wimse-aims"/>. Actor and Delegation are used as in <xref target="RFC8693"/>, and Call Chain and Transaction as in <xref target="I-D.ietf-oauth-transaction-tokens"/>. Actor Chain, Admission, Agent Registration Authority, Agent Registration Statement, Assurance Statement, Bundle, Caller Reference, Calling Agent, Evidence Chain, Evidence Service, Execution Receipt, Linked Verification, Policy Pack, Principal Link, Serving Party and Supervisory Authority are used as defined in <xref target="I-D.thaha-scitt-agent-execution-evidence"/>, which states which of them have no equivalent in other IETF specifications. Issuer, Transparency Service, Signed Statement and Receipt are used as in <xref target="RFC9943"/>.</t>
 
 </section>
 </section>
@@ -107,7 +111,7 @@ appear in all capitals, as shown here.</t>
 
 <t>Section 11 of <xref target="I-D.ietf-wimse-aims"/> states that, at a minimum, audit events <bcp14>MUST</bcp14> record: the authenticated agent identifier; the delegated subject (user or system), when present; the resource or tool being accessed; the action requested and the authorization decision; a timestamp and a transaction or request correlation identifier; the posture assessment or risk state influencing the decision; and remediation or revocation events and their cause.</t>
 
-<t>Three things are needed for a relying party to act on such a log that the framework does not supply:</t>
+<t>Five things are needed for a relying party to act on such a log, or on a call, that the framework does not supply:</t>
 
 <dl>
   <dt>Format:</dt>
@@ -122,6 +126,14 @@ appear in all capitals, as shown here.</t>
   <dd>
     <t>Even when the log is found, nothing in the credential ties the credential to the log. A log entry carrying an agent identifier is only as strong as the link between the identifier, the key, and the entries before and after it.</t>
   </dd>
+  <dt>Admission:</dt>
+  <dd>
+    <t>The claim lets a relying party find evidence after the fact, but a Serving Party needs to decide before acting, on every call, because assurance status and delegated authority can change between calls.</t>
+  </dd>
+  <dt>Chains:</dt>
+  <dd>
+    <t>Correlating events across chains or systems needs additional context. Without it, each hop's evidence stands alone and cannot show who started a request, for which Principal, or whether authority widened along the way.</t>
+  </dd>
 </dl>
 
 <t>The remainder of this document addresses each in turn.</t>
@@ -129,16 +141,16 @@ appear in all capitals, as shown here.</t>
 </section>
 <section anchor="mapping"><name>Mapping of AIMS Minimum Fields to the Execution Receipt</name>
 
-<t>The following list maps each minimum field of Section 11 of <xref target="I-D.ietf-wimse-aims"/> to the member of the Execution Receipt Statement defined in Section 5.4 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/> that carries it. Integer keys are those of the CBOR form; names are those of the JSON form.</t>
+<t>The following list maps each minimum field of Section 11 of <xref target="I-D.ietf-wimse-aims"/> to the member of the Execution Receipt Statement defined in Section 6.7 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/> that carries it. Integer keys are those of the CBOR form; names are those of the JSON form.</t>
 
 <dl>
   <dt>Authenticated agent identifier:</dt>
   <dd>
-    <t><spanx style="verb">agent_id</spanx> (9), the runtime identity in force, which the Agent Credential Statement maps to a <spanx style="verb">logical_agent_id</spanx> and binds to a key.</t>
+    <t><spanx style="verb">agent_id</spanx> (9), the runtime identity in force, which the Agent Credential Statement maps to a <spanx style="verb">logical_agent_id</spanx> issued by an Agent Registration Authority and binds to a key. On a Serving Party's <spanx style="verb">admission</spanx> receipt, <spanx style="verb">caller_agent_id</spanx> (20) is the calling agent's identifier as authenticated.</t>
   </dd>
   <dt>Delegated subject, when present:</dt>
   <dd>
-    <t><spanx style="verb">principal</spanx> (10). Natural persons are carried as a peppered digest, not in clear.</t>
+    <t><spanx style="verb">principal</spanx> (10), with the Actor Chain <spanx style="verb">actor_chain</spanx> (23) when the agent acts for another agent's request, and <spanx style="verb">principal_link</spanx> (24) when two parties to a call must show they recorded the same Principal. Natural persons are carried as a peppered digest, not in clear.</t>
   </dd>
   <dt>Resource or tool being accessed:</dt>
   <dd>
@@ -146,11 +158,11 @@ appear in all capitals, as shown here.</t>
   </dd>
   <dt>Action requested and authorization decision:</dt>
   <dd>
-    <t><spanx style="verb">record_type</spanx> (4), <spanx style="verb">decision</spanx> (6) and <spanx style="verb">request_digest</spanx> (12). <spanx style="verb">record_type</spanx> is an event category, not the requested operation; <spanx style="verb">decision</spanx> is one of allow, block, confirm or record as reported by the producer; <spanx style="verb">request_digest</spanx> commits to the request bytes but does not disclose the requested action without a validated pre-image.</t>
+    <t><spanx style="verb">record_type</spanx> (4), <spanx style="verb">decision</spanx> (6) and <spanx style="verb">request_digest</spanx> (12). <spanx style="verb">record_type</spanx> is an event category, not the requested operation; <spanx style="verb">decision</spanx> is one of allow, block, confirm or record as reported by the producer, and a confirm is followed by a receipt recording its allow or block outcome, which names it in <spanx style="verb">confirm_seq</spanx> (19); <spanx style="verb">request_digest</spanx> commits to the request bytes but does not disclose the requested action without a validated pre-image.</t>
   </dd>
   <dt>Timestamp and correlation identifier:</dt>
   <dd>
-    <t><spanx style="verb">ts</spanx> (14), <spanx style="verb">seq</spanx> (2), <spanx style="verb">task_seq</spanx> (11) and <spanx style="verb">parent_seq</spanx> (5). <spanx style="verb">ts</spanx> is producer-declared. <spanx style="verb">seq</spanx> together with <spanx style="verb">agent_id</spanx> is unique per chain, and <spanx style="verb">parent_seq</spanx> links a tool call to the inference that requested it; both are interpreted inside one Evidence Chain, and <spanx style="verb">task_seq</spanx> inside one Task. Correlation across chains, Tasks or systems needs additional context; equal sequence values in distinct chains do not identify the same event.</t>
+    <t><spanx style="verb">ts</spanx> (14), <spanx style="verb">seq</spanx> (2), <spanx style="verb">task_seq</spanx> (11) and <spanx style="verb">parent_seq</spanx> (5). <spanx style="verb">ts</spanx> is producer-declared. <spanx style="verb">seq</spanx> is unique within an Evidence Chain, and <spanx style="verb">parent_seq</spanx> links a tool call to the inference that requested it; both are interpreted inside one Evidence Chain, in which <spanx style="verb">task_seq</spanx> names the Task by the <spanx style="verb">seq</spanx> of its <spanx style="verb">task_start</spanx>. Across chains and systems, <spanx style="verb">txn</spanx> (25) is the transaction identifier of <xref target="I-D.ietf-oauth-transaction-tokens"/>, carried on both sides of every call, and an <spanx style="verb">admission</spanx> receipt's <spanx style="verb">caller_ref</spanx> (21) names the caller's receipt for the same call. Equal sequence values in distinct chains do not identify the same event.</t>
   </dd>
   <dt>Posture or risk state influencing the decision:</dt>
   <dd>
@@ -158,7 +170,7 @@ appear in all capitals, as shown here.</t>
   </dd>
   <dt>Remediation or revocation events and their cause:</dt>
   <dd>
-    <t>Revocation Statement (aee-type 8), Configuration Drift Statement (aee-type 4), and an Assurance Statement disposition of reassess, suspend or withdraw, all registered on the same Transparency Service. <spanx style="verb">reason_code</spanx> exists only on a Revocation Statement and carries a revocation cause; a Configuration Drift Statement carries <spanx style="verb">prev_config_digest</spanx>, <spanx style="verb">new_config_digest</spanx> and the changed entries instead. Recording drift, revocation or a disposition does not by itself prove that a remediation instruction was enforced; the enforcement outcome requires additional audit evidence.</t>
+    <t>Revocation Statement (aee-type 8), Configuration Drift Statement (aee-type 4), an Assurance Statement disposition of reassess, suspend or withdraw, and a RESTRICTED or SUSPENDED status set by the Supervisory Authority, all registered on or referenced from the same Transparency Service. A refused call is recorded as <spanx style="verb">block</spanx>, at the caller's Decision Point or in the Serving Party's <spanx style="verb">admission</spanx> receipt. <spanx style="verb">reason_code</spanx> exists only on a Revocation Statement and carries a revocation cause; a Configuration Drift Statement carries <spanx style="verb">prev_config_digest</spanx>, <spanx style="verb">new_config_digest</spanx> and the changed entries instead. Recording drift, revocation or a disposition does not by itself prove that a remediation instruction was enforced; the enforcement outcome requires additional audit evidence.</t>
   </dd>
 </dl>
 
@@ -167,7 +179,7 @@ appear in all capitals, as shown here.</t>
 </section>
 <section anchor="claim"><name>The aee_evidence Claim</name>
 
-<t>This section defines one claim. It <bcp14>MAY</bcp14> appear in a Workload Identity Token <xref target="I-D.ietf-wimse-s2s-protocol"/>, in a JWT or CWT access token issued to an agent under Section 10 of <xref target="I-D.ietf-wimse-aims"/>, or in any other JWT <xref target="RFC7519"/> or CWT <xref target="RFC8392"/> that identifies an agent. Recipients that do not understand it ignore it, as those specifications require.</t>
+<t>This section defines one claim. It <bcp14>MAY</bcp14> appear in a Workload Identity Token <xref target="I-D.ietf-wimse-workload-creds"/>, in a JWT or CWT access token issued to an agent under Section 10 of <xref target="I-D.ietf-wimse-aims"/>, or in any other JWT <xref target="RFC7519"/> or CWT <xref target="RFC8392"/> that identifies an agent. Recipients that do not understand it ignore it, as those specifications require.</t>
 
 <figure><artwork><![CDATA[
 Claim name: aee_evidence
@@ -180,7 +192,7 @@ CBOR value: map
 <dl>
   <dt><spanx style="verb">evidence_service</spanx> (CBOR key 1), <bcp14>REQUIRED</bcp14>:</dt>
   <dd>
-    <t>A URI identifying the Evidence Service that issues Execution Receipt Statements for this agent. The URI is the Issuer identifier that appears in the <spanx style="verb">iss</spanx> claim of those statements' CWT Claims header. It is an identifier, not necessarily a retrievable location.</t>
+    <t>A URI identifying the Evidence Service that issues Execution Epoch Statements, or individually registered Execution Receipt Statements, for this agent. The URI is the Issuer identifier that appears in the <spanx style="verb">iss</spanx> claim of those statements' CWT Claims header. It is an identifier, not necessarily a retrievable location.</t>
   </dd>
   <dt><spanx style="verb">policy_pack_digest</spanx> (CBOR key 2), <bcp14>REQUIRED</bcp14>:</dt>
   <dd>
@@ -196,15 +208,23 @@ CBOR value: map
   </dd>
   <dt><spanx style="verb">logical_agent_id</spanx> (CBOR key 5), <bcp14>REQUIRED</bcp14>:</dt>
   <dd>
-    <t>The persistent identifier of the agent across runtime environments, equal to the <spanx style="verb">logical_agent_id</spanx> of the Agent Credential Statement; a Workload Identifier <xref target="I-D.ietf-wimse-identifier"/> or a <spanx style="verb">did:web</spanx> identifier, never a newly minted scheme.</t>
+    <t>The persistent identifier of the agent across runtime environments, equal to the <spanx style="verb">logical_agent_id</spanx> of the Agent Credential and Agent Registration Statements: a <spanx style="verb">did:web</spanx> identifier <xref target="DID-WEB"/> in the domain of the Agent Registration Authority that issued it. Section 6 of <xref target="I-D.ietf-wimse-aims"/> requires that an agent be assigned exactly one WIMSE identifier; within any one such deployment, that identifier is the agent's runtime identity there, and <spanx style="verb">logical_agent_id</spanx> names the agent above the runtime identities of all its deployments.</t>
   </dd>
   <dt><spanx style="verb">assurance_statement_digest</spanx> (CBOR key 6), <bcp14>OPTIONAL</bcp14>:</dt>
   <dd>
-    <t>The digest of the applicable Assurance Statement payload. The statement, rather than this token claim, carries <spanx style="verb">assurance_level</spanx>, assessed capability scope, risk assessment, monitoring summary, validity and status. This avoids copying assurance values into credentials where they can become stale.</t>
+    <t>The digest of the applicable Assurance Statement payload. The statement carries the authoritative <spanx style="verb">assurance_level</spanx>, assessed capability scope, risk assessment, monitoring summary, validity and status.</t>
+  </dd>
+  <dt><spanx style="verb">assurance_level</spanx> (CBOR key 7) and <spanx style="verb">assurance_status</spanx> (CBOR key 8), <bcp14>OPTIONAL</bcp14>:</dt>
+  <dd>
+    <t>The level of the Assurance Statement named by <spanx style="verb">assurance_statement_digest</spanx>, and the status value its token issuer observed in the statement's status list when issuing the token. They are a signed cache of the statement, for a fast admission decision, and <bcp14>MUST</bcp14> be present together and only with <spanx style="verb">assurance_statement_digest</spanx>. A token issuer <bcp14>MUST NOT</bcp14> include them unless it checked the status when issuing the token, and a Serving Party <bcp14>MUST NOT</bcp14> rely on them unless the token's remaining lifetime does not exceed the status freshness its policy requires. If they disagree with the statement, the statement prevails.</t>
+  </dd>
+  <dt><spanx style="verb">registration_digest</spanx> (CBOR key 9), <bcp14>OPTIONAL</bcp14>:</dt>
+  <dd>
+    <t>The digest of the Agent Registration Statement payload for <spanx style="verb">logical_agent_id</spanx>.</t>
   </dd>
 </dl>
 
-<t>The claim identifies the expected Evidence Service, the policy commitment, the persistent logical identity, optional credential and assurance bindings and an associated Transparency Service. It does not identify a particular Bundle or evidence period, and it is not a retrieval protocol: Bundle discovery and retrieval are supplied by deployment configuration or another protocol and are outside this document.</t>
+<t>The claim identifies the expected Evidence Service, the policy commitment, the persistent logical identity, optional registration, credential and assurance bindings and an associated Transparency Service. It does not identify a particular Bundle or evidence period, and it is not a retrieval protocol: Bundle discovery and retrieval are supplied by deployment configuration or another protocol and are outside this document.</t>
 
 <t>This document assumes a token profile in which the authenticated <spanx style="verb">sub</spanx> names the workload that is authenticating; <spanx style="verb">logical_agent_id</spanx> names the agent that workload is an instance of, and the two differ whenever an agent runs under more than one identity. Section 3.1.2 of <xref target="I-D.ietf-wimse-arch"/> states that a workload identifier "<bcp14>MAY</bcp14> represent a logical workload, a service implemented by one or more workloads, or a specific workload instance, depending on deployment policy", and that "two credentials containing the same workload identifier value represent the same workload only when validated under the same trust domain and issuer trust configuration". A relying party that receives tokens for the same agent from a development cluster, a production cluster and a cloud identity platform therefore sees three unrelated <spanx style="verb">sub</spanx> values. Carrying <spanx style="verb">logical_agent_id</spanx> in the token gives it the correlation key, and the Agent Credential Statement found through <spanx style="verb">evidence_service</spanx> gives it the signed, registered mapping from that key to each runtime identity and its validity window, so that correlation is verified rather than assumed. JWT and CWT are containers whose profiles assign different meanings to <spanx style="verb">sub</spanx>: in a profile where <spanx style="verb">sub</spanx> names a delegated user or system while the agent acts as a separate actor, the mapping from the token's subject to the agent's runtime identity <bcp14>MUST</bcp14> be separately specified, and <xref target="rp"/> does not apply to the token's <spanx style="verb">sub</spanx> directly.</t>
 
@@ -226,11 +246,13 @@ CBOR value: map
     },
     "transparency_service": "https://ts.example.net",
     "logical_agent_id":
-      "did:web:agents.example.com:billing-assistant",
+      "did:web:register.example:agent:billing-assistant",
     "assurance_statement_digest": {
       "alg": "sha-256",
       "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    }
+    },
+    "assurance_level": 3,
+    "assurance_status": 0
   }
 }
 ]]></sourcecode></figure>
@@ -244,12 +266,12 @@ CBOR value: map
   <t>Establishes the Evidence Service and Transparency Service trust anchors it accepts, obtained out of band or under an accepted retrieval and trust policy. A URI carried in the token, including <spanx style="verb">transparency_service</spanx>, is not a trust anchor, and keys reached from a token-supplied location become trusted only under that policy.</t>
   <t>Identifies the evidence period it requires and whether it needs historical verification, that is, what was registered and what status evidence existed at that time, or current acceptance.</t>
   <t>Obtains a Bundle for that period from the Evidence Service or from the agent's operator, by means outside this document.</t>
-  <t>Verifies the Bundle per Section 8 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/> against the trust anchors of step 2.</t>
+  <t>Verifies the Bundle per Section 9 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/> against the trust anchors of step 2.</t>
   <t>Checks each of the following bindings, reporting each failure by kind:
   <list style="symbols">
-      <t>issuer binding: the <spanx style="verb">iss</spanx> of the Execution Receipt Statements equals <spanx style="verb">evidence_service</spanx>;</t>
+      <t>issuer binding: the <spanx style="verb">iss</spanx> of the Execution Epoch Statements, or of individually registered Execution Receipt Statements, equals <spanx style="verb">evidence_service</spanx>;</t>
       <t>runtime identity: the Agent Credential Statement lists the token's authenticated workload identity among its <spanx style="verb">runtime_identities</spanx> (in a token profile where <spanx style="verb">sub</spanx> is that identity, this is the token's <spanx style="verb">sub</spanx>);</t>
-      <t>logical identity: the Agent Credential Statement's <spanx style="verb">logical_agent_id</spanx> equals the claim's <spanx style="verb">logical_agent_id</spanx>;</t>
+      <t>logical identity: the Agent Credential Statement's <spanx style="verb">logical_agent_id</spanx> equals the claim's <spanx style="verb">logical_agent_id</spanx>, and the Agent Registration Statement it names was issued by an Agent Registration Authority the relying party accepts (and, if <spanx style="verb">registration_digest</spanx> is present, has that digest);</t>
       <t>policy binding: every receipt's <spanx style="verb">policy_pack_digest</spanx> equals the claim's <spanx style="verb">policy_pack_digest</spanx>, or equals a registered descendant in the Policy Pack lineage that an explicit relying-party rule, an accepted Assurance Statement or another configured policy-evaluation result permits. Registration and ancestry do not by themselves establish that a descendant is semantically more restrictive, and a digest mismatch alone does not show that a policy was weaker or that execution under the declared policy occurred.</t>
     </list></t>
   <t>If <spanx style="verb">agent_credential_digest</spanx> is present, checks that the Agent Credential Statement in the Bundle has that digest and that the public key it represents equals the key in the token's <spanx style="verb">cnf</spanx>, compared as cryptographic keys rather than encodings. Success produces a credential-key-bound result; the claim's validity without <spanx style="verb">agent_credential_digest</spanx> is limited to the basic identity-and-policy correlation of the other steps.</t>
@@ -259,6 +281,68 @@ CBOR value: map
 <t>An issuer, runtime-identity, logical-identity or policy-binding failure at step 6 is a distinct conclusion: evidence produced for a different agent is an identity failure, not a policy downgrade, and a policy mismatch is a downgrade conclusion only where the relying party's rules support it.</t>
 
 <t>The claim does not itself make token validation depend on evidence availability. Token validation, workload authentication, access authorization and evidence acceptance are separate decisions: an access token does not necessarily function as an authentication credential, and acceptance for an operation is governed by the containing token's profile and relying-party policy. A relying party <bcp14>MAY</bcp14> require acceptable evidence before permitting an operation, and the absence of evidence cannot satisfy such a policy. A recipient that does not understand the claim ignores it; where evidence is required by policy, an unrecognized claim is not a successful evidence verification.</t>
+
+</section>
+</section>
+<section anchor="admission"><name>Admission by a Serving Party</name>
+
+<t>A Serving Party that admits calls from agents only if they are registered and assured performs the following steps on every call, before acting on it. They decide the call; the steps of <xref target="rp"/> verify conduct after the fact, and the two are separate.</t>
+
+<t><list style="numbers" type="1">
+  <t>Validate the token and the proof of possession for this request under the applicable credential and authentication profiles; <xref target="I-D.ietf-wimse-workload-creds"/> defines the Workload Identity Token, while its proof-of-possession mechanisms are specified separately.</t>
+  <t>Determine the Assurance Statement and Agent Registration Statement that apply, from <spanx style="verb">aee_evidence</spanx> or by other configured means, and their status. The status <bcp14>MUST</bcp14> be no older than the freshness the Serving Party's policy requires for the operation. A token's <spanx style="verb">assurance_level</spanx> and <spanx style="verb">assurance_status</spanx> <bcp14>MAY</bcp14> be used as that status only within the limits of <xref target="claim"/>. For operations its policy marks as high-risk, the Serving Party <bcp14>SHOULD</bcp14> check the status list itself.</t>
+  <t>Check that the registration is from an accepted Agent Registration Authority and is valid; that the Assurance Statement's level meets the minimum the Serving Party's policy sets for the operation, from an accepted assessor and scheme; and that its status is VALID, or RESTRICTED with the operation within the restricted class the scheme defines.</t>
+  <t>Check the Principal and every Actor in the Actor Chain (<xref target="carrying"/>) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires.</t>
+  <t>Produce an <spanx style="verb">admission</spanx> receipt recording the decision and its basis, as Section 6.7.2 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/> specifies, whether the call is admitted or refused.</t>
+  <t>Act on the call, or refuse it.</t>
+</list></t>
+
+<t>A Serving Party that cannot complete a step refuses the call. The absence of evidence does not satisfy a policy that requires it.</t>
+
+</section>
+<section anchor="carrying"><name>Carrying the Caller Reference and Actor Chain</name>
+
+<section anchor="the-aee-caller-ref-field"><name>The AEE-Caller-Ref Field</name>
+
+<t>A Calling Agent that makes an HTTP request to a Serving Party includes the <spanx style="verb">AEE-Caller-Ref</spanx> request header field. It is a Dictionary Structured Field <xref target="RFC9651"/> with the following members:</t>
+
+<dl>
+  <dt><spanx style="verb">es</spanx>:</dt>
+  <dd>
+    <t>A String: the Issuer identifier of the Calling Agent's Evidence Service.</t>
+  </dd>
+  <dt><spanx style="verb">seq</spanx>:</dt>
+  <dd>
+    <t>An Integer: the <spanx style="verb">seq</spanx> of the Calling Agent's Execution Receipt for this call.</t>
+  </dd>
+  <dt><spanx style="verb">h</spanx>:</dt>
+  <dd>
+    <t>A Byte Sequence: the record-hash of that receipt.</t>
+  </dd>
+  <dt><spanx style="verb">txn</spanx>:</dt>
+  <dd>
+    <t>A String: the transaction identifier. When the request carries a Transaction Token <xref target="I-D.ietf-oauth-transaction-tokens"/>, it <bcp14>MUST</bcp14> equal that token's <spanx style="verb">txn</spanx> claim.</t>
+  </dd>
+</dl>
+
+<t>Unknown members are ignored. For example, with a line break added for display:</t>
+
+<figure><sourcecode type="http-message"><![CDATA[
+AEE-Caller-Ref: es="https://harness.example/issuer", seq=3,
+  h=:G2jKK8xfSBTOhw91QZt52PZrUeE98YXKQc83HDGrG/M=:, txn="txn-0001"
+]]></sourcecode></figure>
+
+<t>The Serving Party copies these values into the <spanx style="verb">caller_ref</spanx> and <spanx style="verb">txn</spanx> of its <spanx style="verb">admission</spanx> receipt. They are the caller's claim until Linked Verification checks them against the caller's registered chain (Section 9.1 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>). The Calling Agent's receipt is produced before the request is sent, so the hash is available when the field is built.</t>
+
+</section>
+<section anchor="actor-chain-and-principal-link"><name>Actor Chain and Principal Link</name>
+
+<t>The Actor Chain travels in the token presented on the call as nested <spanx style="verb">act</spanx> claims (<xref section="4.1" sectionFormat="of" target="RFC8693"/>), the outermost naming the Calling Agent. Both parties record it as <spanx style="verb">actor_chain</spanx>, least recent first. Each party computes the <spanx style="verb">principal_link</spanx> as SHA-256 over the octets of the access token in the request's <spanx style="verb">Authorization</spanx> header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain, not only the current one (<xref target="admission"/>).</t>
+
+</section>
+<section anchor="other-protocols"><name>Other Protocols</name>
+
+<t>Protocols other than HTTP that carry agent calls, such as tool-invocation protocols, can carry the same members in the metadata they provide for each request. This document does not define those bindings.</t>
 
 </section>
 </section>
@@ -272,7 +356,7 @@ CBOR value: map
 predicateType: urn:ietf:params:aee:predicate:execution-receipt
 ]]></artwork></figure>
 
-<t>The predicate is the JSON form of an Execution Receipt as defined in Section 5.4 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>, unchanged. The Statement's <spanx style="verb">subject</spanx> <bcp14>MUST</bcp14> contain one entry whose <spanx style="verb">name</spanx> is the decimal <spanx style="verb">seq</spanx> of the receipt and whose <spanx style="verb">digest</spanx> contains <spanx style="verb">sha256</spanx> set to the hex-encoded SHA-256 of the JCS serialization <xref target="RFC8785"/> of the receipt JSON object, including <spanx style="verb">agent_sig</spanx> when present; this is the JSON-form record-hash of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>. Conversion from the CBOR form changes the bytes and therefore the digest and the epoch inclusion proof: a JSON predicate converted from CBOR <bcp14>MUST NOT</bcp14> be presented as carrying the CBOR record-hash or its epoch proof. Where the CBOR chain must be preserved, the original artifact is carried and verified together with an explicit binding to the JSON representation. The DSSE <spanx style="verb">payloadType</spanx> is <spanx style="verb">application/vnd.in-toto+json</spanx>.</t>
+<t>The predicate is the JSON form of an Execution Receipt as defined in Section 6.7 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>, unchanged. The Statement's <spanx style="verb">subject</spanx> <bcp14>MUST</bcp14> contain one entry whose <spanx style="verb">name</spanx> is the decimal <spanx style="verb">seq</spanx> of the receipt and whose <spanx style="verb">digest</spanx> contains <spanx style="verb">sha256</spanx> set to the hex-encoded SHA-256 of the JCS serialization <xref target="RFC8785"/> of the receipt JSON object, including <spanx style="verb">agent_sig</spanx> when present; this is the JSON-form record-hash of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>. Conversion from the CBOR form changes the bytes and therefore the digest and the epoch inclusion proof: a JSON predicate converted from CBOR <bcp14>MUST NOT</bcp14> be presented as carrying the CBOR record-hash or its epoch proof. Where the CBOR chain must be preserved, the original artifact is carried and verified together with an explicit binding to the JSON representation. The DSSE <spanx style="verb">payloadType</spanx> is <spanx style="verb">application/vnd.in-toto+json</spanx>.</t>
 
 <t>An audit record per <xref target="I-D.gilda-wimse-agent-audit-record"/> and an Execution Receipt for the same call are associated through two verifiable commitments:</t>
 
@@ -283,7 +367,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <t>Neither document is required for the other: deployments may implement either format independently where their requirements permit. Conformance to <xref target="I-D.thaha-scitt-agent-execution-evidence"/> or to <xref target="I-D.gilda-wimse-agent-audit-record"/> is determined by each document's full set of applicable requirements, not by the presence of an artifact of the expected name, and the strength of a cross-format association depends on the verified commitments and registration proofs and on each format's observation scope. An operator that produces both and links them as above gives a relying party a sealed chain and a rich decision record for the same call.</t>
 
-<t>In the terms of <xref target="I-D.kuehlewind-audit-architecture"/>, the Execution Receipt is an Action Record produced at the Harness vantage and the <spanx style="verb">aee_evidence</spanx> claim is part of the audit context carried with the agent's credential.</t>
+<t>In the terms of <xref target="I-D.kuehlewind-audit-architecture"/>, the Execution Receipt is an Action Record produced at the Harness vantage, the <spanx style="verb">admission</spanx> receipt is the corresponding record at the Serving Party, and the <spanx style="verb">aee_evidence</spanx> claim is part of the audit context carried with the agent's credential.</t>
 
 </section>
 <section anchor="security-considerations"><name>Security Considerations</name>
@@ -294,6 +378,10 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <t>An <spanx style="verb">assurance_statement_digest</spanx> is a binding, not a guarantee. The referenced statement can expire, become stale under its monitoring frequency, or be suspended or withdrawn after token issuance. A relying party that uses it <bcp14>MUST</bcp14> perform the SCITT verification and status checks at decision time. A Bundle is a snapshot of what its producer chose to include: the absence of revocation information in a supplied Bundle does not establish current non-revocation, and a relying party that requires current acceptance applies configured freshness rules to the status evidence.</t>
 
+<t><spanx style="verb">assurance_level</spanx> and <spanx style="verb">assurance_status</spanx> in a token can be stale for up to the token's lifetime. The lifetime rule of <xref target="claim"/> bounds this, and the Serving Party's own status check for high-risk operations removes it where it matters most.</t>
+
+<t>The <spanx style="verb">AEE-Caller-Ref</spanx> field and the <spanx style="verb">act</spanx> claims are assertions by the Calling Agent. A forged field names a receipt that does not exist or does not match, and fails Linked Verification; a replayed one names a receipt that another admission already names, which is detected when both admissions are verified together. A Serving Party that acts before verifying them relies on its own checks of the token and the Principal, not on the field.</t>
+
 <t>Including <spanx style="verb">transparency_service</spanx> in the token reveals to any token recipient which Transparency Service the operator uses. Operators who consider that sensitive omit it and distribute the Transparency Service's identity out of band.</t>
 
 <t>The security considerations of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>, <xref target="I-D.ietf-wimse-aims"/> and <xref target="RFC9943"/> apply.</t>
@@ -302,6 +390,8 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 <section anchor="privacy-considerations"><name>Privacy Considerations</name>
 
 <t>The claim carries no information about a Principal, no content, and no per-call data. It adds an Evidence Service identifier, a policy digest, a persistent <spanx style="verb">logical_agent_id</spanx>, and optional credential and Assurance Statement digests. The logical identifier intentionally makes one agent linkable across its runtime platforms; repeated digest values can also be correlated. A relying party <bcp14>MUST</bcp14> accept that correlation only through an Agent Credential Statement from an accepted Issuer that maps each runtime identity and trust domain to the logical agent. The digests do not disclose the committed payloads.</t>
+
+<t><spanx style="verb">AEE-Caller-Ref</spanx> reveals the Calling Agent's Evidence Service and a transaction identifier to the Serving Party, and the <spanx style="verb">act</spanx> claims reveal which operators' agents took part in a request. Calling Agents <bcp14>SHOULD</bcp14> send them only to the Serving Parties they call.</t>
 
 <t>The privacy considerations of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>, in particular its treatment of natural-person Principals, apply to the evidence the claim points to.</t>
 
@@ -314,7 +404,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <t><list style="symbols">
   <t>Claim Name: aee_evidence</t>
-  <t>Claim Description: Evidence service, policy, persistent identity and optional assurance binding for agent execution evidence</t>
+  <t>Claim Description: Evidence service, policy, persistent identity and optional registration and assurance binding for agent execution evidence</t>
   <t>Change Controller: IETF</t>
   <t>Reference: <xref target="claim"/> of this document</t>
 </list></t>
@@ -326,12 +416,24 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <t><list style="symbols">
   <t>Claim Name: aee_evidence</t>
-  <t>Claim Description: Evidence service, policy, persistent identity and optional assurance binding for agent execution evidence</t>
+  <t>Claim Description: Evidence service, policy, persistent identity and optional registration and assurance binding for agent execution evidence</t>
   <t>JWT Claim Name: aee_evidence</t>
   <t>Claim Key: TBD1</t>
   <t>Claim Value Type: map</t>
   <t>Change Controller: IETF</t>
   <t>Reference: <xref target="claim"/> of this document</t>
+</list></t>
+
+</section>
+<section anchor="http-field-name"><name>HTTP Field Name</name>
+
+<t>IANA is requested to register the following field in the "Hypertext Transfer Protocol (HTTP) Field Name Registry" per <xref section="16.3.1" sectionFormat="of" target="RFC9110"/>:</t>
+
+<t><list style="symbols">
+  <t>Field Name: AEE-Caller-Ref</t>
+  <t>Status: permanent</t>
+  <t>Structured Type: Dictionary</t>
+  <t>Reference: <xref target="carrying"/> of this document</t>
 </list></t>
 
 </section>
@@ -450,6 +552,61 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
   <seriesInfo name="RFC" value="9943"/>
   <seriesInfo name="DOI" value="10.17487/RFC9943"/>
 </reference>
+<reference anchor="RFC8693" >
+  <front>
+    <title>OAuth 2.0 Token Exchange</title>
+    <author initials="M." surname="Jones">
+      <organization></organization>
+    </author>
+    <author initials="A." surname="Nadalin">
+      <organization></organization>
+    </author>
+    <author initials="B." surname="Campbell">
+      <organization></organization>
+    </author>
+    <author initials="J." surname="Bradley">
+      <organization></organization>
+    </author>
+    <author initials="C." surname="Mortimore">
+      <organization></organization>
+    </author>
+    <date year="2020" month="January"/>
+  </front>
+  <seriesInfo name="RFC" value="8693"/>
+  <seriesInfo name="DOI" value="10.17487/RFC8693"/>
+</reference>
+<reference anchor="RFC9110" >
+  <front>
+    <title>HTTP Semantics</title>
+    <author initials="R." surname="Fielding">
+      <organization></organization>
+    </author>
+    <author initials="M." surname="Nottingham">
+      <organization></organization>
+    </author>
+    <author initials="J." surname="Reschke">
+      <organization></organization>
+    </author>
+    <date year="2022" month="June"/>
+  </front>
+  <seriesInfo name="STD" value="97"/>
+  <seriesInfo name="RFC" value="9110"/>
+  <seriesInfo name="DOI" value="10.17487/RFC9110"/>
+</reference>
+<reference anchor="RFC9651" >
+  <front>
+    <title>Structured Field Values for HTTP</title>
+    <author initials="M." surname="Nottingham">
+      <organization></organization>
+    </author>
+    <author initials="P.-H." surname="Kamp">
+      <organization></organization>
+    </author>
+    <date year="2024" month="September"/>
+  </front>
+  <seriesInfo name="RFC" value="9651"/>
+  <seriesInfo name="DOI" value="10.17487/RFC9651"/>
+</reference>
 <reference anchor="I-D.thaha-scitt-agent-execution-evidence" >
   <front>
     <title>Agent Execution Evidence: A SCITT Profile for Verifiable Records of AI Agent Runs</title>
@@ -523,6 +680,15 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
     <references title='Informative References' anchor="sec-informative-references">
 
+<reference anchor="DID-WEB" target="https://w3c-ccg.github.io/did-method-web/">
+  <front>
+    <title>did:web Method Specification</title>
+    <author >
+      <organization>W3C Credentials Community Group</organization>
+    </author>
+    <date year="2023"/>
+  </front>
+</reference>
 <reference anchor="RFC9942" >
   <front>
     <title>CBOR Object Signing and Encryption (COSE) Receipts</title>
@@ -543,9 +709,9 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
   <seriesInfo name="RFC" value="9942"/>
   <seriesInfo name="DOI" value="10.17487/RFC9942"/>
 </reference>
-<reference anchor="I-D.ietf-wimse-s2s-protocol" >
+<reference anchor="I-D.ietf-wimse-workload-creds" >
   <front>
-    <title>WIMSE Workload-to-Workload Authentication</title>
+    <title>WIMSE Workload Credentials</title>
     <author initials="B." surname="Campbell">
       <organization></organization>
     </author>
@@ -558,9 +724,12 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
     <author initials="Y." surname="Sheffer">
       <organization></organization>
     </author>
-    <date year="2025" month="October"/>
+    <author initials="Y." surname="Rosomakho">
+      <organization></organization>
+    </author>
+    <date year="2026" month="July"/>
   </front>
-  <seriesInfo name="Internet-Draft" value="draft-ietf-wimse-s2s-protocol-07"/>
+  <seriesInfo name="Internet-Draft" value="draft-ietf-wimse-workload-creds-02"/>
 </reference>
 <reference anchor="I-D.ietf-wimse-arch" >
   <front>
@@ -578,18 +747,21 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
   </front>
   <seriesInfo name="Internet-Draft" value="draft-ietf-wimse-arch-08"/>
 </reference>
-<reference anchor="I-D.ietf-wimse-identifier" >
+<reference anchor="I-D.ietf-oauth-transaction-tokens" >
   <front>
-    <title>Workload Identifier</title>
-    <author initials="Y." surname="Rosomakho">
+    <title>Transaction Tokens</title>
+    <author initials="A." surname="Tulshibagwale">
       <organization></organization>
     </author>
-    <author initials="J." surname="Salowey">
+    <author initials="G." surname="Fletcher">
+      <organization></organization>
+    </author>
+    <author initials="P." surname="Kasselman">
       <organization></organization>
     </author>
     <date year="2026" month="July"/>
   </front>
-  <seriesInfo name="Internet-Draft" value="draft-ietf-wimse-identifier-03"/>
+  <seriesInfo name="Internet-Draft" value="draft-ietf-oauth-transaction-tokens-11"/>
 </reference>
 <reference anchor="I-D.gilda-wimse-agent-audit-record" >
   <front>
@@ -597,9 +769,9 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
     <author initials="S." surname="Gilda">
       <organization></organization>
     </author>
-    <date year="2026" month="September"/>
+    <date year="2026" month="October"/>
   </front>
-  <seriesInfo name="Internet-Draft" value="draft-gilda-wimse-agent-audit-record-01"/>
+  <seriesInfo name="Internet-Draft" value="draft-gilda-wimse-agent-audit-record-02"/>
 </reference>
 <reference anchor="I-D.kuehlewind-audit-architecture" >
   <front>
@@ -655,7 +827,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 </references>
 
 
-<?line 425?>
+<?line 546?>
 
 <section numbered="false" anchor="acknowledgements"><name>Acknowledgements</name>
 
@@ -667,229 +839,303 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
   </back>
 
 <!-- ##markdown-source:
-H4sIAAAAAAAAA8196XbbRrbufz4FDv0jdh+S1mB5oPt0H1lS2nJsy1dS4pPV
-q5dYBEtkRSDAoEApbC/3s5xnuU9291QDCJCW0vlxs7oTEkRNu/bw7aFK/X6/
-cztM9juVqTI9TLont2ai81Qnb0w+Mfk0uS7K5PA0OZzqvEqOSg2/VkZltttR
-43GpoXGXf1tv2e1MijRXc+h1Uqrrql/N1Ez178zc6r7CJn0tTfpjbtLf2emk
-qtLTolwNE5NfFx27HM+NtabIq9UCujo9ufy+kxa51bld2mFSlUvdMYuSPtlq
-b2fn1c5eR5VawcQudLosTbXqdu6K8mZaFssFPP0Mn7NCTZJTWku1gpGSD8us
-MsnFylZ6npzkt6Ys8jn8DOu80StoPhl2kqSffD79cHFCn4AotAr6opYTw5/c
-mujLxdHp5WXnVudLjc39DLCTLjzgNdGMkNZ/w9/x+VyZDJ4Trf7b6Op6UJRT
-/EGV6Qx+mFXVwg6fPsX38JG51QP32lN88HRcFndWP6UenmLLUi+KqOXUVLPl
-eJAW86cTmHJ+p8rFU2t+MVkfO8IWGeyErR7SZmGGyd+rIu0ltiirUl9b+LSa
-44d/dCbQ3TDZ29l73t/d6XTUspoVJROVueRiBv/RZXKJfALPkwRWo3LzT1XB
-9sPWA48AcZcqS46AHUozXlZFSS+WekqvHC/HytCTtFjCK8BFP+am0pPksFTj
-5GRuSlwUvaGZyJZHJeb87yk+wwXWp2XGhmZnlxOt84dN7SETgXFsNIdOXpRz
-GOGWmOf8+6P9g4P9IbURcT3MSSCSH88/JhfLcR9nbBcKhBDF9hyoAvwMMpt8
-KgvYlyJLPqkS3oGHPHbYBfynD5IAMvVhkHzQKsuAJes/vIcflDU5NK//cDlI
-3qpyYnT98d8GyQ/ZKuenbv939vs7z+mJ1aXRFsXcTeDN0adh8mJfvsGKQTXB
-muX78dnpMNndGey+ePbyxVOhB1PmxcHuqxpl3l2cfUw+63FyWdzoPHn87vPl
-k60rflfksh/+6btB8qZUk0yv6s8/DpILdWPmy1LVVrZ70N852LAyWgvOctNa
-5Df49HL/1V5tLUdvzs7jtRz9jrWcDJLPapbZqiz0vP7TxSA5KSfVXOX1528H
-yaVNZ8W1zs20vtCX31goLmHTQuU3/PTi5UFz045UXuQmVZlIV3KRzvRcwxYe
-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
-u2zMBWBoLvKr/AWC1FNMbmo36AO4E0CRWRk9MNM4WksX1u4gwb93MAbIj7rp
-ML3Ji7tMT/iyZNv5MsyXGHjXk//qXoOy0125V5JTvhQTyG8kWlS5itmNd4A8
-II1yz8gYx0TousBq/Tpzsr4T5hGgbY4HfOKat8mSE0EAFf8fwzmtJpt3AAA=
+H4sIAAAAAAAAA9V963bbRrbmfz4FRv4Ru4ekJctXunNyZEmJFV/ktpS4c3r1
+MkGiJCICATYKlMz2cj/LPMs82exrXUCQltP9Z846qyODAKpq1669v33FYDDo
+XY+S/V6TN4UZJTvH13lmyqlJXuRllpeXyUVVJwcnycGlKZvksDbwa5Onhd3p
+pZNJbeDhHf6t/eROL6umZTqHt2Z1etEMmlk6Swc3+dyaQYqPDIw8MpjwI4Pd
+3d40bcxlVa9GSV5eVD27nMxza/OqbFYLeNXJ8fmPvWlVWlPapR0lTb00vXxR
+01+2ebC7+2z3QS+tTQoTOzPTZZ03q53eTVVfXdbVcgFXP8DfRZVmyQmtpVnB
+SMmbZdHkydnKNmaeHJfXeV2Vc/gZ1nllVvB4NuolySD5cPLm7Jj+AqLQKugf
+6TLL+S9dE/3j7PDk/Lx3bcqlwcfdDPAlO3CB10QzQlr/hL/j9XmaF3CdaPXf
+uWkuhlV9iT+k9XQGP8yaZmFH9+/jfXgpvzZDve0+Xrg/qasba+7TG+7jk7VZ
+VMGTl3kzW06G02p+P4Mplzdpvbhv89/zYoAvwicK2AnbfMszi3yU/K2ppv3E
+VnVTmwsLf63m+Mffexm8bpQ82H3weLC32+uly2ZW1UxU5pKzGfzH1Mk58glc
+TxJYTVrm/0wb2H7YeuARIO4yLZJDYIc6nyybqqYba3NJtxwtJ2lOV6bVEm4B
+LvqlzBuTJQd1OkmO53mNi6I7DBPZ8qjEnP99iddwgfG08klOs7PLzJjy26b2
+LROBcWwwh15Z1XMY4ZqY5/2Ph/uPHu2P6Bk5rgclHYjkl/dvk7PlZIAztosU
+DiEe2/dAFeBnOLPJu7qCfamK5F1awz1wkcf2u4D/N4CTAGfqzTB5Y9KiAJaM
+f3gNP6Q2L+Hx+IfzYfIyrbPcxJd/GiavilXJV3X/d/cHu4/pijV1biwec53A
+i8N3o+TJvvwLVgyiCdYs/z46PRkle7vDvScPnz65L/Rgyjx5tPcsoszPZ6dv
+kw9mkpxXV6ZM7v784fze1hX/XJWyH+7qz8PkRZ1mhVnF198Ok7P0Kp8v6zRa
+2d6jwe6jDSujteAsN61FfoO/nu4/exCt5fDF6ftwLYd/YC3Hw+RDOitsU1dm
+Hv90NkyO66yZp2V8/eUwObfTWXVhyvwyXujTrywUl7BpofIb/vXk6aP1TTtM
+y6rMp2khpys5m87M3MAWHp5tWfbBMHm/LLPL2rSW8QLpUWft1bVW7aTT7mbu
+5KXBpDcujX+Dv549exif1B04qgcoqRszbZY1H9BzVFmgW5rZKknLDP6dlnB8
+a1SnRzmIW5AnZ8vFolglhyAdSruzef2wWy/y+mpWFf9cI8yRKfLLMm0Gr9Nr
+0FTx74fD5MdqWZemia//hs/Z2QImZtZI9zq1VyIEArm+nXJIk02Uk9+Qho+f
+xZQ7PYDlJg+Gu8L+x5+ms7S8NN96AoAOb9MM2GqdPw7T+WJiiuJ2xx8I9gb2
+LJ9XtVnjnb2tvANr28g7/BvSYm9vN6LAy/Pzd8kZqAlAK9Mtcvs97GRuimxN
+bgNB3lZNA9dBia0t8r2BU37VWsqDzZt5dn4Em/kk2lqY8sat5d/wr8eP9qKF
+nQFmo9OQ8cSTX9NiaSydDVz01i3etKJ3AzgKr2BH4wU9HOw+28qdMLmNS+Df
+TgZHQwaxdpo3jYLYT4AyUVA5ONs6+IyO9S6Hk4EjGR+icr7ICxYJv8LsLvJ0
+Av98b6Ygt2xSXXgADiJumxCAk+nRU3i1hV5iLNZNlRNU8yAVBkeI3mMQv339
+COOZWggLFfHD/8bY5cQD8DdpCS9DvC0QfPMS3+HmWmuKNX0FrPy6mk8Ah1Rr
+kux9Zat5CtLxlmcfVXxjTNGSfCBDAECZ6VW+Jvo2MVc3GVuEQYr18KkA7x2d
+HA0+HL+ImSnLs9ENIIE3BkiTJWcLMwV2mZKi7OYLAKqj5MP+YWi7AUidz5cl
+Up5MjngxLKKatL40MF8F/zf708F0ejkUIyCv7sNcBnOaxwCmdN8pvhi87BB6
+OZ38DnovOQM1hIYOKrvjclqvFnQk7h6enh3fQ4Y3+aLZxuCn3fvyn1J+36LL
+NgIc+a3F/zdidQ6msA/xSSBzMHFmabBRmwmxTWudpUV109ZaQAkAUjemvAJp
+v7RrEP43FBLm4qLjenx4Qho9+aNMH1NjsNtBMDJ1IzJ12e3pRss9uUt0vRfB
+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
 
 -->
 

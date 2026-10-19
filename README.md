@@ -11,22 +11,28 @@ the relevant working-group lists or via GitHub issues.
 
 ## What the drafts do
 
-**Agent Execution Evidence** (SCITT draft, Standards Track) defines a set of
-Signed Statement types — Agent Credential, Policy Pack, Configuration
-Integrity, Execution Receipt, Execution Epoch, Assurance Statement and
-Revocation — that record what an autonomous or semi-autonomous agent actually
-did, registered on a SCITT Transparency Service (RFC 9943/9942) so the trail is
-tamper-evident. It also specifies an identity-continuity model: a persistent
-`logical_agent_id` mapped to the runtime identities an agent presents in
-different trust domains, following the identifier semantics of
-draft-ietf-wimse-arch.
+**Agent Execution Evidence** (SCITT draft, Standards Track) defines eleven
+Signed Statement types — Agent Registration, Model Provider, Agent Credential,
+Serving Party Credential, Policy Pack, Configuration Integrity, Configuration
+Drift, Execution Receipt, Execution Epoch, Assurance and Revocation — that
+record what an autonomous or semi-autonomous agent actually did, registered on
+a SCITT Transparency Service (RFC 9943/9942) so the trail is tamper-evident. It
+specifies how an agent is identified: a long-term `logical_agent_id` issued by
+an Agent Registration Authority, mapped to the runtime identities an agent
+presents in different trust domains. It also defines admission records made
+where a call is received, the linking of records for requests that pass
+between agents of different operators, sub-agents, and a Supervisory Authority
+that can restrict, suspend or withdraw assurance.
 
 **Evidence Binding** (WIMSE draft, Informational) is deliberately narrow: it
 defines one workload-credential claim, `aee_evidence`, that binds the
 authenticated runtime identity to a `logical_agent_id`, the expected Evidence
 Service and the policy in force — plus one in-toto predicate type that carries
-the corresponding Execution Receipt. It defines no retrieval protocol,
-registry, status service or audit schema.
+the corresponding Execution Receipt. It describes how a service admits an
+agent's call by checking its assurance at the moment of the request, and
+defines one HTTP field, `AEE-Caller-Ref`, that links each call to the caller's
+evidence. It defines no retrieval protocol, registry, status service or audit
+schema.
 
 ## Discussion
 
@@ -50,10 +56,10 @@ build also works offline. `idnits` is a useful sanity check on each `.txt`.
 ## Test vectors
 
 `vectors/make_vectors.py` regenerates the Appendix A test vectors of the SCITT
-draft (Ed25519, deterministic seeds; `vectors/vectors.txt` and the three `.cose`
+draft (Ed25519, deterministic seeds; `vectors/vectors.txt` and the four `.cose`
 files are its output).
 
 ## Status
 
 Both drafts are -00 individual submissions intended for discussion in the SCITT
-and WIMSE working groups. See the list posts in `LIST_POSTS.md`.
+and WIMSE working groups. Discussion takes place on the lists above.
