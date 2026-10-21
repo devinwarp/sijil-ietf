@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate the test vectors in Appendix A of
-draft-thaha-scitt-agent-execution-evidence-00.
+draft-thaha-scitt-agent-execution-evidence-01.
 
 Deterministic: seeds are fixed so the output is reproducible.
 Requires: cbor2, pynacl.
@@ -181,6 +181,11 @@ h2 = hashlib.sha256(enc(r2)).digest()
 TOKEN = b"<delegation token octets>"
 PRINCIPAL_LINK = hashlib.sha256(TOKEN).digest()
 TXN = "txn-0001"
+# call_digest (key 29), HTTP binding: SHA-256 over the deterministic CBOR
+# encoding of [method, request-target, content-digest]. Scheme and authority
+# are excluded. Caller and Serving Party compute it over the same request.
+CALL_CONTENT = b"<invoice request bytes>"
+CALL_DIGEST = digest(enc(["POST", "/invoices", hashlib.sha256(CALL_CONTENT).digest()]))
 r3 = record(3, h2, 4, 1, 0, T0 + 9000, parent=1)
 r3[18] = 2
 r3[16] = "send_invoice"
@@ -190,6 +195,7 @@ r3[19] = 2                       # confirm_seq
 r3[23] = [AGENT_ID]              # actor_chain
 r3[24] = PRINCIPAL_LINK
 r3[25] = TXN
+r3[29] = CALL_DIGEST             # call_digest
 h3 = hashlib.sha256(enc(r3)).digest()
 
 # ------------------------------------------------- Serving Party chain
@@ -199,6 +205,7 @@ serving_cred = {
     3: {1: OKP, 3: EDDSA, -1: ED25519, -2: serving_pk},
     4: {1: 2, 2: "customer.example"},
     5: {1: NBF, 2: EXP},
+    7: ["api.customer.example"],   # hosts
 }
 serving_cred_digest = digest(enc(serving_cred))
 serving_pack = digest(b'{"pack":"example-serving-pack","v":"1.0.0"}')
@@ -222,6 +229,7 @@ a0 = {
     23: [AGENT_ID],
     24: PRINCIPAL_LINK,
     25: TXN,
+    29: CALL_DIGEST,               # computed by the Serving Party itself
 }
 ha0 = hashlib.sha256(enc(a0)).digest()
 
@@ -262,6 +270,7 @@ emit("A.4 Execution Receipt seq 3 (tool_call, allow outcome of seq 2)", r3)
 emit("A.4 record-hash(3)", h3)
 emit("A.5 Execution Epoch Statement", epoch)
 emit("A.5 Execution Epoch Signed Statement", epoch_ss)
+emit("A.4 call_digest (POST /invoices)", CALL_DIGEST)
 emit("A.6 Serving Party Credential Statement payload", serving_cred)
 emit("A.6 Serving Party Credential payload digest", serving_cred_digest)
 emit("A.6 Serving Party configuration entries and digest", {"entries": serving_entries, "config_digest": serving_config})

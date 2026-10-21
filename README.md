@@ -6,8 +6,8 @@ the relevant working-group lists or via GitHub issues.
 
 | Draft | Intended WG | Formats |
 | --- | --- | --- |
-| `draft-thaha-scitt-agent-execution-evidence` | SCITT | [.txt](draft-thaha-scitt-agent-execution-evidence-00.txt) · [.html](draft-thaha-scitt-agent-execution-evidence-00.html) · [.xml](draft-thaha-scitt-agent-execution-evidence-00.xml) |
-| `draft-thaha-wimse-agent-evidence-binding` | WIMSE | [.txt](draft-thaha-wimse-agent-evidence-binding-00.txt) · [.html](draft-thaha-wimse-agent-evidence-binding-00.html) · [.xml](draft-thaha-wimse-agent-evidence-binding-00.xml) |
+| `draft-thaha-scitt-agent-execution-evidence` | SCITT | [.txt](draft-thaha-scitt-agent-execution-evidence-01.txt) · [.html](draft-thaha-scitt-agent-execution-evidence-01.html) · [.xml](draft-thaha-scitt-agent-execution-evidence-01.xml) |
+| `draft-thaha-wimse-agent-evidence-binding` | WIMSE | [.txt](draft-thaha-wimse-agent-evidence-binding-01.txt) · [.html](draft-thaha-wimse-agent-evidence-binding-01.html) · [.xml](draft-thaha-wimse-agent-evidence-binding-01.xml) |
 
 ## What the drafts do
 
@@ -44,8 +44,8 @@ schema.
 ```
 pip install xml2rfc cbor2 pynacl
 gem install kramdown-rfc            # or build from https://github.com/cabo/kramdown-rfc
-kramdown-rfc2629 --v3 draft-thaha-scitt-agent-execution-evidence-00.md > draft-thaha-scitt-agent-execution-evidence-00.xml
-xml2rfc --text --pagination --html draft-thaha-scitt-agent-execution-evidence-00.xml
+kramdown-rfc2629 --v3 draft-thaha-scitt-agent-execution-evidence-01.md > draft-thaha-scitt-agent-execution-evidence-01.xml
+xml2rfc --text --pagination --html draft-thaha-scitt-agent-execution-evidence-01.xml
 ```
 
 All references are defined inline in the YAML front matter, so no network access
@@ -61,5 +61,5 @@ files are its output).
 
 ## Status
 
-Both drafts are -00 individual submissions intended for discussion in the SCITT
+Both drafts are -01 individual submissions intended for discussion in the SCITT
 and WIMSE working groups. Discussion takes place on the lists above.
