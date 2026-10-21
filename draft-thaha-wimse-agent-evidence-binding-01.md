@@ -362,6 +362,7 @@ Example, as it would appear in a WIT:
 {
   "iss": "https://ids.example.com",
   "sub": "wimse://agents.example.com/agent/billing-assistant",
+  "iat": 1790001010,
   "exp": 1790003600,
   "jti": "x-_1CTL2cca3CSE4cwb_l",
   "cnf": { "jwk": { "kty": "OKP", "crv": "Ed25519", "alg": "EdDSA",
