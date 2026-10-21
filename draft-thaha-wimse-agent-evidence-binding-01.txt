@@ -102,7 +102,7 @@ Table of Contents
    9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  18
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
      10.1.  JSON Web Token Claims  . . . . . . . . . . . . . . . . .  18
-     10.2.  CBOR Web Token Claims  . . . . . . . . . . . . . . . . .  19
+     10.2.  CBOR Web Token Claims  . . . . . . . . . . . . . . . . .  18
      10.3.  HTTP Field Name  . . . . . . . . . . . . . . . . . . . .  19
      10.4.  IETF URN Sub-namespace . . . . . . . . . . . . . . . . .  19
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
@@ -691,9 +691,10 @@ Internet-Draft           Agent Evidence Binding             October 2026
        [I-D.thaha-scitt-agent-execution-evidence]; never use the value
        the caller presents.  Refuse the call if cd is present and
        differs from the computed value, or if cd is absent while the
-       Serving Party's policy requires linking.  A Serving Party SHOULD
-       also refuse a call whose caller reference names a caller receipt
-       it has already admitted.
+       Serving Party's policy requires linking.  Refuse the call if its
+       caller reference names a caller receipt that an earlier admission
+       of this Serving Party already names (Section 6.7.2 of
+       [I-D.thaha-scitt-agent-execution-evidence]).
 
    6.  Produce an admission receipt recording the decision and its
        basis, as Section 6.7.2 of
@@ -721,7 +722,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
    A Calling Agent that makes an HTTP request to a Serving Party
    includes the AEE-Caller-Ref request header field.  It is a Dictionary
    Structured Field [RFC9651] with the following members:
-
 
 
 
@@ -935,15 +935,15 @@ Internet-Draft           Agent Evidence Binding             October 2026
    service fails with E_SERVING_HOST, because the caller's egress_host
    is not among the hosts the Serving Party declared.  A Serving Party
    refuses at admission a call whose cd differs from the value it
-   computed, and SHOULD refuse a caller reference it has already
-   admitted.  It cannot see what other Serving Parties have admitted, so
-   the cross-party case is caught by the service binding in Linked
-   Verification, and a replay is also detected when both admissions are
-   verified together.  A Serving Party that acts before verifying them
-   relies on its own checks of the token and the Principal, not on the
-   field.
+   computed.  A replayed field is refused by the Serving Party that
+   already admitted it, and detected by Linked Verification when used at
+   another.  A Serving Party that acts before verifying them relies on
+   its own checks of the token and the Principal, not on the field.
 
-
+   Including transparency_service in the token reveals to any token
+   recipient which Transparency Service the operator uses.  Operators
+   who consider that sensitive omit it and distribute the Transparency
+   Service's identity out of band.
 
 
 
@@ -953,11 +953,6 @@ Thaha & Shamsudeen        Expires 24 April 2027                [Page 17]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
-
-   Including transparency_service in the token reveals to any token
-   recipient which Transparency Service the operator uses.  Operators
-   who consider that sensitive omit it and distribute the Transparency
-   Service's identity out of band.
 
    The security considerations of
    [I-D.thaha-scitt-agent-execution-evidence], [I-D.ietf-wimse-aims] and
@@ -1003,17 +998,17 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
    *  Reference: Section 4 of this document
 
+10.2.  CBOR Web Token Claims
+
+   IANA is requested to register the following claim in the "CBOR Web
+   Token (CWT) Claims" registry [RFC8392].
+
 
 
 Thaha & Shamsudeen        Expires 24 April 2027                [Page 18]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
-
-10.2.  CBOR Web Token Claims
-
-   IANA is requested to register the following claim in the "CBOR Web
-   Token (CWT) Claims" registry [RFC8392].
 
    *  Claim Name: aee_evidence
 
@@ -1057,6 +1052,11 @@ Internet-Draft           Agent Evidence Binding             October 2026
 11.  References
 
 11.1.  Normative References
+
+
+
+
+
 
 
 
@@ -1246,10 +1246,10 @@ Changes since -00
    *  Added the cd member to AEE-Caller-Ref, carrying the caller's
       call_digest, and regenerated the example (Section 6).
 
-   *  A Serving Party computes its own call_digest, refuses a call whose
-      cd differs, and SHOULD refuse a caller reference it has already
-      admitted.  The admission receipt records call_digest and the
-      status observation time (Section 5).
+   *  A Serving Party computes its own call_digest, and refuses a call
+      whose cd differs.  A Serving Party MUST refuse a caller reference
+      it has already admitted.  The admission receipt records
+      call_digest and the status observation time (Section 5).
 
    *  Corrected the statement in the Security Considerations that a
       forged caller reference always fails Linked Verification; the
