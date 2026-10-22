@@ -5,7 +5,7 @@
 Workload Identity in Multi System Environments                  S. Thaha
 Internet-Draft                                             S. Shamsudeen
 Intended status: Informational                    Individual Contributor
-Expires: 24 April 2027                                      October 2026
+Expires: 25 April 2027                                      October 2026
 
 
                Evidence Binding for AI Agent Credentials
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 1]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 1]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -102,14 +102,14 @@ Table of Contents
    9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  18
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
      10.1.  JSON Web Token Claims  . . . . . . . . . . . . . . . . .  18
-     10.2.  CBOR Web Token Claims  . . . . . . . . . . . . . . . . .  18
+     10.2.  CBOR Web Token Claims  . . . . . . . . . . . . . . . . .  19
      10.3.  HTTP Field Name  . . . . . . . . . . . . . . . . . . . .  19
      10.4.  IETF URN Sub-namespace . . . . . . . . . . . . . . . . .  19
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 2]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 2]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -165,7 +165,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 3]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 3]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -221,7 +221,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 4]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 4]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -277,7 +277,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 5]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 5]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -333,7 +333,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 6]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 6]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -389,7 +389,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 7]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 7]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -445,7 +445,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 8]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 8]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -501,7 +501,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 9]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 9]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -557,7 +557,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 10]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 10]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -613,7 +613,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 11]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 11]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -669,7 +669,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 12]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 12]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -725,7 +725,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 13]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 13]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -781,7 +781,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 14]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 14]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -837,7 +837,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 15]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 15]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -893,7 +893,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 16]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 16]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -931,28 +931,33 @@ Internet-Draft           Agent Evidence Binding             October 2026
    Linked Verification with E_CALLER_REF.  One naming a different real
    call, such as a payment of another amount under the same token and
    transaction, fails with E_CALL_MISMATCH, because the call_digest
-   values differ.  One naming the same request sent to a different
-   service fails with E_SERVING_HOST, because the caller's egress_host
-   is not among the hosts the Serving Party declared.  A Serving Party
-   refuses at admission a call whose cd differs from the value it
-   computed.  A replayed field is refused by the Serving Party that
-   already admitted it, and detected by Linked Verification when used at
-   another.  A Serving Party that acts before verifying them relies on
-   its own checks of the token and the Principal, not on the field.
+   values differ.  One naming the same request sent to a service under a
+   different host fails with E_SERVING_HOST, because the caller's
+   egress_host is not among the hosts the Serving Party declared.
+   Services behind one shared gateway host are told apart only by the
+   request-target that cd binds and by the gateway's routing (Security
+   Considerations of [I-D.thaha-scitt-agent-execution-evidence]).  A
+   Serving Party refuses at admission a call whose cd differs from the
+   value it computed.  A replayed field is refused by the Serving Party
+   that already admitted it, and detected by Linked Verification when
+   used at another.  A Serving Party that acts before verifying them
+   relies on its own checks of the token and the Principal, not on the
+   field.
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 17]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
 
    Including transparency_service in the token reveals to any token
    recipient which Transparency Service the operator uses.  Operators
    who consider that sensitive omit it and distribute the Transparency
    Service's identity out of band.
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 17]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    The security considerations of
    [I-D.thaha-scitt-agent-execution-evidence], [I-D.ietf-wimse-aims] and
@@ -998,17 +1003,17 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
    *  Reference: Section 4 of this document
 
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 18]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
 10.2.  CBOR Web Token Claims
 
    IANA is requested to register the following claim in the "CBOR Web
    Token (CWT) Claims" registry [RFC8392].
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 18]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    *  Claim Name: aee_evidence
 
@@ -1056,12 +1061,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 19]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 19]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -1117,7 +1117,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 20]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 20]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -1173,7 +1173,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 21]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 21]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -1229,7 +1229,7 @@ Acknowledgements
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 22]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 22]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -1254,6 +1254,9 @@ Changes since -00
    *  Corrected the statement in the Security Considerations that a
       forged caller reference always fails Linked Verification; the
       failure cases and the replay rule are now listed.
+
+   *  Noted that services behind one shared gateway host are told apart
+      only by the request-target and the gateway's routing.
 
    *  Updated references to the -01 revision of the SCITT draft, and
       added EP-AEC as an informative reference.
@@ -1282,7 +1285,4 @@ Authors' Addresses
 
 
 
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 23]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 23]

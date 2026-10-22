@@ -19,18 +19,18 @@
 <meta content="draft-thaha-scitt-agent-execution-evidence-01" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.1
-    Python 3.11.9
+    Python 3.14.8
     ConfigArgParse 1.8.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.3
     natsort 8.4.0
-    platformdirs 4.13.5
+    platformdirs 4.12.4
     pycountry 26.2.16
     PyYAML 6.0.3
     requests 2.34.2
-    wcwidth 0.9.3
+    wcwidth 0.9.2
 -->
 <link href="draft-thaha-scitt-agent-execution-evidence-01.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1232,7 +1232,7 @@ li > p:last-of-type:only-child {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Thaha &amp; Shamsudeen</td>
-<td class="center">Expires 24 April 2027</td>
+<td class="center">Expires 25 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1250,7 +1250,7 @@ li > p:last-of-type:only-child {
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-24">24 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-25">25 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1992,7 +1992,7 @@ serving-party-credential = {
 </pre><a href="#section-6.4-2" class="pilcrow">¶</a>
 </div>
 <p id="section-6.4-3">The <code>agent_id</code> of each receipt in the chain carries the <code>service_id</code> or one of the listed <code>runtime_identities</code>. A Serving Party Credential is not registered by an Agent Registration Authority; the Serving Party identifies itself under its own domain.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
-<p id="section-6.4-4"><code>hosts</code> lists every host under which callers may reach the service, including the names of fronting gateways and proxies. Each entry is in the form of <code>egress_host</code> (<a href="#receipt" class="auto internal xref">Section 6.7</a>): a lowercase A-label with no port. A caller's <code>egress_host</code> is compared with this list in Linked Verification (<a href="#linked-verification" class="auto internal xref">Section 9.1</a>), which is what binds the service a caller intended to the Serving Party that admitted the call. <code>hosts</code> <span class="bcp14">MUST</span> be present in a Serving Party Credential Statement whose Evidence Chain contains an <code>admission</code> receipt that carries <code>call_digest</code>; there is no default, and the host of <code>service_id</code> is not assumed. Each entry <span class="bcp14">MUST</span> be a host that the operator controls or has delegated to its front end. The list is the Serving Party's own signed declaration; <a href="#security" class="auto internal xref">Section 11</a> says what follows from a false one.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<p id="section-6.4-4"><code>hosts</code> lists every host under which callers may reach the service, including the names of fronting gateways and proxies. Each entry is in the form of <code>egress_host</code> (<a href="#receipt" class="auto internal xref">Section 6.7</a>): a lowercase A-label with no port. A caller's <code>egress_host</code> is compared with this list in Linked Verification (<a href="#linked-verification" class="auto internal xref">Section 9.1</a>). The comparison shows that the caller named a host this Serving Party declares. It does not show which service the caller meant when one host fronts several services, because each of them lists that host. Behind a shared host, services are told apart by the request-target, which <code>call_digest</code> binds, and by the gateway's routing, which this document does not record. <code>hosts</code> <span class="bcp14">MUST</span> be present in a Serving Party Credential Statement whose Evidence Chain contains an <code>admission</code> receipt that carries <code>call_digest</code>; there is no default, and the host of <code>service_id</code> is not assumed. Each entry <span class="bcp14">MUST</span> be a host that the operator controls or has delegated to its front end. The list is the Serving Party's own signed declaration; <a href="#security" class="auto internal xref">Section 11</a> says what follows from a false one.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pack">
@@ -2730,7 +2730,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
         <h3 id="name-meaning-of-pass">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-meaning-of-pass" class="section-name selfRef">Meaning of PASS</a>
         </h3>
-<p id="section-9.2-1">A PASS establishes that: the TS committed to each statement in its append-only VDS; each statement was signed by the named Issuer; the receipts form an unbroken chain sealed into that VDS; every call was recorded under a registered policy and configuration; each runtime identifier was declared for that time; and, where required, accepted identity and operational assurance claims matched the run. For higher-risk assurance, the accepted claim also cites a current completed monitoring period and has not been suspended or withdrawn. A PASS of Linked Verification establishes, in addition, that each linked pair of receipts commits to the same request, as represented by <code>call_digest</code>, sent to a host the Serving Party declared, for the same Principal, transaction and Actor Chain, by parties each of which verified on its own. It does not establish that every hop of the Call Chain is present, that an intermediary forwarded the request unchanged in the parts <code>call_digest</code> excludes, or that a Serving Party checked more than its <code>admission_basis</code> records.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">A PASS establishes that: the TS committed to each statement in its append-only VDS; each statement was signed by the named Issuer; the receipts form an unbroken chain sealed into that VDS; every call was recorded under a registered policy and configuration; each runtime identifier was declared for that time; and, where required, accepted identity and operational assurance claims matched the run. For higher-risk assurance, the accepted claim also cites a current completed monitoring period and has not been suspended or withdrawn. A PASS of Linked Verification establishes, in addition, that each linked pair of receipts commits to the same request, as represented by <code>call_digest</code>, sent to a host the Serving Party declared, for the same Principal, transaction and Actor Chain, by parties each of which verified on its own. It does not establish that the Serving Party is the service the caller meant where several services share that host, that every hop of the Call Chain is present, that an intermediary forwarded the request unchanged in the parts <code>call_digest</code> excludes, or that a Serving Party checked more than its <code>admission_basis</code> records.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <p id="section-9.2-2">A PASS does not establish that the Harness recorded every call, that a decision was correct, that an <code>api</code>-bound model was the one named, that a Policy Pack semantically tightens its parent, that monitoring observed every relevant behaviour, or that an Agent Assurance Assessor's suite is adequate. Harness completeness is the composition point with remote attestation. A Harness can produce RATS Evidence <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, for example an EAT <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span> whose measurements cover the image named by <code>harness.digest</code>; a Relying Party <span class="bcp14">MAY</span> require that Evidence, with the Agent Credential payload digest as nonce. This document does not define that binding.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
 <div id="derivable-risk-facts">
 <section id="section-9.2.1">
@@ -2827,7 +2827,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
         <dd class="break"></dd>
 <dt id="section-11-2.9">Forged or replayed caller references:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.10">
-          <p id="section-11-2.10.1">A <code>caller_ref</code>, <code>actor_chain</code> or <code>principal_link</code> received with a call is the caller's claim until checked against the caller's registered chain. A <code>caller_ref</code> naming a receipt that does not exist fails <code>E_CALLER_REF</code>. One naming a different real call, for example a payment of another amount under the same token and transaction, fails <code>E_CALL_MISMATCH</code>, because the two <code>call_digest</code> values differ. One naming the same request sent to a different service fails <code>E_SERVING_HOST</code>, because the caller's <code>egress_host</code> is not among the <code>hosts</code> the Serving Party declared. A reference replayed to the same Serving Party is refused at admission (<a href="#admission" class="auto internal xref">Section 6.7.2</a>); one replayed to a different Serving Party fails <code>E_SERVING_HOST</code>, and is also reported as <code>E_CALLER_MISMATCH</code> when both admissions are in the same Linked Bundle, because they name the same caller receipt. Actors removed from or inserted into the chain are detected when the chains of all hops are verified together.<a href="#section-11-2.10.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.10.1">A <code>caller_ref</code>, <code>actor_chain</code> or <code>principal_link</code> received with a call is the caller's claim until checked against the caller's registered chain. A <code>caller_ref</code> naming a receipt that does not exist fails <code>E_CALLER_REF</code>. One naming a different real call, for example a payment of another amount under the same token and transaction, fails <code>E_CALL_MISMATCH</code>, because the two <code>call_digest</code> values differ. One naming the same request sent to a service under a different host fails <code>E_SERVING_HOST</code>, because the caller's <code>egress_host</code> is not among the <code>hosts</code> the Serving Party declared. A reference replayed to the same Serving Party is refused at admission (<a href="#admission" class="auto internal xref">Section 6.7.2</a>); one replayed to a Serving Party under a different host fails <code>E_SERVING_HOST</code>. Either replay is also reported as <code>E_CALLER_MISMATCH</code> when both admissions are in the same Linked Bundle, because they name the same caller receipt. Actors removed from or inserted into the chain are detected when the chains of all hops are verified together.<a href="#section-11-2.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-11-2.11">Service declaration:</dt>
@@ -2835,104 +2835,109 @@ aee-linked-bundle = [ 2* aee-bundle ]
           <p id="section-11-2.12.1">A Serving Party that lists in <code>hosts</code> a host it does not control can be linked to calls meant for that host. The list is a signed claim by the Serving Party, and a Relying Party relies on it as it relies on the other claims of the credential. Front ends run by other operators are the subject of an open issue (<a href="#open-issues" class="auto internal xref">Section 14</a>).<a href="#section-11-2.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.13">Status freshness at admission:</dt>
+<dt id="section-11-2.13">Shared front ends:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.14">
-          <p id="section-11-2.14.1">An admission decision based on a status observation older than the suspension of the agent admits a suspended agent. What matters is the age of the authenticated status observation, recorded as <code>status_checked_at</code>, and not the remaining lifetime of the token that carries it: a token with seconds left can carry an hour-old observation. A Serving Party bounds the age by the freshness its policy requires and <span class="bcp14">SHOULD</span> check the status list itself for operations its policy marks as high-risk.<a href="#section-11-2.14.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.14.1">One gateway host can front several services, and each lists that host in <code>hosts</code>, so <code>E_SERVING_HOST</code> cannot tell them apart. Where the gateway routes on the request path, <code>call_digest</code> binds that path and a request meant for one service is not delivered to another. Two cases remain. A gateway that routes on something <code>call_digest</code> excludes, such as a header or tenant identifier, can deliver an identical request to either service. A request that reaches a service without passing through the gateway is admitted under the shared host. In both cases a caller reference meant for one service passes Linked Verification at the other, unless both admissions are in the same Linked Bundle and fail <code>E_CALLER_MISMATCH</code>. Operators of such gateways <span class="bcp14">SHOULD</span> route on the request-target, and services behind them <span class="bcp14">SHOULD</span> accept calls only through the gateway.<a href="#section-11-2.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.15">Flooding a Serving Party:</dt>
+<dt id="section-11-2.15">Status freshness at admission:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.16">
-          <p id="section-11-2.16.1">Because a Serving Party records every call, including refusals, a caller can inflate its records. Serving Parties <span class="bcp14">SHOULD</span> rate-limit before the Ingress Decision Point; a call dropped there is not received and produces no receipt.<a href="#section-11-2.16.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.16.1">An admission decision based on a status observation older than the suspension of the agent admits a suspended agent. What matters is the age of the authenticated status observation, recorded as <code>status_checked_at</code>, and not the remaining lifetime of the token that carries it: a token with seconds left can carry an hour-old observation. A Serving Party bounds the age by the freshness its policy requires and <span class="bcp14">SHOULD</span> check the status list itself for operations its policy marks as high-risk.<a href="#section-11-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.17">Memory poisoning:</dt>
+<dt id="section-11-2.17">Flooding a Serving Party:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.18">
-          <p id="section-11-2.18.1"><code>memory_digest</code> makes changes to memory between Tasks visible after the fact; it does not prevent poisoned memory from influencing the next Task. A Policy Pack <span class="bcp14">MAY</span> require review of memory changes between Tasks for higher-risk agents.<a href="#section-11-2.18.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.18.1">Because a Serving Party records every call, including refusals, a caller can inflate its records. Serving Parties <span class="bcp14">SHOULD</span> rate-limit before the Ingress Decision Point; a call dropped there is not received and produces no receipt.<a href="#section-11-2.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.19">Fail-closed evaluation:</dt>
+<dt id="section-11-2.19">Memory poisoning:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.20">
-          <p id="section-11-2.20.1">A Decision Point that cannot evaluate a call <span class="bcp14">MUST NOT</span> let it proceed: for example an input over a size limit, a request it cannot parse, a response item it does not recognise, or an Evidence Service that cannot be reached. It <span class="bcp14">MUST NOT</span> evaluate a truncated or repaired form of the input instead. Where the Evidence Service is reachable, the refusal is recorded as <code>block</code>.<a href="#section-11-2.20.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.20.1"><code>memory_digest</code> makes changes to memory between Tasks visible after the fact; it does not prevent poisoned memory from influencing the next Task. A Policy Pack <span class="bcp14">MAY</span> require review of memory changes between Tasks for higher-risk agents.<a href="#section-11-2.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.21">Result alteration:</dt>
+<dt id="section-11-2.21">Fail-closed evaluation:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.22">
-          <p id="section-11-2.22.1"><code>response_digest</code> commits to what the Decision Point received, not to what the agent was given. A Harness that rebuilds, truncates or withholds a result before passing it on is not distinguishable from the receipt alone.<a href="#section-11-2.22.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.22.1">A Decision Point that cannot evaluate a call <span class="bcp14">MUST NOT</span> let it proceed: for example an input over a size limit, a request it cannot parse, a response item it does not recognise, or an Evidence Service that cannot be reached. It <span class="bcp14">MUST NOT</span> evaluate a truncated or repaired form of the input instead. Where the Evidence Service is reachable, the refusal is recorded as <code>block</code>.<a href="#section-11-2.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.23">Key compromise:</dt>
+<dt id="section-11-2.23">Result alteration:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.24">
-          <p id="section-11-2.24.1">Compromise of the Evidence Service key allows forged receipts from the time of compromise; earlier epochs remain protected by the TS's Receipts. Compromise of the agent key allows forged <code>agent_sig</code> values but not forged receipts. Operators <span class="bcp14">MUST</span> register a Revocation Statement on compromise and <span class="bcp14">SHOULD</span> use short <code>validity</code> windows.<a href="#section-11-2.24.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.24.1"><code>response_digest</code> commits to what the Decision Point received, not to what the agent was given. A Harness that rebuilds, truncates or withholds a result before passing it on is not distinguishable from the receipt alone.<a href="#section-11-2.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.25">Identity substitution:</dt>
+<dt id="section-11-2.25">Key compromise:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.26">
-          <p id="section-11-2.26.1">An attacker who obtains a workload identity in some trust domain cannot have receipts under it accepted for a Logical Agent unless the Agent Credential Statement lists that identity for that time (step 5 of <a href="#verification" class="auto internal xref">Section 9</a>). Issuers <span class="bcp14">SHOULD</span> keep <code>runtime_identities</code> minimal and windows short.<a href="#section-11-2.26.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.26.1">Compromise of the Evidence Service key allows forged receipts from the time of compromise; earlier epochs remain protected by the TS's Receipts. Compromise of the agent key allows forged <code>agent_sig</code> values but not forged receipts. Operators <span class="bcp14">MUST</span> register a Revocation Statement on compromise and <span class="bcp14">SHOULD</span> use short <code>validity</code> windows.<a href="#section-11-2.26.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.27">Session binding:</dt>
+<dt id="section-11-2.27">Identity substitution:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.28">
-          <p id="section-11-2.28.1">The Evidence Service <span class="bcp14">MUST</span> authenticate each Decision Point that submits receipts. An agent session at a Decision Point bound only to a network address protects little, since addresses are shared and change. Sessions <span class="bcp14">SHOULD</span> instead be bound to possession of the agent key, for example with a per-request proof of possession <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> or a certificate-bound session <span>[<a href="#RFC8705" class="cite xref">RFC8705</a>]</span>, so that a captured session identifier is useless without the key.<a href="#section-11-2.28.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.28.1">An attacker who obtains a workload identity in some trust domain cannot have receipts under it accepted for a Logical Agent unless the Agent Credential Statement lists that identity for that time (step 5 of <a href="#verification" class="auto internal xref">Section 9</a>). Issuers <span class="bcp14">SHOULD</span> keep <code>runtime_identities</code> minimal and windows short.<a href="#section-11-2.28.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.29">Principal attribution:</dt>
+<dt id="section-11-2.29">Session binding:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.30">
-          <p id="section-11-2.30.1">The <code>principal</code> in a receipt is asserted by the Evidence Service after it validated the Principal's token; the receipt does not carry a proof. An Evidence Service <span class="bcp14">SHOULD</span> retain, outside the receipt, a digest of each token as presented and of the key set it was verified with, so that an Auditor can repeat the validation. Token lifetime is judged at validation time, not at receipt time, since a Task can outlive the token that opened it; any clock-skew allowance <span class="bcp14">MUST</span> be bounded and stated in the Policy Pack or the Evidence Service's published configuration.<a href="#section-11-2.30.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.30.1">The Evidence Service <span class="bcp14">MUST</span> authenticate each Decision Point that submits receipts. An agent session at a Decision Point bound only to a network address protects little, since addresses are shared and change. Sessions <span class="bcp14">SHOULD</span> instead be bound to possession of the agent key, for example with a per-request proof of possession <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> or a certificate-bound session <span>[<a href="#RFC8705" class="cite xref">RFC8705</a>]</span>, so that a captured session identifier is useless without the key.<a href="#section-11-2.30.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.31">Policy downgrade:</dt>
+<dt id="section-11-2.31">Principal attribution:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.32">
-          <p id="section-11-2.32.1">Loading a weaker Policy Pack produces receipts naming a different <code>policy_pack_digest</code>; a Relying Party that requires a specific root pack detects this at step 11. A Relying Party <span class="bcp14">SHOULD</span> reject chains whose <code>policy_pack_digest</code> changes within a Task.<a href="#section-11-2.32.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.32.1">The <code>principal</code> in a receipt is asserted by the Evidence Service after it validated the Principal's token; the receipt does not carry a proof. An Evidence Service <span class="bcp14">SHOULD</span> retain, outside the receipt, a digest of each token as presented and of the key set it was verified with, so that an Auditor can repeat the validation. Token lifetime is judged at validation time, not at receipt time, since a Task can outlive the token that opened it; any clock-skew allowance <span class="bcp14">MUST</span> be bounded and stated in the Policy Pack or the Evidence Service's published configuration.<a href="#section-11-2.32.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.33">Configuration substitution:</dt>
+<dt id="section-11-2.33">Policy downgrade:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.34">
-          <p id="section-11-2.34.1">The precedence check at step 12 ensures the Configuration Integrity Statement predates the receipts. The Harness <span class="bcp14">MUST</span> compute and compare digests at load time and <span class="bcp14">SHOULD</span> re-check them at a bounded interval during a run; a mismatch <span class="bcp14">MUST</span> produce a Configuration Drift Statement and a new Configuration Integrity Statement before any further receipt. Blocking calls to tools absent from the committed tool manifest (<a href="#config" class="auto internal xref">Section 6.6</a>) prevents a tool server from evading the commitment by not listing a tool.<a href="#section-11-2.34.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.34.1">Loading a weaker Policy Pack produces receipts naming a different <code>policy_pack_digest</code>; a Relying Party that requires a specific root pack detects this at step 11. A Relying Party <span class="bcp14">SHOULD</span> reject chains whose <code>policy_pack_digest</code> changes within a Task.<a href="#section-11-2.34.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.35">Domain allowlist exfiltration:</dt>
+<dt id="section-11-2.35">Configuration substitution:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.36">
-          <p id="section-11-2.36.1">Allowing egress to a list of trusted hosts does not stop exfiltration to an attacker-controlled account on an allowed host, or through path and query components. A receipt that records only <code>decision: allow</code> does not help an investigator. This profile therefore requires <code>egress_host</code> in <code>egress</code> receipts and <code>request_digest</code> over the full request, so that which host received data in which call is answerable from evidence rather than from the operator's account. It does not prevent the exfiltration.<a href="#section-11-2.36.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.36.1">The precedence check at step 12 ensures the Configuration Integrity Statement predates the receipts. The Harness <span class="bcp14">MUST</span> compute and compare digests at load time and <span class="bcp14">SHOULD</span> re-check them at a bounded interval during a run; a mismatch <span class="bcp14">MUST</span> produce a Configuration Drift Statement and a new Configuration Integrity Statement before any further receipt. Blocking calls to tools absent from the committed tool manifest (<a href="#config" class="auto internal xref">Section 6.6</a>) prevents a tool server from evading the commitment by not listing a tool.<a href="#section-11-2.36.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.37">Unicode-based injection:</dt>
+<dt id="section-11-2.37">Domain allowlist exfiltration:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.38">
-          <p id="section-11-2.38.1">The rule in <a href="#normalization" class="auto internal xref">Section 6.6.1</a> makes invisible code points either irrelevant to the digest (profile 1) or a rejection (profile 2). It does not detect injection through visible but misleading text, homoglyphs, or content loaded at runtime outside the configuration set.<a href="#section-11-2.38.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.38.1">Allowing egress to a list of trusted hosts does not stop exfiltration to an attacker-controlled account on an allowed host, or through path and query components. A receipt that records only <code>decision: allow</code> does not help an investigator. This profile therefore requires <code>egress_host</code> in <code>egress</code> receipts and <code>request_digest</code> over the full request, so that which host received data in which call is answerable from evidence rather than from the operator's account. It does not prevent the exfiltration.<a href="#section-11-2.38.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.39">Assessment independence:</dt>
+<dt id="section-11-2.39">Unicode-based injection:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.40">
-          <p id="section-11-2.40.1">Level 1 can be self-asserted. At level 2, the Agent Assurance Assessor can still be the Responsible Entity, but accepted RATS Evidence adds technical runtime evidence. Levels 3 and 4 require a Third-Party Agent Assurance Assessor because an operator assessing controls it designed can share their assumptions and blind spots. The presence of an independence declaration is checkable, and identifier separation for an organization is only a weak signal; organizational independence, competence and accreditation are not established by this protocol.<a href="#section-11-2.40.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.40.1">The rule in <a href="#normalization" class="auto internal xref">Section 6.6.1</a> makes invisible code points either irrelevant to the digest (profile 1) or a rejection (profile 2). It does not detect injection through visible but misleading text, homoglyphs, or content loaded at runtime outside the configuration set.<a href="#section-11-2.40.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.41">Supervisory and registration authorities:</dt>
+<dt id="section-11-2.41">Assessment independence:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.42">
-          <p id="section-11-2.42.1">Compromise of a Supervisory Authority's or Agent Registration Authority's key allows agents under it to be suspended, restricted or closed, or unregistered agents to appear registered. Relying Parties accept each authority only for the schemes or namespaces it is designated for, and the domain-match rule of <a href="#ids" class="auto internal xref">Section 3</a> prevents one authority from issuing identifiers in another's namespace.<a href="#section-11-2.42.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.42.1">Level 1 can be self-asserted. At level 2, the Agent Assurance Assessor can still be the Responsible Entity, but accepted RATS Evidence adds technical runtime evidence. Levels 3 and 4 require a Third-Party Agent Assurance Assessor because an operator assessing controls it designed can share their assumptions and blind spots. The presence of an independence declaration is checkable, and identifier separation for an organization is only a weak signal; organizational independence, competence and accreditation are not established by this protocol.<a href="#section-11-2.42.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.43">Transfer without reassessment:</dt>
+<dt id="section-11-2.43">Supervisory and registration authorities:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.44">
-          <p id="section-11-2.44.1">A change of Responsible Entity produces a new registration and requires reassessment (<a href="#identification" class="auto internal xref">Section 4</a>). <code>lineage_id</code> lets an authority keep a history of adverse findings linked to the agent; it cannot prevent re-registration with another authority that does not share that history.<a href="#section-11-2.44.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.44.1">Compromise of a Supervisory Authority's or Agent Registration Authority's key allows agents under it to be suspended, restricted or closed, or unregistered agents to appear registered. Relying Parties accept each authority only for the schemes or namespaces it is designated for, and the domain-match rule of <a href="#ids" class="auto internal xref">Section 3</a> prevents one authority from issuing identifiers in another's namespace.<a href="#section-11-2.44.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.45">Sub-agents:</dt>
+<dt id="section-11-2.45">Transfer without reassessment:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.46">
-          <p id="section-11-2.46.1">A Sub-agent without its own key signs as its parent, so its compromise is its parent's. A Sub-agent not listed in the credential fails verification; whether its declared function is within the Capability Profile is checked by the assessor, not by the verifier.<a href="#section-11-2.46.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.46.1">A change of Responsible Entity produces a new registration and requires reassessment (<a href="#identification" class="auto internal xref">Section 4</a>). <code>lineage_id</code> lets an authority keep a history of adverse findings linked to the agent; it cannot prevent re-registration with another authority that does not share that history.<a href="#section-11-2.46.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.47">Key binding:</dt>
+<dt id="section-11-2.47">Sub-agents:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.48">
-          <p id="section-11-2.48.1">An assurance level and the protection of the credential key are independent. An agent assessed at level 4 whose key is held in software can be impersonated by any process that copies the key, and its records then carry that level. Relying Parties <span class="bcp14">MUST NOT</span> infer key protection from the level.<a href="#section-11-2.48.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.48.1">A Sub-agent without its own key signs as its parent, so its compromise is its parent's. A Sub-agent not listed in the credential fails verification; whether its declared function is within the Capability Profile is checked by the assessor, not by the verifier.<a href="#section-11-2.48.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.49">Monitoring limits:</dt>
+<dt id="section-11-2.49">Key binding:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.50">
-          <p id="section-11-2.50.1">Monitoring detects only deviations visible in its declared coverage. An agent can behave maliciously within an approved scope, evade an instrumented Decision Point, or exploit a control that is present but ineffective. Relying Parties <span class="bcp14">MUST</span> evaluate coverage, evidence sources, review frequency and control enforcement rather than treating level 4 as a guarantee of safe behaviour.<a href="#section-11-2.50.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.50.1">An assurance level and the protection of the credential key are independent. An agent assessed at level 4 whose key is held in software can be impersonated by any process that copies the key, and its records then carry that level. Relying Parties <span class="bcp14">MUST NOT</span> infer key protection from the level.<a href="#section-11-2.50.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-11-2.51">Limits:</dt>
+<dt id="section-11-2.51">Monitoring limits:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.52">
-          <p id="section-11-2.52.1">This profile produces evidence about calls that pass through Decision Points. Behaviour entirely inside the model, inside a tool, or through a channel the Harness does not mediate is not recorded.<a href="#section-11-2.52.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.52.1">Monitoring detects only deviations visible in its declared coverage. An agent can behave maliciously within an approved scope, evade an instrumented Decision Point, or exploit a control that is present but ineffective. Relying Parties <span class="bcp14">MUST</span> evaluate coverage, evidence sources, review frequency and control enforcement rather than treating level 4 as a guarantee of safe behaviour.<a href="#section-11-2.52.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-11-2.53">Limits:</dt>
+        <dd style="margin-left: 1.5em" id="section-11-2.54">
+          <p id="section-11-2.54.1">This profile produces evidence about calls that pass through Decision Points. Behaviour entirely inside the model, inside a tool, or through a channel the Harness does not mediate is not recorded.<a href="#section-11-2.54.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -3147,7 +3152,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
           <p id="section-14-2.8.1">Representation mapping: a defined mapping between different representations of one request, including proxies that rewrite the path, or a statement issued by a proxy that records what it forwarded (<a href="#linking" class="auto internal xref">Section 6.7.3</a>). <code>call_digest</code> compares the request as sent with the request as received and cannot match a request that an intermediary changed.<a href="#section-14-2.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-14-2.9">
-          <p id="section-14-2.9.1">Front ends run by other operators: whether <code>hosts</code> in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. This is the question put to the SCITT list.<a href="#section-14-2.9.1" class="pilcrow">¶</a></p>
+          <p id="section-14-2.9.1">Front ends run by other operators, and shared front ends: whether <code>hosts</code> in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. A host also does not identify one service where a gateway fronts several (<a href="#security" class="auto internal xref">Section 11</a>). Candidate designs are a path prefix on each <code>hosts</code> entry, which a Serving Party can enforce but a verifier cannot check because receipts do not carry the path, and a forwarding statement signed by the gateway naming the backend it routed the call to. This is the question put to the SCITT list.<a href="#section-14-2.9.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -3627,10 +3632,13 @@ config_digest              654e7b4e605a07c8657d5f2c01360d23
           <p id="appendix-D-2.10.1">Added a privacy note on guessing low-entropy content from <code>call_digest</code> (<a href="#privacy" class="auto internal xref">Section 10</a>).<a href="#appendix-D-2.10.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-2.11">
-          <p id="appendix-D-2.11.1">Added EP-AEC to Related Work, Open Issues for representation mapping and for front ends run by other operators, and Iman Schrock to the Acknowledgements.<a href="#appendix-D-2.11.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-2.11.1">Stated that <code>hosts</code> shows the caller named a declared host, not which service it meant where one gateway host fronts several services, and added the remaining cases to <a href="#security" class="auto internal xref">Section 11</a> and Open Issues.<a href="#appendix-D-2.11.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-2.12">
-          <p id="appendix-D-2.12.1">Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them (<a href="#vectors" class="auto internal xref">Appendix A</a>).<a href="#appendix-D-2.12.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-2.12.1">Added EP-AEC to Related Work, Open Issues for representation mapping and for front ends run by other operators, and Iman Schrock to the Acknowledgements.<a href="#appendix-D-2.12.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-2.13">
+          <p id="appendix-D-2.13.1">Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them (<a href="#vectors" class="auto internal xref">Appendix A</a>).<a href="#appendix-D-2.13.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

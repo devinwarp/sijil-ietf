@@ -5,7 +5,7 @@
 Supply Chain Integrity, Transparency, and Trust                 S. Thaha
 Internet-Draft                                             S. Shamsudeen
 Intended status: Standards Track                  Individual Contributor
-Expires: 24 April 2027                                      October 2026
+Expires: 25 April 2027                                      October 2026
 
 
  Agent Execution Evidence: A SCITT Profile for Verifiable Records of AI
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 1]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 1]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 2]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 2]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -127,28 +127,28 @@ Internet-Draft          Agent Execution Evidence            October 2026
        9.2.1.  Derivable Risk Facts  . . . . . . . . . . . . . . . .  46
    10. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  46
    11. Security Considerations . . . . . . . . . . . . . . . . . . .  48
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  52
-     12.1.  Media Types  . . . . . . . . . . . . . . . . . . . . . .  52
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  53
+     12.1.  Media Types  . . . . . . . . . . . . . . . . . . . . . .  53
      12.2.  CWT Claims . . . . . . . . . . . . . . . . . . . . . . .  53
-     12.3.  CoAP Content-Formats . . . . . . . . . . . . . . . . . .  53
-   13. Related Work  . . . . . . . . . . . . . . . . . . . . . . . .  53
-   14. Open Issues . . . . . . . . . . . . . . . . . . . . . . . . .  55
-   15. Implementation Status . . . . . . . . . . . . . . . . . . . .  56
+     12.3.  CoAP Content-Formats . . . . . . . . . . . . . . . . . .  54
+   13. Related Work  . . . . . . . . . . . . . . . . . . . . . . . .  54
+   14. Open Issues . . . . . . . . . . . . . . . . . . . . . . . . .  56
+   15. Implementation Status . . . . . . . . . . . . . . . . . . . .  57
    16. References  . . . . . . . . . . . . . . . . . . . . . . . . .  57
      16.1.  Normative References . . . . . . . . . . . . . . . . . .  57
-     16.2.  Informative References . . . . . . . . . . . . . . . . .  59
-   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .  63
-     A.1.  Keys  . . . . . . . . . . . . . . . . . . . . . . . . . .  63
-     A.2.  Agent Registration Statement  . . . . . . . . . . . . . .  63
+     16.2.  Informative References . . . . . . . . . . . . . . . . .  60
+   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .  64
+     A.1.  Keys  . . . . . . . . . . . . . . . . . . . . . . . . . .  64
+     A.2.  Agent Registration Statement  . . . . . . . . . . . . . .  64
      A.3.  Agent Credential Statement  . . . . . . . . . . . . . . .  64
      A.4.  Configuration Integrity Entries . . . . . . . . . . . . .  65
-     A.5.  Execution Receipts  . . . . . . . . . . . . . . . . . . .  65
-     A.6.  Execution Epoch Statement . . . . . . . . . . . . . . . .  67
-     A.7.  Admission Receipt . . . . . . . . . . . . . . . . . . . .  67
-   Appendix B.  Mapping to Regulatory and Standards Contexts . . . .  69
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  69
-   Changes since -00 . . . . . . . . . . . . . . . . . . . . . . . .  69
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  70
+     A.5.  Execution Receipts  . . . . . . . . . . . . . . . . . . .  66
+     A.6.  Execution Epoch Statement . . . . . . . . . . . . . . . .  68
+     A.7.  Admission Receipt . . . . . . . . . . . . . . . . . . . .  68
+   Appendix B.  Mapping to Regulatory and Standards Contexts . . . .  70
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  70
+   Changes since -00 . . . . . . . . . . . . . . . . . . . . . . . .  70
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  71
 
 1.  Introduction
 
@@ -165,7 +165,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 3]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 3]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -221,7 +221,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 4]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 4]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -277,7 +277,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 5]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 5]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -333,7 +333,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 6]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 6]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -389,7 +389,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 7]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 7]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -445,7 +445,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 8]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 8]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -501,7 +501,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                 [Page 9]
+Thaha & Shamsudeen        Expires 25 April 2027                 [Page 9]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -557,7 +557,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 10]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 10]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -613,7 +613,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 11]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 11]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -669,7 +669,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 12]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 12]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -725,7 +725,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 13]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 13]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -781,7 +781,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 14]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 14]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -837,7 +837,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 15]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 15]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -893,7 +893,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 16]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 16]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -949,7 +949,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 17]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 17]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1005,7 +1005,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 18]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 18]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1036,14 +1036,18 @@ Internet-Draft          Agent Execution Evidence            October 2026
    including the names of fronting gateways and proxies.  Each entry is
    in the form of egress_host (Section 6.7): a lowercase A-label with no
    port.  A caller's egress_host is compared with this list in Linked
-   Verification (Section 9.1), which is what binds the service a caller
-   intended to the Serving Party that admitted the call. hosts MUST be
-   present in a Serving Party Credential Statement whose Evidence Chain
-   contains an admission receipt that carries call_digest; there is no
-   default, and the host of service_id is not assumed.  Each entry MUST
-   be a host that the operator controls or has delegated to its front
-   end.  The list is the Serving Party's own signed declaration;
-   Section 11 says what follows from a false one.
+   Verification (Section 9.1).  The comparison shows that the caller
+   named a host this Serving Party declares.  It does not show which
+   service the caller meant when one host fronts several services,
+   because each of them lists that host.  Behind a shared host, services
+   are told apart by the request-target, which call_digest binds, and by
+   the gateway's routing, which this document does not record. hosts
+   MUST be present in a Serving Party Credential Statement whose
+   Evidence Chain contains an admission receipt that carries
+   call_digest; there is no default, and the host of service_id is not
+   assumed.  Each entry MUST be a host that the operator controls or has
+   delegated to its front end.  The list is the Serving Party's own
+   signed declaration; Section 11 says what follows from a false one.
 
 6.5.  Policy Pack Statement
 
@@ -1057,11 +1061,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 19]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 19]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1117,7 +1117,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 20]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 20]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1173,7 +1173,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 21]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 21]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1229,7 +1229,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 22]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 22]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1285,7 +1285,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 23]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 23]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1341,7 +1341,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 24]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 24]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1397,7 +1397,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 25]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 25]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1453,7 +1453,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 26]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 26]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1509,7 +1509,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 27]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 27]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1565,7 +1565,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 28]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 28]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1621,7 +1621,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 29]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 29]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1677,7 +1677,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 30]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 30]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1733,7 +1733,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 31]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 31]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1789,7 +1789,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 32]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 32]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1845,7 +1845,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 33]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 33]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1901,7 +1901,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 34]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 34]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -1957,7 +1957,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 35]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 35]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2013,7 +2013,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 36]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 36]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2069,7 +2069,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 37]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 37]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2125,7 +2125,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 38]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 38]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2181,7 +2181,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 39]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 39]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2237,7 +2237,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 40]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 40]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2293,7 +2293,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 41]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 41]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2349,7 +2349,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 42]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 42]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2405,7 +2405,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 43]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 43]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2461,7 +2461,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 44]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 44]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2510,17 +2510,19 @@ Internet-Draft          Agent Execution Evidence            October 2026
    linked pair of receipts commits to the same request, as represented
    by call_digest, sent to a host the Serving Party declared, for the
    same Principal, transaction and Actor Chain, by parties each of which
-   verified on its own.  It does not establish that every hop of the
-   Call Chain is present, that an intermediary forwarded the request
-   unchanged in the parts call_digest excludes, or that a Serving Party
-   checked more than its admission_basis records.
+   verified on its own.  It does not establish that the Serving Party is
+   the service the caller meant where several services share that host,
+   that every hop of the Call Chain is present, that an intermediary
+   forwarded the request unchanged in the parts call_digest excludes, or
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 45]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 45]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   that a Serving Party checked more than its admission_basis records.
 
    A PASS does not establish that the Harness recorded every call, that
    a decision was correct, that an api-bound model was the one named,
@@ -2571,9 +2573,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 46]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 46]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2629,7 +2629,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 47]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 47]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -2667,28 +2667,45 @@ Internet-Draft          Agent Execution Evidence            October 2026
       authority it legitimately holds.
 
    Forged or replayed caller references:  A caller_ref, actor_chain or
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 48]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       principal_link received with a call is the caller's claim until
       checked against the caller's registered chain.  A caller_ref
       naming a receipt that does not exist fails E_CALLER_REF.  One
       naming a different real call, for example a payment of another
       amount under the same token and transaction, fails
       E_CALL_MISMATCH, because the two call_digest values differ.  One
-      naming the same request sent to a different service fails
-      E_SERVING_HOST, because the caller's egress_host is not among the
-      hosts the Serving Party declared.  A reference replayed to the
-      same Serving Party is refused at admission (Section 6.7.2); one
-      replayed to a different Serving Party fails E_SERVING_HOST, and is
-      also reported as E_CALLER_MISMATCH when both admissions are in the
-      same Linked Bundle, because they name the same caller receipt.
-      Actors removed from or inserted into the chain are detected when
-      the chains of all hops are verified together.
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 48]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
+      naming the same request sent to a service under a different host
+      fails E_SERVING_HOST, because the caller's egress_host is not
+      among the hosts the Serving Party declared.  A reference replayed
+      to the same Serving Party is refused at admission (Section 6.7.2);
+      one replayed to a Serving Party under a different host fails
+      E_SERVING_HOST.  Either replay is also reported as
+      E_CALLER_MISMATCH when both admissions are in the same Linked
+      Bundle, because they name the same caller receipt.  Actors removed
+      from or inserted into the chain are detected when the chains of
+      all hops are verified together.
 
    Service declaration:  A Serving Party that lists in hosts a host it
       does not control can be linked to calls meant for that host.  The
@@ -2696,6 +2713,21 @@ Internet-Draft          Agent Execution Evidence            October 2026
       relies on it as it relies on the other claims of the credential.
       Front ends run by other operators are the subject of an open issue
       (Section 14).
+
+   Shared front ends:  One gateway host can front several services, and
+      each lists that host in hosts, so E_SERVING_HOST cannot tell them
+      apart.  Where the gateway routes on the request path, call_digest
+      binds that path and a request meant for one service is not
+      delivered to another.  Two cases remain.  A gateway that routes on
+      something call_digest excludes, such as a header or tenant
+      identifier, can deliver an identical request to either service.  A
+      request that reaches a service without passing through the gateway
+      is admitted under the shared host.  In both cases a caller
+      reference meant for one service passes Linked Verification at the
+      other, unless both admissions are in the same Linked Bundle and
+      fail E_CALLER_MISMATCH.  Operators of such gateways SHOULD route
+      on the request-target, and services behind them SHOULD accept
+      calls only through the gateway.
 
    Status freshness at admission:  An admission decision based on a
       status observation older than the suspension of the agent admits a
@@ -2706,6 +2738,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
       bounds the age by the freshness its policy requires and SHOULD
       check the status list itself for operations its policy marks as
       high-risk.
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 49]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    Flooding a Serving Party:  Because a Serving Party records every
       call, including refusals, a caller can inflate its records.
@@ -2738,14 +2777,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       short validity windows.
 
    Identity substitution:  An attacker who obtains a workload identity
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 49]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       in some trust domain cannot have receipts under it accepted for a
       Logical Agent unless the Agent Credential Statement lists that
       identity for that time (step 5 of Section 9).  Issuers SHOULD keep
@@ -2761,6 +2792,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
       useless without the key.
 
    Principal attribution:  The principal in a receipt is asserted by the
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 50]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       Evidence Service after it validated the Principal's token; the
       receipt does not carry a proof.  An Evidence Service SHOULD
       retain, outside the receipt, a digest of each token as presented
@@ -2787,21 +2828,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       a tool.
 
    Domain allowlist exfiltration:  Allowing egress to a list of trusted
-
-
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 50]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       hosts does not stop exfiltration to an attacker-controlled account
       on an allowed host, or through path and query components.  A
       receipt that records only decision: allow does not help an
@@ -2818,6 +2844,20 @@ Internet-Draft          Agent Execution Evidence            October 2026
       runtime outside the configuration set.
 
    Assessment independence:  Level 1 can be self-asserted.  At level 2,
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 51]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       the Agent Assurance Assessor can still be the Responsible Entity,
       but accepted RATS Evidence adds technical runtime evidence.
       Levels 3 and 4 require a Third-Party Agent Assurance Assessor
@@ -2848,16 +2888,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       the verifier.
 
    Key binding:  An assurance level and the protection of the credential
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 51]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       key are independent.  An agent assessed at level 4 whose key is
       held in software can be impersonated by any process that copies
       the key, and its records then carry that level.  Relying Parties
@@ -2875,6 +2905,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
       Decision Points.  Behaviour entirely inside the model, inside a
       tool, or through a channel the Harness does not mediate is not
       recorded.
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 52]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
 12.  IANA Considerations
 
@@ -2906,14 +2944,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    Transparency Services, auditors; intended usage COMMON; change
    controller IETF.
 
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 52]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
 12.2.  CWT Claims
 
    IANA is requested to register the following claim in the "CBOR Web
@@ -2932,6 +2962,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
    +--------+-------------+--------+-----+-------+----------+---------+
 
                    Table 3: CWT claim to be registered
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 53]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    Until a key is assigned, implementations use the text string key
    "aee_type"; the test vectors in Appendix A do so.
@@ -2959,17 +2996,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       the Evidence Service.
 
    RATS [RFC9334] and EAT [RFC9711]:  RATS supplies roles and procedures
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 53]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       for technical attestation, and EAT can convey claims about a
       measured runtime.  This profile can bind that evidence to an
       identity or operational assurance claim, but does not replace RATS
@@ -2987,6 +3013,19 @@ Internet-Draft          Agent Execution Evidence            October 2026
       future work coordinated across the relevant communities.
 
    Audit architecture [I-D.kuehlewind-audit-architecture]:  Roles and
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 54]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       four record types (Interaction, Action, Delegation, Authorization
       Transition).  The Execution Receipt is an Action Record at the
       Harness vantage, and the admission receipt is the corresponding
@@ -3018,14 +3057,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       point at the SCITT Receipt of the enclosing epoch.
 
    Agent Action Capsule [I-D.mih-scitt-agent-action-capsule]:  A JSON
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 54]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       Capsule per action with disposition and an Effect Record,
       registered by Capsule ID.  Its may/did distinction is finer than
       decision plus tool_result; a Capsule ID can be the request_digest
@@ -3043,6 +3074,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
       redaction receipts, and the same SCITT role mapping as here.  This
       profile excludes content from statements; an AIR can be the
       retained content whose digest appears in a receipt.
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 55]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    Agent Passport System [I-D.pidlisnyi-aps] and Agent Audit Trail
    [I-D.sharif-agent-audit-trail]:  A broad authority-and-evidence
@@ -3072,16 +3110,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       later Actor's, effective scope is no wider than its parent's needs
       a common representation of scopes (Section 6.7.1, Section 6.7.2).
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 55]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    *  Supervisory Decision statement: a statement by which a Supervisory
       Authority grants, restricts, suspends, restores or withdraws
       assurance.
@@ -3102,6 +3130,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
    *  Whether Serving Parties should also be registered by an authority.
 
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 56]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    *  Representation mapping: a defined mapping between different
       representations of one request, including proxies that rewrite the
       path, or a statement issued by a proxy that records what it
@@ -3109,10 +3145,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
       sent with the request as received and cannot match a request that
       an intermediary changed.
 
-   *  Front ends run by other operators: whether hosts in the Serving
-      Party's own credential is enough, or whether a proxy run by
-      another operator should sign its own forwarding statement.  This
-      is the question put to the SCITT list.
+   *  Front ends run by other operators, and shared front ends: whether
+      hosts in the Serving Party's own credential is enough, or whether
+      a proxy run by another operator should sign its own forwarding
+      statement.  A host also does not identify one service where a
+      gateway fronts several (Section 11).  Candidate designs are a path
+      prefix on each hosts entry, which a Serving Party can enforce but
+      a verifier cannot check because receipts do not carry the path,
+      and a forwarding statement signed by the gateway naming the
+      backend it routed the call to.  This is the question put to the
+      SCITT list.
 
 15.  Implementation Status
 
@@ -3130,14 +3172,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    call agent_sig, validity-window identity checks, Assurance Statement
    checks, Principal peppering, and everything this revision adds: Agent
    Registration, Model Provider and Serving Party Credential Statements,
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 56]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    Sub-agent records, memory_digest, Supervisory Authority status,
    admission receipts, linking across calls and Linked Verification,
    with call_digest, hosts and the matching and service-binding checks
@@ -3149,6 +3183,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
 16.  References
 
 16.1.  Normative References
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 57]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [DID-WEB]  W3C Credentials Community Group, "did:web Method
               Specification", 2023,
@@ -3184,16 +3228,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               DOI 10.17487/RFC7493, March 2015,
               <https://www.rfc-editor.org/rfc/rfc7493>.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 57]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -3205,6 +3239,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [RFC8485]  Richer, J. and L. Johansson, "Vectors of Trust", RFC 8485,
               DOI 10.17487/RFC8485, October 2018,
               <https://www.rfc-editor.org/rfc/rfc8485>.
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 58]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [RFC8610]  Birkholz, H., Vigano, C., and C. Bormann, "Concise Data
               Definition Language (CDDL)", RFC 8610,
@@ -3240,16 +3284,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               DOI 10.17487/RFC9110, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9110>.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 58]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [RFC9112]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
@@ -3261,6 +3295,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [RFC9530]  Polli, R. and L. Pardue, "Digest Fields", RFC 9530,
               DOI 10.17487/RFC9530, February 2024,
               <https://www.rfc-editor.org/rfc/rfc9530>.
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 59]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [RFC9942]  Steele, O., Birkholz, H., Delignat-Lavaud, A., and C.
               Fournet, "CBOR Object Signing and Encryption (COSE)
@@ -3294,18 +3338,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               <https://datatracker.ietf.org/doc/html/draft-emirdag-
               scitt-ai-agent-execution-01>.
 
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 59]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [I-D.gilda-audit-agent-audit-record]
               Gilda, S., "An Audit Record Format for AI Agent
               Authorization Decisions", Work in Progress, Internet-
@@ -3320,6 +3352,15 @@ Internet-Draft          Agent Execution Evidence            October 2026
               Internet-Draft, draft-ietf-oauth-identity-chaining-17,
               July 2026, <https://datatracker.ietf.org/doc/html/draft-
               ietf-oauth-identity-chaining-17>.
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 60]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [I-D.ietf-oauth-transaction-tokens]
               Tulshibagwale, A., Fletcher, G., and P. Kasselman,
@@ -3352,16 +3393,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               <https://datatracker.ietf.org/doc/html/draft-kuehlewind-
               audit-architecture-01>.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 60]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [I-D.mih-scitt-agent-action-capsule]
               Mih, S., "An Agent Action Capsule Profile for SCITT", Work
               in Progress, Internet-Draft, draft-mih-scitt-agent-action-
@@ -3379,6 +3410,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [I-D.pidlisnyi-aps]
               Pidlisnyi, O., "Agent Passport System (APS): Verifiable
               Authority, Lifecycle, Enforcement, and Evidence for AI
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 61]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
               Agents", Work in Progress, Internet-Draft, draft-
               pidlisnyi-aps-04, September 2026,
               <https://datatracker.ietf.org/doc/html/draft-pidlisnyi-
@@ -3410,14 +3449,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               Specification", 2024,
               <https://github.com/in-toto/attestation>.
 
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 61]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [METR-HF]  METR, "Brief independent investigation of agents'
               behavior, reasoning and collaboration in the OpenAI /
               Hugging Face hacking incident", August 2026,
@@ -3429,6 +3460,19 @@ Internet-Draft          Agent Execution Evidence            October 2026
               AI Standards and Innovation, "AI Agent Standards
               Initiative", February 2026, <https://www.nist.gov/caisi/
               ai-agent-standards-initiative>.
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 62]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [NIST.SP.800-63-4]
               Temoshok, D., Proud-Madruga, D., Choong, Y., Galluzzo, R.,
@@ -3464,16 +3508,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 62]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    [RFC9449]  Fett, D., Campbell, B., Bradley, J., Lodderstedt, T.,
               Jones, M., and D. Waite, "OAuth 2.0 Demonstrating Proof of
               Possession (DPoP)", RFC 9449, DOI 10.17487/RFC9449,
@@ -3483,6 +3517,18 @@ Internet-Draft          Agent Execution Evidence            October 2026
               Wallace, "The Entity Attestation Token (EAT)", RFC 9711,
               DOI 10.17487/RFC9711, April 2025,
               <https://www.rfc-editor.org/rfc/rfc9711>.
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 63]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
 Appendix A.  Test Vectors
 
@@ -3521,15 +3567,6 @@ A.2.  Agent Registration Statement
      7: {1: 1790000000, 2: 1824128000}
    }
 
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 63]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    capability_profile_digest is over the octets <capability profile
    bytes>.  Digest of the canonical payload:
    f994b20f8c780fcd2b2981784c79e1afa1591a1a33d2a9ce90739b0d622716ec.
@@ -3537,6 +3574,17 @@ Internet-Draft          Agent Execution Evidence            October 2026
 A.3.  Agent Credential Statement
 
    Payload (diagnostic notation):
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 64]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    {
      1: 1,
@@ -3576,20 +3624,23 @@ A.3.  Agent Credential Statement
    signatures, are in the vectors directory of the repository named in
    the document header.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 64]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
 A.4.  Configuration Integrity Entries
 
    Three entries, ordered by name as Section 6.6 requires, each [name,
    [-16, digest], class]:
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 65]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    INSTRUCTIONS.md         2  b7151d3ad953353923932e171b27567b
                               a78524f13ba853e6c912ea3d43653610
@@ -3637,7 +3688,12 @@ A.5.  Execution Receipts
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 65]
+
+
+
+
+
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 66]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -3693,7 +3749,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 66]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 67]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -3749,7 +3805,7 @@ A.7.  Admission Receipt
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 67]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 68]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -3805,7 +3861,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 68]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 69]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -3861,7 +3917,7 @@ Changes since -00
 
 
 
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 69]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 70]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
@@ -3881,6 +3937,11 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
    *  Added a privacy note on guessing low-entropy content from
       call_digest (Section 10).
+
+   *  Stated that hosts shows the caller named a declared host, not
+      which service it meant where one gateway host fronts several
+      services, and added the remaining cases to Section 11 and Open
+      Issues.
 
    *  Added EP-AEC to Related Work, Open Issues for representation
       mapping and for front ends run by other operators, and Iman
@@ -3912,9 +3973,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 24 April 2027                [Page 70]
+Thaha & Shamsudeen        Expires 25 April 2027                [Page 71]

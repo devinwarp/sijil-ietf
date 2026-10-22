@@ -394,7 +394,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <t><spanx style="verb">assurance_level</spanx> and <spanx style="verb">assurance_status</spanx> in a token can be as stale as the <spanx style="verb">status_checked_at</spanx> that the Serving Party's policy accepts; the token's validity period does not bound it. The freshness rule of <xref target="claim"/> bounds this, and the Serving Party's own status check for high-risk operations removes it where it matters most. <spanx style="verb">status_checked_at</spanx> is signed inside the token, so a token issuer that misstates it is detectable only against the status list. A Serving Party or relying party that requires tight freshness <bcp14>SHOULD</bcp14> check the status list itself for high-risk operations, as in <xref target="admission"/>.</t>
 
-<t>The <spanx style="verb">AEE-Caller-Ref</spanx> field and the <spanx style="verb">act</spanx> claims are assertions by the Calling Agent. A field naming a receipt that does not exist fails Linked Verification with <spanx style="verb">E_CALLER_REF</spanx>. One naming a different real call, such as a payment of another amount under the same token and transaction, fails with <spanx style="verb">E_CALL_MISMATCH</spanx>, because the <spanx style="verb">call_digest</spanx> values differ. One naming the same request sent to a different service fails with <spanx style="verb">E_SERVING_HOST</spanx>, because the caller's <spanx style="verb">egress_host</spanx> is not among the <spanx style="verb">hosts</spanx> the Serving Party declared. A Serving Party refuses at admission a call whose <spanx style="verb">cd</spanx> differs from the value it computed. A replayed field is refused by the Serving Party that already admitted it, and detected by Linked Verification when used at another. A Serving Party that acts before verifying them relies on its own checks of the token and the Principal, not on the field.</t>
+<t>The <spanx style="verb">AEE-Caller-Ref</spanx> field and the <spanx style="verb">act</spanx> claims are assertions by the Calling Agent. A field naming a receipt that does not exist fails Linked Verification with <spanx style="verb">E_CALLER_REF</spanx>. One naming a different real call, such as a payment of another amount under the same token and transaction, fails with <spanx style="verb">E_CALL_MISMATCH</spanx>, because the <spanx style="verb">call_digest</spanx> values differ. One naming the same request sent to a service under a different host fails with <spanx style="verb">E_SERVING_HOST</spanx>, because the caller's <spanx style="verb">egress_host</spanx> is not among the <spanx style="verb">hosts</spanx> the Serving Party declared. Services behind one shared gateway host are told apart only by the request-target that <spanx style="verb">cd</spanx> binds and by the gateway's routing (Security Considerations of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>). A Serving Party refuses at admission a call whose <spanx style="verb">cd</spanx> differs from the value it computed. A replayed field is refused by the Serving Party that already admitted it, and detected by Linked Verification when used at another. A Serving Party that acts before verifying them relies on its own checks of the token and the Principal, not on the field.</t>
 
 <t>Including <spanx style="verb">transparency_service</spanx> in the token reveals to any token recipient which Transparency Service the operator uses. Operators who consider that sensitive omit it and distribute the Transparency Service's identity out of band.</t>
 
@@ -867,6 +867,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
   <t>Added the <spanx style="verb">cd</spanx> member to <spanx style="verb">AEE-Caller-Ref</spanx>, carrying the caller's <spanx style="verb">call_digest</spanx>, and regenerated the example (<xref target="carrying"/>).</t>
   <t>A Serving Party computes its own <spanx style="verb">call_digest</spanx>, and refuses a call whose <spanx style="verb">cd</spanx> differs. A Serving Party <bcp14>MUST</bcp14> refuse a caller reference it has already admitted. The admission receipt records <spanx style="verb">call_digest</spanx> and the status observation time (<xref target="admission"/>).</t>
   <t>Corrected the statement in the Security Considerations that a forged caller reference always fails Linked Verification; the failure cases and the replay rule are now listed.</t>
+  <t>Noted that services behind one shared gateway host are told apart only by the request-target and the gateway's routing.</t>
   <t>Updated references to the -01 revision of the SCITT draft, and added EP-AEC as an informative reference.</t>
 </list></t>
 
@@ -1173,36 +1174,38 @@ VfKT3ATUK3TtOdBxjwHSkGbrciTDZEowHyrp5SHHJiKbbcjoxaDReF1ntbV9
 sawvoNYWLJRYAX9wgxvWyNDiyZhvsHIWRAaD/MxuHIYSc9ZjUQOrbAII3iH5
 cy10hu7k1yB4o7KmnfIRn0QfBen0AI6aYS5abCsGp+d+SpTOH84UiwoypaUq
 vS/ayj6V/dPdnXfv9o9Oj/Zfn+FpacZ/1xelgKleSHqBBpKw5xQ3+CHbUU4e
-WwDSNZ2OOz673GdODGVq4TRO3x8cv9852X1z5tOMmv6kCCuzi6bccVtJp8Jo
-LaoRxMMf7x/9cvDhb6dvDo9PWqOvyZbSuoSFnnOo6VIdOkv82U9tHNUMsDDF
-Sg9gE186Zkl2Mio7cXoWIJg9gaxPQ5R6foeeFdJT7yA5jS7JT7UIJjt+txd9
-UOvjPPBG97+7PtFDGnemJ9csyGYtOJ/PcukDcyORXWEPOkcrwdmTHEClq5wz
-hQb47d0K4uA5al5UHFmRfqQXtcCFs2T6OzLM/QGxJKEBB91Bu3h+ZiYmrWqg
-JUY2r+Al9K7mmiOL2dDTlRRgrPG8+aozr1ULW7FqQGeRAf39MaJ1bXO5EZA3
-kai8Qc6zzq/QOlpvuqttXVaRapBO+Vi2aB/ZdaDHUMDfeDAFEQCGmklfpq4b
-4flo7jDgoDO8L4uTIwbTsFXfunpz17CvVbrSf5APqfMseuPKeO77S+ugz2GJ
-MiUI0hmrFIhHPxRJMenITNk3Yt1pny/QAoCI2S8q+q5wO1Q4yKic+k5dSvVR
-eRhqiqxSJJ2OWJJxwOEIVzHf39mrXR1wEIpod3Rqb4euqMOaP0+YwBUcIqDW
-kRSDR2f6sTVFB/dxjId6h3aTJ4WGe/J4eq3adN1JczLLtW6wQEbzoHravBL+
-D1on1lTVJfvHSF10ORHR/Jy2YQ0PIf1pe6Yh3v0bdTOy954J8M+SPswwaBxJ
-/YfRKa9SveRTPUd8qqenWjuMO4I5P4w3n8lSR2AQwzjY+bDT4Rb37nF475OZ
-SuINn/8AjBwf96VmXPvtjExi+c5HIK5C5uwbvR/cUA/zTdi/dYwxNz5F5EP3
-FBG9tUd+IeIRgaPEHQGgZmqnD7tQQm87UF8uGLYA5QpSIkjffyCcDx8eDVBs
-6gpJYJIc7J+8hjsuxXkSaP/tA5YJ3hTD/VfCu/XB+7ufTh6sgTqfE/P/G9Tf
-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
+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
 
 -->
 
