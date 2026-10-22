@@ -236,11 +236,12 @@ h'7df8cc808530b8a02e78f723ddcda32645e14c66dd61b8525279fa94118f9ec9'
     "wimse://agents.example.com/agent/billing-assistant"
   ],
   24: h'1c8ec66d31e2260b8ebe9e7c602773d0b7b8803689e8a935c3d7d22002cd813d',
-  25: "txn-0001"
+  25: "txn-0001",
+  29: [-16, h'544d017602d3f2c25b263dc8b8a7c124a27f447f9820363ba99793d5baeda60f']
 }
 
 --- A.4 record-hash(3)
-h'1b68ca2bcc5f4814ce870f75419b79d8f66b51e13df185ca41cf371c31ab1bf3'
+h'6724c98d2b78fe984db24ce2d8cb63cc214171928ec4f9ebb09770e3d9196fa7'
 
 --- A.5 Execution Epoch Statement
 {
@@ -264,6 +265,9 @@ h'1b68ca2bcc5f4814ce870f75419b79d8f66b51e13df185ca41cf371c31ab1bf3'
   h'f0ab25c18f2f0442c422bb1f0cedd1fed5cccc195ef48b91dab99733d7fd6527b6791253e9a10b3d19691dad712a13adb94b9838eaaca8f2e4e1aa02cd311e00'
 ])
 
+--- A.4 call_digest (POST /invoices)
+[-16, h'544d017602d3f2c25b263dc8b8a7c124a27f447f9820363ba99793d5baeda60f']
+
 --- A.6 Serving Party Credential Statement payload
 {
   1: 10,
@@ -281,11 +285,12 @@ h'1b68ca2bcc5f4814ce870f75419b79d8f66b51e13df185ca41cf371c31ab1bf3'
   5: {
     1: 1790000000,
     2: 1792592000
-  }
+  },
+  7: ["api.customer.example"]
 }
 
 --- A.6 Serving Party Credential payload digest
-[-16, h'9f4e1bb87cd23a4e9ccf6a8b80d094378674afad06e13a16ff39723bf69bbead']
+[-16, h'232bfea5a26a43e92d41873083ba54b735e5a7aeb669654869172c6037d6b0ab']
 
 --- A.6 Serving Party configuration entries and digest
 {
@@ -322,7 +327,7 @@ h'1b68ca2bcc5f4814ce870f75419b79d8f66b51e13df185ca41cf371c31ab1bf3'
   21: {
     1: "https://harness.example/issuer",
     2: 3,
-    3: h'1b68ca2bcc5f4814ce870f75419b79d8f66b51e13df185ca41cf371c31ab1bf3'
+    3: h'6724c98d2b78fe984db24ce2d8cb63cc214171928ec4f9ebb09770e3d9196fa7'
   },
   22: {
     3: 1790001009,
@@ -334,8 +339,9 @@ h'1b68ca2bcc5f4814ce870f75419b79d8f66b51e13df185ca41cf371c31ab1bf3'
     "wimse://agents.example.com/agent/billing-assistant"
   ],
   24: h'1c8ec66d31e2260b8ebe9e7c602773d0b7b8803689e8a935c3d7d22002cd813d',
-  25: "txn-0001"
+  25: "txn-0001",
+  29: [-16, h'544d017602d3f2c25b263dc8b8a7c124a27f447f9820363ba99793d5baeda60f']
 }
 
 --- A.6 record-hash(admission 0)
-h'c0a0e382ff5dfa971f235f73a5c2d0f8b8faf0ffc3dad41f8c564005c486552d'
+h'712bba68319f1aa5f048292b99107131d513b3ba96f3d23b2a318585bf98a425'
