@@ -388,7 +388,7 @@ informative:
       - ins: S. Gilda
     date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-gilda-audit-agent-audit-record-00
+      Internet-Draft: draft-gilda-audit-agent-audit-record-02
   I-D.kuehlewind-audit-architecture:
     title: An Architecture for Auditing Agent Delegation and Interactions
     author:
@@ -448,6 +448,13 @@ informative:
     date: 2026-10
     seriesinfo:
       Internet-Draft: draft-schrock-ep-authorization-evidence-chain-08
+  I-D.schrock-action-evidence-boundary:
+    title: "The Action Evidence Boundary for Consequential Agent Effects"
+    author:
+      - ins: I. Schrock
+    date: 2026-09
+    seriesinfo:
+      Internet-Draft: draft-schrock-action-evidence-boundary-07
   AP2:
     title: Agent Payments Protocol (AP2) Specification
     author:
@@ -1423,7 +1430,7 @@ Service declaration:
 : A Serving Party that lists in `hosts` a host it does not control can be linked to calls meant for that host. The list is a signed claim by the Serving Party, and a Relying Party relies on it as it relies on the other claims of the credential. Front ends run by other operators are the subject of an open issue ({{open-issues}}).
 
 Shared front ends:
-: One gateway host can front several services, and each lists that host in `hosts`, so `E_SERVING_HOST` cannot tell them apart. Where the gateway routes on the request path, `call_digest` binds that path and a request meant for one service is not delivered to another. Two cases remain. A gateway that routes on something `call_digest` excludes, such as a header or tenant identifier, can deliver an identical request to either service. A request that reaches a service without passing through the gateway is admitted under the shared host. In both cases a caller reference meant for one service passes Linked Verification at the other, unless both admissions are in the same Linked Bundle and fail `E_CALLER_MISMATCH`. Operators of such gateways SHOULD route on the request-target, and services behind them SHOULD accept calls only through the gateway.
+: One gateway host can front several services, and each lists that host in `hosts`, so `E_SERVING_HOST` cannot tell them apart. Where the gateway routes on the request path, `call_digest` binds that path, but the mapping from path to service is the gateway's own configuration, which a Relying Party trusts and which no receipt records. Two cases remain. A gateway that routes on something `call_digest` excludes, such as a header or tenant identifier, can deliver an identical request to either service. A request that reaches a service without passing through the gateway is admitted under the shared host. In both cases a caller reference meant for one service passes Linked Verification at the other, unless both admissions are in the same Linked Bundle and fail `E_CALLER_MISMATCH`. Operators of such gateways SHOULD route on the request-target, and services behind them SHOULD accept calls only through the gateway.
 
 Status freshness at admission:
 : An admission decision based on a status observation older than the suspension of the agent admits a suspended agent. What matters is the age of the authenticated status observation, recorded as `status_checked_at`, and not the remaining lifetime of the token that carries it: a token with seconds left can carry an hour-old observation. A Serving Party bounds the age by the freshness its policy requires and SHOULD check the status list itself for operations its policy marks as high-risk.
@@ -1537,7 +1544,7 @@ OAuth Token Exchange {{RFC8693}}, Transaction Tokens {{I-D.ietf-oauth-transactio
 : Token Exchange expresses a chain of delegation by nested `act` claims; this profile records it as `actor_chain` and, unlike that specification, requires a Serving Party to evaluate prior actors. Transaction Tokens propagate the principal of the transaction and a `txn` identifier along a Call Chain within one Trust Domain; this profile records `txn` on both sides of every call and extends the Call Chain across Trust Domains. Identity and Authorization Chaining carries identity across Trust Domains and leaves the format of transcribed claims open; the Actor Chain is one concrete record of what it carries. This profile complements these specifications with evidence and does not change them.
 
 Agent audit record {{I-D.gilda-audit-agent-audit-record}}:
-: A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. {{I-D.thaha-wimse-agent-evidence-binding}} defines an in-toto {{IN-TOTO}} predicate type for Execution Receipts, and an audit record's `correlation.externalAnchor` of kind `transparency-log` can point at the SCITT Receipt of the enclosing epoch.
+: A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. {{I-D.thaha-wimse-agent-evidence-binding}} defines an in-toto {{IN-TOTO}} predicate type for Execution Receipts. An audit record can point to the Execution Receipt for the same call, or to the SCITT Receipt that registers it; the pointer associates the two records and dates neither of them ({{I-D.thaha-wimse-agent-evidence-binding}}).
 
 Agent Action Capsule {{I-D.mih-scitt-agent-action-capsule}}:
 : A JSON Capsule per action with disposition and an Effect Record, registered by Capsule ID. Its may/did distinction is finer than `decision` plus `tool_result`; a Capsule ID can be the `request_digest` of a `tool_call` receipt. This profile defers effect tracking to the Capsule.
@@ -1569,7 +1576,7 @@ This section is to be removed before publication as an RFC.
 * A reputation statement linked through `lineage_id`, and whether identifier forms other than `did:web` should be allowed for `logical_agent_id`.
 * Whether Serving Parties should also be registered by an authority.
 * Representation mapping: a defined mapping between different representations of one request, including proxies that rewrite the path, or a statement issued by a proxy that records what it forwarded ({{linking}}). `call_digest` compares the request as sent with the request as received and cannot match a request that an intermediary changed.
-* Front ends run by other operators, and shared front ends: whether `hosts` in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. A host also does not identify one service where a gateway fronts several ({{security}}). Candidate designs are a path prefix on each `hosts` entry, which a Serving Party can enforce but a verifier cannot check because receipts do not carry the path, and a forwarding statement signed by the gateway naming the backend it routed the call to. This is the question put to the SCITT list.
+* Front ends run by other operators, and shared front ends: whether `hosts` in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. A host also does not identify one service where a gateway fronts several ({{security}}). Candidate designs are a path prefix on each `hosts` entry, which a Serving Party can enforce but a verifier cannot check because receipts do not carry the path, and a forwarding statement signed by the gateway naming the backend it routed the call to. A third is a handoff from the gateway to the effect boundary, as in {{Section 5.8 of I-D.schrock-action-evidence-boundary}}: only the gateway that accepts the call signs, under a key the Relying Party pins, binding the action digest and the executor, so other intermediaries need not sign. This is the question put to the SCITT list.
 
 # Implementation Status
 
@@ -1758,7 +1765,7 @@ This informative mapping does not claim compliance. Execution Receipts, Evidence
 # Acknowledgements
 {:numbered="false"}
 
-The authors thank the SCITT, WIMSE and RATS communities and the authors cited in {{related}}. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts.
+The authors thank the SCITT, WIMSE and RATS communities and the authors cited in {{related}}. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, and Sankalp Gilda for reviewing the composition with the audit record.
 
 # Changes since -00
 {:numbered="false"}
@@ -1777,4 +1784,6 @@ This section is to be removed before publication as an RFC.
 * Added a privacy note on guessing low-entropy content from `call_digest` ({{privacy}}).
 * Stated that `hosts` shows the caller named a declared host, not which service it meant where one gateway host fronts several services, and added the remaining cases to {{security}} and Open Issues.
 * Added EP-AEC to Related Work, Open Issues for representation mapping and for front ends run by other operators, and Iman Schrock to the Acknowledgements.
+* Added a Shared front ends entry to {{security}}: a gateway host shared by several services does not identify one of them, and `call_digest` binds the path while the mapping from path to service is trusted configuration that no receipt records. The front-ends open issue lists path prefixes, a gateway-signed forwarding statement and a handoff signed by the accepting gateway as candidate designs.
+* An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record, and is no longer described as `correlation.externalAnchor` ({{related}}). Updated the audit-record reference to -02 and added Sankalp Gilda to the Acknowledgements.
 * Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them ({{vectors}}).

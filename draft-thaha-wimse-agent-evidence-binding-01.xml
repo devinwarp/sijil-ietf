@@ -338,6 +338,8 @@ CBOR value: map
   </dd>
 </dl>
 
+<t>Token claims, such as <spanx style="verb">aee_evidence</spanx>, bind the agent and its policy across the calls a token covers; <spanx style="verb">AEE-Caller-Ref</spanx> binds one call. A caller reference <bcp14>MUST NOT</bcp14> be carried in a token that can be presented on more than one call.</t>
+
 <t>Unknown members are ignored. For example, with a line break added for display:</t>
 
 <figure><sourcecode type="http-message"><![CDATA[
@@ -376,7 +378,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <t><list style="symbols">
   <t>The Execution Receipt's <spanx style="verb">request_digest</spanx> <bcp14>MAY</bcp14> be the digest of the audit record's <spanx style="verb">decision.requestDigest</spanx> pre-image, so that both commit to the same request bytes once the pre-image is validated.</t>
-  <t>The audit record's <spanx style="verb">correlation.externalAnchor</spanx>, a member of the audit-record schema, with <spanx style="verb">kind</spanx> <spanx style="verb">transparency-log</spanx> <bcp14>MAY</bcp14> carry the SCITT Receipt <xref target="RFC9942"/> of the Execution Epoch Statement, or of the individual Execution Receipt Statement, that registers the receipt. A relying party validates the anchor under an explicitly defined anchor-validation procedure and verifies the receipt's inclusion in the named epoch. The proof establishes the Transparency Service's registration time for the receipt or epoch; it does not establish when the separately created audit record existed, or when the underlying action occurred.</t>
+  <t>The audit record <bcp14>MAY</bcp14> point to the Execution Receipt for the same call, for example by its record-hash or by the SCITT Receipt <xref target="RFC9942"/> that registers it. Such a pointer associates the two records and dates neither of them. A SCITT Receipt for the Execution Receipt proves the inclusion of that receipt, not of the audit record's envelope, so it is not a <spanx style="verb">transparency-log</spanx> anchor under <xref section="4.7.2" sectionFormat="of" target="I-D.gilda-audit-agent-audit-record"/> and is not carried in <spanx style="verb">correlation.externalAnchor</spanx>. Dating the audit record through SCITT would need a Signed Statement registered over the audit record's envelope digest; this document does not define one.</t>
 </list></t>
 
 <t>Neither document is required for the other: deployments may implement either format independently where their requirements permit. Conformance to <xref target="I-D.thaha-scitt-agent-execution-evidence"/> or to <xref target="I-D.gilda-audit-agent-audit-record"/> is determined by each document's full set of applicable requirements, not by the presence of an artifact of the expected name, and the strength of a cross-format association depends on the verified commitments and registration proofs and on each format's observation scope. An operator that produces both and links them as above gives a relying party a sealed chain and a rich decision record for the same call.</t>
@@ -394,7 +396,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <t><spanx style="verb">assurance_level</spanx> and <spanx style="verb">assurance_status</spanx> in a token can be as stale as the <spanx style="verb">status_checked_at</spanx> that the Serving Party's policy accepts; the token's validity period does not bound it. The freshness rule of <xref target="claim"/> bounds this, and the Serving Party's own status check for high-risk operations removes it where it matters most. <spanx style="verb">status_checked_at</spanx> is signed inside the token, so a token issuer that misstates it is detectable only against the status list. A Serving Party or relying party that requires tight freshness <bcp14>SHOULD</bcp14> check the status list itself for high-risk operations, as in <xref target="admission"/>.</t>
 
-<t>The <spanx style="verb">AEE-Caller-Ref</spanx> field and the <spanx style="verb">act</spanx> claims are assertions by the Calling Agent. A field naming a receipt that does not exist fails Linked Verification with <spanx style="verb">E_CALLER_REF</spanx>. One naming a different real call, such as a payment of another amount under the same token and transaction, fails with <spanx style="verb">E_CALL_MISMATCH</spanx>, because the <spanx style="verb">call_digest</spanx> values differ. One naming the same request sent to a service under a different host fails with <spanx style="verb">E_SERVING_HOST</spanx>, because the caller's <spanx style="verb">egress_host</spanx> is not among the <spanx style="verb">hosts</spanx> the Serving Party declared. Services behind one shared gateway host are told apart only by the request-target that <spanx style="verb">cd</spanx> binds and by the gateway's routing (Security Considerations of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>). A Serving Party refuses at admission a call whose <spanx style="verb">cd</spanx> differs from the value it computed. A replayed field is refused by the Serving Party that already admitted it, and detected by Linked Verification when used at another. A Serving Party that acts before verifying them relies on its own checks of the token and the Principal, not on the field.</t>
+<t>The <spanx style="verb">AEE-Caller-Ref</spanx> field and the <spanx style="verb">act</spanx> claims are assertions by the Calling Agent. A field naming a receipt that does not exist fails Linked Verification with <spanx style="verb">E_CALLER_REF</spanx>. One naming a different real call, such as a payment of another amount under the same token and transaction, fails with <spanx style="verb">E_CALL_MISMATCH</spanx>, because the <spanx style="verb">call_digest</spanx> values differ. One naming the same request sent to a service under a different host fails with <spanx style="verb">E_SERVING_HOST</spanx>, because the caller's <spanx style="verb">egress_host</spanx> is not among the <spanx style="verb">hosts</spanx> the Serving Party declared. Services behind one shared gateway host are told apart only by the request-target that <spanx style="verb">cd</spanx> binds and by the gateway's routing, which no receipt records (Security Considerations of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>). A Serving Party refuses at admission a call whose <spanx style="verb">cd</spanx> differs from the value it computed. A replayed field is refused by the Serving Party that already admitted it, and detected by Linked Verification when used at another. A Serving Party that acts before verifying them relies on its own checks of the token and the Principal, not on the field.</t>
 
 <t>Including <spanx style="verb">transparency_service</spanx> in the token reveals to any token recipient which Transparency Service the operator uses. Operators who consider that sensitive omit it and distribute the Transparency Service's identity out of band.</t>
 
@@ -785,7 +787,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
     </author>
     <date year="2026" month="October"/>
   </front>
-  <seriesInfo name="Internet-Draft" value="draft-gilda-audit-agent-audit-record-00"/>
+  <seriesInfo name="Internet-Draft" value="draft-gilda-audit-agent-audit-record-02"/>
 </reference>
 <reference anchor="I-D.kuehlewind-audit-architecture" >
   <front>
@@ -855,7 +857,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <section numbered="false" anchor="acknowledgements"><name>Acknowledgements</name>
 
-<t>The authors thank the authors of <xref target="I-D.ietf-wimse-aims"/>, <xref target="I-D.gilda-audit-agent-audit-record"/> and <xref target="I-D.kuehlewind-audit-architecture"/>, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts.</t>
+<t>The authors thank the authors of <xref target="I-D.ietf-wimse-aims"/>, <xref target="I-D.gilda-audit-agent-audit-record"/> and <xref target="I-D.kuehlewind-audit-architecture"/>, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, and Sankalp Gilda for reviewing the composition with the audit record.</t>
 
 </section>
 <section numbered="false" anchor="changes-since-00"><name>Changes since -00</name>
@@ -869,6 +871,9 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
   <t>Corrected the statement in the Security Considerations that a forged caller reference always fails Linked Verification; the failure cases and the replay rule are now listed.</t>
   <t>Noted that services behind one shared gateway host are told apart only by the request-target and the gateway's routing.</t>
   <t>Updated references to the -01 revision of the SCITT draft, and added EP-AEC as an informative reference.</t>
+  <t>Stated the split between token claims, which bind the agent and its policy, and <spanx style="verb">AEE-Caller-Ref</spanx>, which binds one call; a caller reference <bcp14>MUST NOT</bcp14> be carried in a token that can be presented on more than one call (<xref target="carrying"/>).</t>
+  <t>An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record and is not carried in <spanx style="verb">correlation.externalAnchor</spanx> (<xref target="intoto"/>). Updated the audit-record reference to -02.</t>
+  <t>Added Jiahui Miao and Sankalp Gilda to the Acknowledgements.</t>
 </list></t>
 
 </section>

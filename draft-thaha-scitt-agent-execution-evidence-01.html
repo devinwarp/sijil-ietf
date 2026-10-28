@@ -10,7 +10,7 @@
 <meta content="
        AI agents act through calls to models, tools and other agents. Identity work establishes who an agent is and what it may do, but leaves execution-evidence formats and assurance criteria out of scope. This document profiles the Supply Chain Integrity, Transparency, and Trust (SCITT) architecture for Signed Statements that bind an agent's registered identity, declared capabilities, risk-based assessment and supervised operational status to a hash-chained record of every call the agent makes. It also defines admission records produced where a call is received, and the linking of records for requests that pass between agents of different operators. It specifies Registration Policy, offline verification and Bundle requirements. It does not define an accreditation scheme, a universal risk classification, an identifier scheme or a policy language. 
     " name="description">
-<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="xml2rfc 3.35.0" name="generator">
 <meta content="SCITT" name="keyword">
 <meta content="AI agent" name="keyword">
 <meta content="transparency" name="keyword">
@@ -18,19 +18,20 @@
 <meta content="audit" name="keyword">
 <meta content="draft-thaha-scitt-agent-execution-evidence-01" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.1
-    Python 3.14.8
-    ConfigArgParse 1.8.0
+  xml2rfc 3.35.0
+    Python 3.13.16
+    ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.3
     natsort 8.4.0
-    platformdirs 4.12.4
+    platformdirs 4.12.2
     pycountry 26.2.16
+    pypdf 5.9.0
     PyYAML 6.0.3
     requests 2.34.2
-    wcwidth 0.9.2
+    wcwidth 0.9.4
 -->
 <link href="draft-thaha-scitt-agent-execution-evidence-01.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1232,7 +1233,7 @@ li > p:last-of-type:only-child {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Thaha &amp; Shamsudeen</td>
-<td class="center">Expires 25 April 2027</td>
+<td class="center">Expires 1 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1250,7 +1251,7 @@ li > p:last-of-type:only-child {
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-25">25 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-01">1 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -2837,7 +2838,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
         <dd class="break"></dd>
 <dt id="section-11-2.13">Shared front ends:</dt>
         <dd style="margin-left: 1.5em" id="section-11-2.14">
-          <p id="section-11-2.14.1">One gateway host can front several services, and each lists that host in <code>hosts</code>, so <code>E_SERVING_HOST</code> cannot tell them apart. Where the gateway routes on the request path, <code>call_digest</code> binds that path and a request meant for one service is not delivered to another. Two cases remain. A gateway that routes on something <code>call_digest</code> excludes, such as a header or tenant identifier, can deliver an identical request to either service. A request that reaches a service without passing through the gateway is admitted under the shared host. In both cases a caller reference meant for one service passes Linked Verification at the other, unless both admissions are in the same Linked Bundle and fail <code>E_CALLER_MISMATCH</code>. Operators of such gateways <span class="bcp14">SHOULD</span> route on the request-target, and services behind them <span class="bcp14">SHOULD</span> accept calls only through the gateway.<a href="#section-11-2.14.1" class="pilcrow">¶</a></p>
+          <p id="section-11-2.14.1">One gateway host can front several services, and each lists that host in <code>hosts</code>, so <code>E_SERVING_HOST</code> cannot tell them apart. Where the gateway routes on the request path, <code>call_digest</code> binds that path, but the mapping from path to service is the gateway's own configuration, which a Relying Party trusts and which no receipt records. Two cases remain. A gateway that routes on something <code>call_digest</code> excludes, such as a header or tenant identifier, can deliver an identical request to either service. A request that reaches a service without passing through the gateway is admitted under the shared host. In both cases a caller reference meant for one service passes Linked Verification at the other, unless both admissions are in the same Linked Bundle and fail <code>E_CALLER_MISMATCH</code>. Operators of such gateways <span class="bcp14">SHOULD</span> route on the request-target, and services behind them <span class="bcp14">SHOULD</span> accept calls only through the gateway.<a href="#section-11-2.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-11-2.15">Status freshness at admission:</dt>
@@ -3084,7 +3085,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
         <dd class="break"></dd>
 <dt id="section-13-2.11">Agent audit record <span>[<a href="#I-D.gilda-audit-agent-audit-record" class="cite xref">I-D.gilda-audit-agent-audit-record</a>]</span>:</dt>
         <dd style="margin-left: 1.5em" id="section-13-2.12">
-          <p id="section-13-2.12.1">A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. <span>[<a href="#I-D.thaha-wimse-agent-evidence-binding" class="cite xref">I-D.thaha-wimse-agent-evidence-binding</a>]</span> defines an in-toto <span>[<a href="#IN-TOTO" class="cite xref">IN-TOTO</a>]</span> predicate type for Execution Receipts, and an audit record's <code>correlation.externalAnchor</code> of kind <code>transparency-log</code> can point at the SCITT Receipt of the enclosing epoch.<a href="#section-13-2.12.1" class="pilcrow">¶</a></p>
+          <p id="section-13-2.12.1">A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. <span>[<a href="#I-D.thaha-wimse-agent-evidence-binding" class="cite xref">I-D.thaha-wimse-agent-evidence-binding</a>]</span> defines an in-toto <span>[<a href="#IN-TOTO" class="cite xref">IN-TOTO</a>]</span> predicate type for Execution Receipts. An audit record can point to the Execution Receipt for the same call, or to the SCITT Receipt that registers it; the pointer associates the two records and dates neither of them (<span>[<a href="#I-D.thaha-wimse-agent-evidence-binding" class="cite xref">I-D.thaha-wimse-agent-evidence-binding</a>]</span>).<a href="#section-13-2.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-13-2.13">Agent Action Capsule <span>[<a href="#I-D.mih-scitt-agent-action-capsule" class="cite xref">I-D.mih-scitt-agent-action-capsule</a>]</span>:</dt>
@@ -3152,7 +3153,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
           <p id="section-14-2.8.1">Representation mapping: a defined mapping between different representations of one request, including proxies that rewrite the path, or a statement issued by a proxy that records what it forwarded (<a href="#linking" class="auto internal xref">Section 6.7.3</a>). <code>call_digest</code> compares the request as sent with the request as received and cannot match a request that an intermediary changed.<a href="#section-14-2.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-14-2.9">
-          <p id="section-14-2.9.1">Front ends run by other operators, and shared front ends: whether <code>hosts</code> in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. A host also does not identify one service where a gateway fronts several (<a href="#security" class="auto internal xref">Section 11</a>). Candidate designs are a path prefix on each <code>hosts</code> entry, which a Serving Party can enforce but a verifier cannot check because receipts do not carry the path, and a forwarding statement signed by the gateway naming the backend it routed the call to. This is the question put to the SCITT list.<a href="#section-14-2.9.1" class="pilcrow">¶</a></p>
+          <p id="section-14-2.9.1">Front ends run by other operators, and shared front ends: whether <code>hosts</code> in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. A host also does not identify one service where a gateway fronts several (<a href="#security" class="auto internal xref">Section 11</a>). Candidate designs are a path prefix on each <code>hosts</code> entry, which a Serving Party can enforce but a verifier cannot check because receipts do not carry the path, and a forwarding statement signed by the gateway naming the backend it routed the call to. A third is a handoff from the gateway to the effect boundary, as in <span><a href="https://datatracker.ietf.org/doc/html/draft-schrock-action-evidence-boundary-07#section-5.8" class="relref">Section 5.8</a> of [<a href="#I-D.schrock-action-evidence-boundary" class="cite xref">I-D.schrock-action-evidence-boundary</a>]</span>: only the gateway that accepts the call signs, under a key the Relying Party pins, binding the action digest and the executor, so other intermediaries need not sign. This is the question put to the SCITT list.<a href="#section-14-2.9.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -3288,7 +3289,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
 <dd class="break"></dd>
 <dt id="I-D.gilda-audit-agent-audit-record">[I-D.gilda-audit-agent-audit-record]</dt>
         <dd>
-<span class="refAuthor">Gilda, S.</span>, <span class="refTitle">"An Audit Record Format for AI Agent Authorization Decisions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-gilda-audit-agent-audit-record-00</span>, <time datetime="2026-10" class="refDate">October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-gilda-audit-agent-audit-record-00">https://datatracker.ietf.org/doc/html/draft-gilda-audit-agent-audit-record-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Gilda, S.</span>, <span class="refTitle">"An Audit Record Format for AI Agent Authorization Decisions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-gilda-audit-agent-audit-record-02</span>, <time datetime="2026-10" class="refDate">October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-gilda-audit-agent-audit-record-02">https://datatracker.ietf.org/doc/html/draft-gilda-audit-agent-audit-record-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-oauth-identity-chaining">[I-D.ietf-oauth-identity-chaining]</dt>
         <dd>
@@ -3321,6 +3322,10 @@ aee-linked-bundle = [ 2* aee-bundle ]
 <dt id="I-D.pidlisnyi-aps">[I-D.pidlisnyi-aps]</dt>
         <dd>
 <span class="refAuthor">Pidlisnyi, O.</span>, <span class="refTitle">"Agent Passport System (APS): Verifiable Authority, Lifecycle, Enforcement, and Evidence for AI Agents"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-pidlisnyi-aps-04</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-pidlisnyi-aps-04">https://datatracker.ietf.org/doc/html/draft-pidlisnyi-aps-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.schrock-action-evidence-boundary">[I-D.schrock-action-evidence-boundary]</dt>
+        <dd>
+<span class="refAuthor">Schrock, I.</span>, <span class="refTitle">"The Action Evidence Boundary for Consequential Agent Effects"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-schrock-action-evidence-boundary-07</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-schrock-action-evidence-boundary-07">https://datatracker.ietf.org/doc/html/draft-schrock-action-evidence-boundary-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.schrock-ep-authorization-evidence-chain">[I-D.schrock-ep-authorization-evidence-chain]</dt>
         <dd>
@@ -3591,7 +3596,7 @@ config_digest              654e7b4e605a07c8657d5f2c01360d23
       <h2 id="name-acknowledgements">
 <a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
       </h2>
-<p id="appendix-C-1">The authors thank the SCITT, WIMSE and RATS communities and the authors cited in <a href="#related" class="auto internal xref">Section 13</a>. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<p id="appendix-C-1">The authors thank the SCITT, WIMSE and RATS communities and the authors cited in <a href="#related" class="auto internal xref">Section 13</a>. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, and Sankalp Gilda for reviewing the composition with the audit record.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="changes-since-00">
@@ -3638,7 +3643,13 @@ config_digest              654e7b4e605a07c8657d5f2c01360d23
           <p id="appendix-D-2.12.1">Added EP-AEC to Related Work, Open Issues for representation mapping and for front ends run by other operators, and Iman Schrock to the Acknowledgements.<a href="#appendix-D-2.12.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-2.13">
-          <p id="appendix-D-2.13.1">Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them (<a href="#vectors" class="auto internal xref">Appendix A</a>).<a href="#appendix-D-2.13.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-2.13.1">Added a Shared front ends entry to <a href="#security" class="auto internal xref">Section 11</a>: a gateway host shared by several services does not identify one of them, and <code>call_digest</code> binds the path while the mapping from path to service is trusted configuration that no receipt records. The front-ends open issue lists path prefixes, a gateway-signed forwarding statement and a handoff signed by the accepting gateway as candidate designs.<a href="#appendix-D-2.13.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-2.14">
+          <p id="appendix-D-2.14.1">An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record, and is no longer described as <code>correlation.externalAnchor</code> (<a href="#related" class="auto internal xref">Section 13</a>). Updated the audit-record reference to -02 and added Sankalp Gilda to the Acknowledgements.<a href="#appendix-D-2.14.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-2.15">
+          <p id="appendix-D-2.15.1">Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them (<a href="#vectors" class="auto internal xref">Appendix A</a>).<a href="#appendix-D-2.15.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
