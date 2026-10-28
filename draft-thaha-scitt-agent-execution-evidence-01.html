@@ -19,16 +19,16 @@
 <meta content="draft-thaha-scitt-agent-execution-evidence-01" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.35.0
-    Python 3.13.16
+    Python 3.10.12
     ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.3
     natsort 8.4.0
-    platformdirs 4.12.2
+    platformdirs 4.12.4
     pycountry 26.2.16
-    pypdf 5.9.0
+    pypdf 6.21.2
     PyYAML 6.0.3
     requests 2.34.2
     wcwidth 0.9.4
@@ -1533,7 +1533,7 @@ li > p:last-of-type:only-child {
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">An AI agent is a workload whose behaviour is driven, in whole or in part, by a non-deterministic decision process, typically a large language model (LLM), and which acts on the world by invoking tools, services and resources. Every consequential thing an agent does passes through one of two doors: a call to a model (an inference) or a call to a tool. If evidence is produced at those two doors, bound to the agent's identity and to the policy in force, and registered in an append-only, non-equivocating log, a third party can later establish what the agent did, under which rules, and with which configuration, without trusting the operator's own logs.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">The WIMSE AI Identity Management System <span>[<a href="#I-D.ietf-wimse-aims" class="cite xref">I-D.ietf-wimse-aims</a>]</span> describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but leaves the format of those logs open; it states that posture evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in <span>[<a href="#I-D.kuehlewind-audit-architecture" class="cite xref">I-D.kuehlewind-audit-architecture</a>]</span> identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-2">The WIMSE AI Identity Management System <span>[<a href="#I-D.ietf-wimse-aims" class="cite xref">I-D.ietf-wimse-aims</a>]</span> describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but leaves the format of those logs open; it states that posture evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in <span>[<a href="#I-D.kuehlewind-audit-architecture" class="cite xref">I-D.kuehlewind-audit-architecture</a>]</span> identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile. It builds on the WIMSE architecture <span>[<a href="#I-D.ietf-wimse-arch" class="cite xref">I-D.ietf-wimse-arch</a>]</span>: agents are workloads in its sense, and their runtime identities are WIMSE workload identifiers <span>[<a href="#I-D.ietf-wimse-identifier" class="cite xref">I-D.ietf-wimse-identifier</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">Several individual drafts already profile SCITT for agent actions (<a href="#related" class="auto internal xref">Section 13</a>). Each records that an action happened and its disposition. Four gaps remain that this profile addresses:<a href="#section-1-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-1-4">
 <li id="section-1-4.1">
@@ -1572,7 +1572,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
       <h2 id="name-terminology">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
       </h2>
-<p id="section-2-1">This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-3" class="relref">Section 3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>; Workload, Trust Domain and Workload Identity Credential as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-wimse-arch" class="cite xref">I-D.ietf-wimse-arch</a>]</span>; Actor and Delegation as in Sections 1.1 and 4.1 of <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>; and Call Chain and Transaction as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-11#section-3" class="relref">Section 3</a> of [<a href="#I-D.ietf-oauth-transaction-tokens" class="cite xref">I-D.ietf-oauth-transaction-tokens</a>]</span>, except that a Call Chain here may cross Trust Domains. The principal of the transaction is the subject named by the <code>sub</code> claim of a Transaction Token (<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-11#section-9.2" class="relref">Section 9.2</a> of [<a href="#I-D.ietf-oauth-transaction-tokens" class="cite xref">I-D.ietf-oauth-transaction-tokens</a>]</span>). This profile uses delegation semantics only, never impersonation.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-1">This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in <span><a href="https://rfc-editor.org/rfc/rfc9943#section-3" class="relref">Section 3</a> of [<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>; Workload, Trust Domain and Workload Identity Credential as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-wimse-arch" class="cite xref">I-D.ietf-wimse-arch</a>]</span>; Actor and Delegation as in Sections 1.1 and 4.1 of <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>; and Call Chain and Transaction as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-11#section-3" class="relref">Section 3</a> of [<a href="#I-D.ietf-oauth-transaction-tokens" class="cite xref">I-D.ietf-oauth-transaction-tokens</a>]</span>, except that a Call Chain here may cross Trust Domains. The principal of the transaction is the subject named by the <code>sub</code> claim of a Transaction Token (<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-11#section-9.2" class="relref">Section 9.2</a> of [<a href="#I-D.ietf-oauth-transaction-tokens" class="cite xref">I-D.ietf-oauth-transaction-tokens</a>]</span>). This profile uses delegation semantics only, never impersonation.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">The terms below are either profiled from existing IETF vocabulary, as stated in each definition, or introduced by this document. Agent Registration Authority, Calling Agent, Caller Reference, Linked Evidence Chains, Linked Verification, Principal Link, Responsible Entity, Serving Party, Sub-agent and Supervisory Authority have no equivalent in the IETF specifications cited here.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2-3">
         <dt id="section-2-3.1">Actor Chain:</dt>
@@ -3186,13 +3186,9 @@ aee-linked-bundle = [ 2* aee-bundle ]
         <dd>
 <span class="refAuthor">Looker, T.</span>, <span class="refAuthor">Bastian, P.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Token Status List (TSL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-status-list-21</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-21">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-21</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-wimse-arch">[I-D.ietf-wimse-arch]</dt>
-        <dd>
-<span class="refAuthor">Salowey, J.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Workload Identity in a Multi System Environment (WIMSE) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-arch-08</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.ietf-wimse-identifier">[I-D.ietf-wimse-identifier]</dt>
         <dd>
-<span class="refAuthor">Rosomakho, Y.</span> and <span class="refAuthor">J. Salowey</span>, <span class="refTitle">"Workload Identifier"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-identifier-03</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-identifier-03">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-identifier-03</a>&gt;</span>. </dd>
+<span class="refAuthor">Rosomakho, Y.</span> and <span class="refAuthor">J. Salowey</span>, <span class="refTitle">"Workload Identifier"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-identifier-04</span>, <time datetime="2026-10" class="refDate">October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-identifier-04">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-identifier-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -3307,6 +3303,10 @@ aee-linked-bundle = [ 2* aee-bundle ]
         <dd>
 <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Lombardo, J.</span>, <span class="refAuthor">Rosomakho, Y.</span>, <span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Steele, N.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"AI Identity Management System"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-aims-00</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-aims-00">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-aims-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ietf-wimse-arch">[I-D.ietf-wimse-arch]</dt>
+        <dd>
+<span class="refAuthor">Salowey, J.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Workload Identity in a Multi System Environment (WIMSE) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-arch-08</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-08</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.kuehlewind-audit-architecture">[I-D.kuehlewind-audit-architecture]</dt>
         <dd>
 <span class="refAuthor">Kuehlewind, M.</span> and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"An Architecture for Auditing Agent Delegation and Interactions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-kuehlewind-audit-architecture-01</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-kuehlewind-audit-architecture-01">https://datatracker.ietf.org/doc/html/draft-kuehlewind-audit-architecture-01</a>&gt;</span>. </dd>
@@ -3333,7 +3333,7 @@ aee-linked-bundle = [ 2* aee-bundle ]
 <dd class="break"></dd>
 <dt id="I-D.sharif-agent-audit-trail">[I-D.sharif-agent-audit-trail]</dt>
         <dd>
-<span class="refAuthor">Sharif, R.</span>, <span class="refTitle">"Agent Audit Trail: A Standard Logging Format for Autonomous AI Systems"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-sharif-agent-audit-trail-08</span>, <time datetime="2026-10" class="refDate">October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-sharif-agent-audit-trail-08">https://datatracker.ietf.org/doc/html/draft-sharif-agent-audit-trail-08</a>&gt;</span>. </dd>
+<span class="refAuthor">Sharif, R.</span>, <span class="refTitle">"Agent Audit Trail: A Standard Logging Format for Autonomous AI Systems"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-sharif-agent-audit-trail-09</span>, <time datetime="2026-10" class="refDate">October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-sharif-agent-audit-trail-09">https://datatracker.ietf.org/doc/html/draft-sharif-agent-audit-trail-09</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.thaha-wimse-agent-evidence-binding">[I-D.thaha-wimse-agent-evidence-binding]</dt>
         <dd>
@@ -3649,7 +3649,10 @@ config_digest              654e7b4e605a07c8657d5f2c01360d23
           <p id="appendix-D-2.14.1">An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record, and is no longer described as <code>correlation.externalAnchor</code> (<a href="#related" class="auto internal xref">Section 13</a>). Updated the audit-record reference to -02 and added Sankalp Gilda to the Acknowledgements.<a href="#appendix-D-2.14.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-2.15">
-          <p id="appendix-D-2.15.1">Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them (<a href="#vectors" class="auto internal xref">Appendix A</a>).<a href="#appendix-D-2.15.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-2.15.1">Moved the WIMSE architecture to the informative references: the profile builds on it, and the terms it borrows are used as described there. Updated the references to draft-ietf-wimse-identifier-04 and draft-sharif-agent-audit-trail-09.<a href="#appendix-D-2.15.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-2.16">
+          <p id="appendix-D-2.16.1">Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them (<a href="#vectors" class="auto internal xref">Appendix A</a>).<a href="#appendix-D-2.16.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

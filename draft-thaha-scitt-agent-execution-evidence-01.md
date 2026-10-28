@@ -179,23 +179,14 @@ normative:
     seriesinfo:
       RFC: 9530
       DOI: 10.17487/RFC9530
-  I-D.ietf-wimse-arch:
-    title: Workload Identity in a Multi System Environment (WIMSE) Architecture
-    author:
-      - ins: J. Salowey
-      - ins: Y. Rosomakho
-      - ins: H. Tschofenig
-    date: 2026-07
-    seriesinfo:
-      Internet-Draft: draft-ietf-wimse-arch-08
   I-D.ietf-wimse-identifier:
     title: Workload Identifier
     author:
       - ins: Y. Rosomakho
       - ins: J. Salowey
-    date: 2026-07
+    date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-ietf-wimse-identifier-03
+      Internet-Draft: draft-ietf-wimse-identifier-04
   I-D.ietf-oauth-status-list:
     title: Token Status List (TSL)
     author:
@@ -240,6 +231,15 @@ normative:
     target: https://www.unicode.org/reports/tr15/
 
 informative:
+  I-D.ietf-wimse-arch:
+    title: Workload Identity in a Multi System Environment (WIMSE) Architecture
+    author:
+      - ins: J. Salowey
+      - ins: Y. Rosomakho
+      - ins: H. Tschofenig
+    date: 2026-07
+    seriesinfo:
+      Internet-Draft: draft-ietf-wimse-arch-08
   NIST.SP.800-63-4:
     title: "Digital Identity Guidelines"
     author:
@@ -432,7 +432,7 @@ informative:
       - ins: R. Sharif
     date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-sharif-agent-audit-trail-08
+      Internet-Draft: draft-sharif-agent-audit-trail-09
   I-D.thaha-wimse-agent-evidence-binding:
     title: Evidence Binding for AI Agent Credentials
     author:
@@ -496,7 +496,7 @@ AI agents act through calls to models, tools and other agents. Identity work est
 
 An AI agent is a workload whose behaviour is driven, in whole or in part, by a non-deterministic decision process, typically a large language model (LLM), and which acts on the world by invoking tools, services and resources. Every consequential thing an agent does passes through one of two doors: a call to a model (an inference) or a call to a tool. If evidence is produced at those two doors, bound to the agent's identity and to the policy in force, and registered in an append-only, non-equivocating log, a third party can later establish what the agent did, under which rules, and with which configuration, without trusting the operator's own logs.
 
-The WIMSE AI Identity Management System {{I-D.ietf-wimse-aims}} describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but leaves the format of those logs open; it states that posture evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in {{I-D.kuehlewind-audit-architecture}} identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile.
+The WIMSE AI Identity Management System {{I-D.ietf-wimse-aims}} describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but leaves the format of those logs open; it states that posture evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in {{I-D.kuehlewind-audit-architecture}} identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile. It builds on the WIMSE architecture {{I-D.ietf-wimse-arch}}: agents are workloads in its sense, and their runtime identities are WIMSE workload identifiers {{I-D.ietf-wimse-identifier}}.
 
 Several individual drafts already profile SCITT for agent actions ({{related}}). Each records that an action happened and its disposition. Four gaps remain that this profile addresses:
 
@@ -524,7 +524,7 @@ This document is a profile of {{RFC9943}} and {{RFC9942}}. It does not change th
 
 # Terminology {#terminology}
 
-This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in {{Section 3 of RFC9943}}; Workload, Trust Domain and Workload Identity Credential as defined in {{Section 2 of I-D.ietf-wimse-arch}}; Actor and Delegation as in Sections 1.1 and 4.1 of {{RFC8693}}; and Call Chain and Transaction as defined in {{Section 3 of I-D.ietf-oauth-transaction-tokens}}, except that a Call Chain here may cross Trust Domains. The principal of the transaction is the subject named by the `sub` claim of a Transaction Token ({{Section 9.2 of I-D.ietf-oauth-transaction-tokens}}). This profile uses delegation semantics only, never impersonation.
+This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in {{Section 3 of RFC9943}}; Workload, Trust Domain and Workload Identity Credential as described in {{Section 2 of I-D.ietf-wimse-arch}}; Actor and Delegation as in Sections 1.1 and 4.1 of {{RFC8693}}; and Call Chain and Transaction as defined in {{Section 3 of I-D.ietf-oauth-transaction-tokens}}, except that a Call Chain here may cross Trust Domains. The principal of the transaction is the subject named by the `sub` claim of a Transaction Token ({{Section 9.2 of I-D.ietf-oauth-transaction-tokens}}). This profile uses delegation semantics only, never impersonation.
 
 The terms below are either profiled from existing IETF vocabulary, as stated in each definition, or introduced by this document. Agent Registration Authority, Calling Agent, Caller Reference, Linked Evidence Chains, Linked Verification, Principal Link, Responsible Entity, Serving Party, Sub-agent and Supervisory Authority have no equivalent in the IETF specifications cited here.
 
@@ -1786,4 +1786,5 @@ This section is to be removed before publication as an RFC.
 * Added EP-AEC to Related Work, Open Issues for representation mapping and for front ends run by other operators, and Iman Schrock to the Acknowledgements.
 * Added a Shared front ends entry to {{security}}: a gateway host shared by several services does not identify one of them, and `call_digest` binds the path while the mapping from path to service is trusted configuration that no receipt records. The front-ends open issue lists path prefixes, a gateway-signed forwarding statement and a handoff signed by the accepting gateway as candidate designs.
 * An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record, and is no longer described as `correlation.externalAnchor` ({{related}}). Updated the audit-record reference to -02 and added Sankalp Gilda to the Acknowledgements.
+* Moved the WIMSE architecture to the informative references: the profile builds on it, and the terms it borrows are used as described there. Updated the references to draft-ietf-wimse-identifier-04 and draft-sharif-agent-audit-trail-09.
 * Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them ({{vectors}}).

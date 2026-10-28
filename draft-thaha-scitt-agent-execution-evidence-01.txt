@@ -88,17 +88,17 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Requirements Notation . . . . . . . . . . . . . . . . . .   6
-   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   7
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   6
    3.  Identifiers . . . . . . . . . . . . . . . . . . . . . . . . .  10
    4.  Agent Identification  . . . . . . . . . . . . . . . . . . . .  11
    5.  Common Encoding . . . . . . . . . . . . . . . . . . . . . . .  12
      5.1.  JSON Alternative Encoding . . . . . . . . . . . . . . . .  14
    6.  Statement Types . . . . . . . . . . . . . . . . . . . . . . .  14
-     6.1.  Agent Registration Statement  . . . . . . . . . . . . . .  15
+     6.1.  Agent Registration Statement  . . . . . . . . . . . . . .  14
      6.2.  Model Provider Statement  . . . . . . . . . . . . . . . .  15
      6.3.  Agent Credential Statement  . . . . . . . . . . . . . . .  16
        6.3.1.  Sub-agents  . . . . . . . . . . . . . . . . . . . . .  18
-     6.4.  Serving Party Credential Statement  . . . . . . . . . . .  19
+     6.4.  Serving Party Credential Statement  . . . . . . . . . . .  18
      6.5.  Policy Pack Statement . . . . . . . . . . . . . . . . . .  19
      6.6.  Configuration Integrity Statement . . . . . . . . . . . .  20
        6.6.1.  Unicode Normalization Before Digesting  . . . . . . .  22
@@ -139,7 +139,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
      16.2.  Informative References . . . . . . . . . . . . . . . . .  60
    Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .  64
      A.1.  Keys  . . . . . . . . . . . . . . . . . . . . . . . . . .  64
-     A.2.  Agent Registration Statement  . . . . . . . . . . . . . .  64
+     A.2.  Agent Registration Statement  . . . . . . . . . . . . . .  65
      A.3.  Agent Credential Statement  . . . . . . . . . . . . . . .  65
      A.4.  Configuration Integrity Entries . . . . . . . . . . . . .  66
      A.5.  Execution Receipts  . . . . . . . . . . . . . . . . . . .  66
@@ -148,7 +148,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
    Appendix B.  Mapping to Regulatory and Standards Contexts . . . .  70
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  70
    Changes since -00 . . . . . . . . . . . . . . . . . . . . . . . .  70
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  71
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  72
 
 1.  Introduction
 
@@ -181,7 +181,10 @@ Internet-Draft          Agent Execution Evidence            October 2026
    identifies SCITT Signed Statements, Receipts and Transparent
    Statements as the canonical artifacts for non-repudiable custody of
    audit records and lists a SCITT registration policy profile as a work
-   item.  This document is a concrete proposal for that profile.
+   item.  This document is a concrete proposal for that profile.  It
+   builds on the WIMSE architecture [I-D.ietf-wimse-arch]: agents are
+   workloads in its sense, and their runtime identities are WIMSE
+   workload identifiers [I-D.ietf-wimse-identifier].
 
    Several individual drafts already profile SCITT for agent actions
    (Section 13).  Each records that an action happened and its
@@ -215,9 +218,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
        reference the configuration in force, and commits to the state of
        memory at the start and end of each Task.
 
-   3.  Revocable operational assurance bound to running evidence, under
-       supervision.  An assessment is useful only while the assessed
-       identity, capabilities, policy, configuration and deployment
 
 
 
@@ -226,6 +226,9 @@ Thaha & Shamsudeen         Expires 1 May 2027                   [Page 4]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+   3.  Revocable operational assurance bound to running evidence, under
+       supervision.  An assessment is useful only while the assessed
+       identity, capabilities, policy, configuration and deployment
        remain applicable.  This profile binds an Assurance Statement to
        those values, records its risk basis and monitoring coverage, and
        lets a Supervisory Authority, separate from the assessor,
@@ -261,27 +264,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    both parties' chains are verified together, shows a call that either
    side omitted.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                   [Page 5]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    When a request passes through intermediaries, four questions need
    answers that no single hop's record supplies: which agent originated
    the request and for which Principal; whether any intermediary used
@@ -292,6 +274,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
    that autonomous actions "MUST be clearly distinguished from delegated
    ones" (Section 3.4.11 of [I-D.ietf-wimse-arch]).  This profile links
    each hop's records to those of the hop before it and carries the
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 5]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    principal of the transaction, a transaction identifier and the
    sequence of acting agents with the request, so that a verifier can
    answer these questions from evidence rather than from the operators'
@@ -326,25 +316,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-
-
-
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                   [Page 6]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
 2.  Terminology
 
    This document uses the terms Artifact, Issuer, Receipt, Registration,
    Registration Policy, Relying Party, Signed Statement, Statement,
    Transparency Service (TS), Transparent Statement and Verifiable Data
    Structure (VDS) as defined in Section 3 of [RFC9943]; Workload, Trust
-   Domain and Workload Identity Credential as defined in Section 2 of
+   Domain and Workload Identity Credential as described in Section 2 of
    [I-D.ietf-wimse-arch]; Actor and Delegation as in Sections 1.1 and
    4.1 of [RFC8693]; and Call Chain and Transaction as defined in
    Section 3 of [I-D.ietf-oauth-transaction-tokens], except that a Call
@@ -352,6 +330,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
    is the subject named by the sub claim of a Transaction Token
    (Section 9.2 of [I-D.ietf-oauth-transaction-tokens]).  This profile
    uses delegation semantics only, never impersonation.
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 6]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    The terms below are either profiled from existing IETF vocabulary, as
    stated in each definition, or introduced by this document.  Agent
@@ -386,14 +371,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       agent identities: it verifies the Responsible Entity, records what
       was declared for the agent, assigns the logical_agent_id and
       lineage_id, and maintains the registration's status (Section 4).
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                   [Page 7]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       How an authority is established is out of scope.  The name is
       unrelated to SCITT Registration, which is the act of entering a
       Signed Statement into a TS.
@@ -407,6 +384,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
       (Section 6.7.3).
 
    Calling Agent, Serving Party:  For a given call, the agent that makes
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 7]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       it, and the workload, possibly itself an agent, that receives it
       and decides whether to act on it.  These are roles in one call,
       not kinds of agent: an agent is a Serving Party for the call it
@@ -442,6 +429,19 @@ Internet-Draft          Agent Execution Evidence            October 2026
       epoch root, it becomes an Execution Receipt Statement.
 
    Harness:  The runtime that hosts an agent, mediates its calls to
+      models and tools, and operates the Decision Points.
+
+   Linked Evidence Chains, Linked Verification:  The Evidence Chains of
+      the parties to one Call Chain, linked through Caller References;
+      and their verification together (Section 9.1).
+
+   Logical Agent, Runtime Identity:  The persistent identity of an agent
+
+
+
+
+
+
 
 
 
@@ -450,13 +450,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                   [Page 8]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
-      models and tools, and operates the Decision Points.
-
-   Linked Evidence Chains, Linked Verification:  The Evidence Chains of
-      the parties to one Call Chain, linked through Caller References;
-      and their verification together (Section 9.1).
-
-   Logical Agent, Runtime Identity:  The persistent identity of an agent
       across environments, named by a logical_agent_id issued by an
       Agent Registration Authority; and a workload identifier
       (Section 3.1.2 of [I-D.ietf-wimse-arch]) under which the agent
@@ -498,6 +491,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
       (Section 6.8.2).
 
    Task:  A unit of agent work delimited by task_start and task_end
+      Execution Receipts and named by the seq of its task_start.
+
+   Third-Party Agent Assurance Assessor:  An Agent Assurance Assessor
+      that is organizationally independent of the Responsible Entity and
+      agent operator, and whose identity and signing key a Relying Party
+      accepts under its trust policy.  This profile-specific role can
+      perform the RATS Verifier role or consume Attestation Results from
 
 
 
@@ -506,13 +506,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                   [Page 9]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
-      Execution Receipts and named by the seq of its task_start.
-
-   Third-Party Agent Assurance Assessor:  An Agent Assurance Assessor
-      that is organizationally independent of the Responsible Entity and
-      agent operator, and whose identity and signing key a Relying Party
-      accepts under its trust policy.  This profile-specific role can
-      perform the RATS Verifier role or consume Attestation Results from
       an accepted RATS Verifier, but also assesses the agent's
       capabilities, deployment and controls.  Existing IETF
       specifications do not define qualification, independence-testing
@@ -554,6 +547,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
    The CWT Claims header parameter (label 15) required by Section 6 of
    [RFC9943] MUST carry the Issuer in iss (label 1).  In sub (label 2),
    Agent Credential, Configuration Integrity, Configuration Drift,
+   Execution Receipt and Execution Epoch Statements carry the applicable
+   Runtime Identity (or service_id); Agent Registration and Assurance
+   Statements carry logical_agent_id; Serving Party Credential
+   Statements carry service_id; Model Provider Statements carry
+   model_id; Policy Pack Statements carry pack_id; and Revocation
+   Statements repeat the sub of the statement revoked.
+
 
 
 
@@ -561,13 +561,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 10]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-   Execution Receipt and Execution Epoch Statements carry the applicable
-   Runtime Identity (or service_id); Agent Registration and Assurance
-   Statements carry logical_agent_id; Serving Party Credential
-   Statements carry service_id; Model Provider Statements carry
-   model_id; Policy Pack Statements carry pack_id; and Revocation
-   Statements repeat the sub of the statement revoked.
 
    A Principal is carried as a claim inside the statement payload, not
    in the COSE header, because a Principal is not an Artifact subject in
@@ -611,18 +604,19 @@ Internet-Draft          Agent Execution Evidence            October 2026
        agents.  These change as the agent moves between environments and
        its keys rotate; the registration does not.
 
+   5.  Status.  The authority maintains the registration's status in a
+       Token Status List [I-D.ietf-oauth-status-list] and ends it, where
+       required, with a Revocation Statement: reason code 5 (closed) for
+       administrative retirement and 3 (withdrawn) for an adverse
+       finding.
+
+
 
 
 Thaha & Shamsudeen         Expires 1 May 2027                  [Page 11]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-   5.  Status.  The authority maintains the registration's status in a
-       Token Status List [I-D.ietf-oauth-status-list] and ends it, where
-       required, with a Revocation Statement: reason code 5 (closed) for
-       administrative retirement and 3 (withdrawn) for an adverse
-       finding.
 
    6.  Change and lineage.  A change to the declared Capability Profile,
        or a new Model Provider Statement for a model in it, requires a
@@ -666,6 +660,12 @@ Internet-Draft          Agent Execution Evidence            October 2026
      agent-credential:          1,
      policy-pack:               2,
      config-integrity:          3,
+     config-drift:              4,
+     execution-receipt:         5,
+     execution-epoch:           6,
+     assurance:                 7,
+     revocation:                8,
+     agent-registration:        9,
 
 
 
@@ -674,12 +674,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 12]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
-     config-drift:              4,
-     execution-receipt:         5,
-     execution-epoch:           6,
-     assurance:                 7,
-     revocation:                8,
-     agent-registration:        9,
      serving-party-credential: 10,
      model-provider:           11
    )
@@ -722,6 +716,12 @@ Internet-Draft          Agent Execution Evidence            October 2026
    a clear-text identifier. principal_assurance records how strongly the
    Principal's identity was verified, using the identity proofing
    dimension of Section 2.1 of [RFC8485]; each jurisdiction's trust
+   framework, named by the trustmark, defines the values, so that
+   Principals proofed under different trust frameworks are recorded by
+   the same mechanism. delegation_ref lets one Principal's delegation be
+   revoked without revoking the agent: its status entry is maintained by
+   whoever granted the delegation.  Both are fixed for a Task, as the
+   rest of principal is (Section 6.7.1).
 
 
 
@@ -729,13 +729,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 13]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-   framework, named by the trustmark, defines the values, so that
-   Principals proofed under different trust frameworks are recorded by
-   the same mechanism. delegation_ref lets one Principal's delegation be
-   revoked without revoking the agent: its status entry is maintained by
-   whoever granted the delegation.  Both are fixed for a Task, as the
-   rest of principal is (Section 6.7.1).
 
    No statement defined here contains a floating-point value, and an
    Issuer MUST NOT emit one, including NaN or an infinity.  Text strings
@@ -774,6 +767,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 6.  Statement Types
 
+6.1.  Agent Registration Statement
+
+   An Agent Registration Statement is the authoritative record of a
+   Logical Agent's identity (Section 4).  Its Issuer is an Agent
+   Registration Authority.
+
+
 
 
 
@@ -785,12 +785,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 14]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-6.1.  Agent Registration Statement
-
-   An Agent Registration Statement is the authoritative record of a
-   Logical Agent's identity (Section 4).  Its Issuer is an Agent
-   Registration Authority.
 
    agent-registration = {
      1 => 9,                   ; aee-type
@@ -835,6 +829,12 @@ Internet-Draft          Agent Execution Evidence            October 2026
      10 => uint                ; iat, seconds since the Unix epoch
    }
 
+   model_id MUST be a dated version identifier, never an alias that the
+   provider can repoint. evaluations_digest commits to the provider's
+   capability and dangerous-capability evaluations, and
+   safeguards_digest to the safeguards applied.  The documents are
+   retained by the provider; their formats are out of scope.  A new
+
 
 
 Thaha & Shamsudeen         Expires 1 May 2027                  [Page 15]
@@ -842,11 +842,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 15]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
-   model_id MUST be a dated version identifier, never an alias that the
-   provider can repoint. evaluations_digest commits to the provider's
-   capability and dangerous-capability evaluations, and
-   safeguards_digest to the safeguards applied.  The documents are
-   retained by the provider; their formats are out of scope.  A new
    model version or weights digest requires a new statement and, for any
    agent using it, a superseding registration and reassessment
    (Section 4).
@@ -890,6 +885,11 @@ Internet-Draft          Agent Execution Evidence            October 2026
                                ; workload credential (e.g. WIT jti,
                                ; certificate thumbprint) this binds to
      9 => tstr,                ; logical_agent_id
+     10 => principal,          ; responsible_entity
+     11 => [ + runtime-identity ],  ; runtime_identities
+     12 => lifecycle-class,    ; lifecycle_class
+     13 => digest,             ; registration_digest: digest of the
+                               ; Agent Registration Statement payload
 
 
 
@@ -898,11 +898,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 16]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
-     10 => principal,          ; responsible_entity
-     11 => [ + runtime-identity ],  ; runtime_identities
-     12 => lifecycle-class,    ; lifecycle_class
-     13 => digest,             ; registration_digest: digest of the
-                               ; Agent Registration Statement payload
      ? 14 => [ + subagent ],   ; subagents
      ? 15 => [ + tstr ]        ; hosts (see {{serving}})
    }
@@ -946,6 +941,11 @@ Internet-Draft          Agent Execution Evidence            October 2026
    Harness loads the model locally and weights_digest commits to the
    weights. api: the model is invoked through a remote API; only
    model_id and provider are known. api-tee: as api, but the provider
+   supplies attestation Evidence for the serving environment, referenced
+   by tee_evidence.  Relying Parties MUST NOT infer from mode api
+   anything about which model actually served a request; only the
+   provider's claim is recorded.
+
 
 
 
@@ -953,11 +953,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 17]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-   supplies attestation Evidence for the serving environment, referenced
-   by tee_evidence.  Relying Parties MUST NOT infer from mode api
-   anything about which model actually served a request; only the
-   provider's claim is recorded.
 
    registration_digest names the Agent Registration Statement in force.
    logical_agent_id and responsible_entity MUST equal those of that
@@ -999,7 +994,12 @@ Internet-Draft          Agent Execution Evidence            October 2026
    outlives its parent, or that serves other agents, is not a Sub-agent
    and MUST be registered in its own right.
 
+6.4.  Serving Party Credential Statement
 
+   A Serving Party that is itself an agent uses its Agent Credential
+   Statement.  A Serving Party that is not an agent scopes its Evidence
+   Chain with a Serving Party Credential Statement, whose Issuer is the
+   Serving Party's operator.
 
 
 
@@ -1009,13 +1009,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 18]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-6.4.  Serving Party Credential Statement
-
-   A Serving Party that is itself an agent uses its Agent Credential
-   Statement.  A Serving Party that is not an agent scopes its Evidence
-   Chain with a Serving Party Credential Statement, whose Issuer is the
-   Serving Party's operator.
 
    serving-party-credential = {
      1 => 10,                  ; aee-type
@@ -1055,6 +1048,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
    and places it in a lineage.  Its Issuer is the pack author.  The
    format of the policy document is out of scope; the digest is over the
    document bytes as published.
+
+
+
+
+
+
+
 
 
 
@@ -3228,27 +3228,11 @@ Internet-Draft          Agent Execution Evidence            October 2026
               <https://datatracker.ietf.org/doc/html/draft-ietf-oauth-
               status-list-21>.
 
-   [I-D.ietf-wimse-arch]
-              Salowey, J., Rosomakho, Y., and H. Tschofenig, "Workload
-              Identity in a Multi System Environment (WIMSE)
-              Architecture", Work in Progress, Internet-Draft, draft-
-              ietf-wimse-arch-08, July 2026,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              arch-08>.
-
    [I-D.ietf-wimse-identifier]
               Rosomakho, Y. and J. Salowey, "Workload Identifier", Work
               in Progress, Internet-Draft, draft-ietf-wimse-identifier-
-              03, July 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-wimse-identifier-03>.
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 58]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
+              04, October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-wimse-identifier-04>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3258,6 +3242,13 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [RFC7493]  Bray, T., "The I-JSON Message Format", RFC 7493,
               DOI 10.17487/RFC7493, March 2015,
               <https://www.rfc-editor.org/rfc/rfc7493>.
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 58]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -3296,6 +3287,15 @@ Internet-Draft          Agent Execution Evidence            October 2026
               DOI 10.17487/RFC9052, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9052>.
 
+   [RFC9053]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
+              Initial Algorithms", RFC 9053, DOI 10.17487/RFC9053,
+              August 2022, <https://www.rfc-editor.org/rfc/rfc9053>.
+
+   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
+
 
 
 
@@ -3305,15 +3305,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 59]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-   [RFC9053]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
-              Initial Algorithms", RFC 9053, DOI 10.17487/RFC9053,
-              August 2022, <https://www.rfc-editor.org/rfc/rfc9053>.
-
-   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
-              Ed., "HTTP Semantics", STD 97, RFC 9110,
-              DOI 10.17487/RFC9110, June 2022,
-              <https://www.rfc-editor.org/rfc/rfc9110>.
 
    [RFC9112]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
@@ -3352,6 +3343,15 @@ Internet-Draft          Agent Execution Evidence            October 2026
               and 72", June 2024,
               <https://eur-lex.europa.eu/eli/reg/2024/1689/oj>.
 
+   [I-D.emirdag-scitt-ai-agent-execution]
+              Emirdag, P. and D. Feichtinger, "AI Agent Execution
+              Profile of SCITT", Work in Progress, Internet-Draft,
+              draft-emirdag-scitt-ai-agent-execution-01, October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-emirdag-
+              scitt-ai-agent-execution-01>.
+
+
+
 
 
 
@@ -3361,13 +3361,6 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 60]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
-
-   [I-D.emirdag-scitt-ai-agent-execution]
-              Emirdag, P. and D. Feichtinger, "AI Agent Execution
-              Profile of SCITT", Work in Progress, Internet-Draft,
-              draft-emirdag-scitt-ai-agent-execution-01, October 2026,
-              <https://datatracker.ietf.org/doc/html/draft-emirdag-
-              scitt-ai-agent-execution-01>.
 
    [I-D.gilda-audit-agent-audit-record]
               Gilda, S., "An Audit Record Format for AI Agent
@@ -3407,9 +3400,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
               aims-00>.
 
-   [I-D.kuehlewind-audit-architecture]
-              Kuehlewind, M. and H. Birkholz, "An Architecture for
-              Auditing Agent Delegation and Interactions", Work in
+   [I-D.ietf-wimse-arch]
+              Salowey, J., Rosomakho, Y., and H. Tschofenig, "Workload
+              Identity in a Multi System Environment (WIMSE)
+              Architecture", Work in Progress, Internet-Draft, draft-
+              ietf-wimse-arch-08, July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              arch-08>.
+
+
+
 
 
 
@@ -3418,6 +3418,9 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 61]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+   [I-D.kuehlewind-audit-architecture]
+              Kuehlewind, M. and H. Birkholz, "An Architecture for
+              Auditing Agent Delegation and Interactions", Work in
               Progress, Internet-Draft, draft-kuehlewind-audit-
               architecture-01, September 2026,
               <https://datatracker.ietf.org/doc/html/draft-kuehlewind-
@@ -3463,9 +3466,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [I-D.sharif-agent-audit-trail]
               Sharif, R., "Agent Audit Trail: A Standard Logging Format
               for Autonomous AI Systems", Work in Progress, Internet-
-              Draft, draft-sharif-agent-audit-trail-08, October 2026,
-              <https://datatracker.ietf.org/doc/html/draft-sharif-agent-
-              audit-trail-08>.
 
 
 
@@ -3473,6 +3473,10 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 62]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+              Draft, draft-sharif-agent-audit-trail-09, October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-sharif-agent-
+              audit-trail-09>.
 
    [I-D.thaha-wimse-agent-evidence-binding]
               Thaha, S. and S. Shamsudeen, "Evidence Binding for AI
@@ -3515,10 +3519,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
 
-   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
-              Code: The Implementation Status Section", BCP 205,
-              RFC 7942, DOI 10.17487/RFC7942, July 2016,
-              <https://www.rfc-editor.org/rfc/rfc7942>.
 
 
 
@@ -3529,6 +3529,11 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 63]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", BCP 205,
+              RFC 7942, DOI 10.17487/RFC7942, July 2016,
+              <https://www.rfc-editor.org/rfc/rfc7942>.
 
    [RFC8705]  Campbell, B., Bradley, J., Sakimura, N., and T.
               Lodderstedt, "OAuth 2.0 Mutual-TLS Client Authentication
@@ -3573,11 +3578,6 @@ A.1.  Keys
    public key
    d759793bbc13a2819a827c76adb6fba8a49aee007f49f2d0992d99b825ad2c48.
 
-A.2.  Agent Registration Statement
-
-   Issued by https://register.example:
-
-
 
 
 
@@ -3585,6 +3585,10 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 64]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+A.2.  Agent Registration Statement
+
+   Issued by https://register.example:
 
    {
      1: 9,
@@ -3630,10 +3634,6 @@ A.3.  Agent Credential Statement
                  a1591a1a33d2a9ce90739b0d622716ec']
    }
 
-   The principal digest is SHA-256 over the pepper operator-pepper-0001
-   followed by user:alice@example.com.  Digest of the canonical payload:
-   4593697379adf3ef10053f8ccd652c15bb99268be881a56198194fb3b8abcef5.
-
 
 
 
@@ -3641,6 +3641,10 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 65]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   The principal digest is SHA-256 over the pepper operator-pepper-0001
+   followed by user:alice@example.com.  Digest of the canonical payload:
+   4593697379adf3ef10053f8ccd652c15bb99268be881a56198194fb3b8abcef5.
 
    The Signed Statement over this payload has protected header {1: -8,
    3: "application/aee-statement+cbor", 4: h'10ba682c8ad13513', 15: {1:
@@ -3685,11 +3689,7 @@ A.5.  Execution Receipts
    response digests over the octets <prompt bytes> and <completion
    bytes> respectively.
 
-   record-hash(1):
-   3d3b1f63cb07c710049eed093e439600464a47a36b37175372e1fc734f6d39a9
 
-   Receipt seq 2 (tool_call, tool door, decision confirm, parent_seq 1,
-   with agent signature):
 
 
 
@@ -3697,6 +3697,12 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 66]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   record-hash(1):
+   3d3b1f63cb07c710049eed093e439600464a47a36b37175372e1fc734f6d39a9
+
+   Receipt seq 2 (tool_call, tool door, decision confirm, parent_seq 1,
+   with agent signature):
 
    {
      1: 5, 2: 2,
@@ -3740,12 +3746,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    0001" and 29: the call_digest [-16,
    h'544d017602d3f2c25b263dc8b8a7c124a27f447f9820363ba99793d5baeda60f'].
    The call_digest is the HTTP form of Section 6.7 for POST /invoices,
-   over the array ["POST", "/invoices", content-digest] where content-
-   digest is SHA-256 over the octets <invoice request bytes>.  Seq 3
-   carries egress_host api.customer.example, as seq 2 does.
-
-   record-hash(3):
-   6724c98d2b78fe984db24ce2d8cb63cc214171928ec4f9ebb09770e3d9196fa7
 
 
 
@@ -3753,6 +3753,13 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 67]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   over the array ["POST", "/invoices", content-digest] where content-
+   digest is SHA-256 over the octets <invoice request bytes>.  Seq 3
+   carries egress_host api.customer.example, as seq 2 does.
+
+   record-hash(3):
+   6724c98d2b78fe984db24ce2d8cb63cc214171928ec4f9ebb09770e3d9196fa7
 
 A.6.  Execution Epoch Statement
 
@@ -3769,13 +3776,6 @@ A.7.  Admission Receipt
    232bfea5a26a43e92d41873083ba54b735e5a7aeb669654869172c6037d6b0ab),
    which declares hosts (key 7) as ["api.customer.example"].  Its first
    receipt records the admission of the call at seq 3:
-
-
-
-
-
-
-
 
 
 
@@ -3960,16 +3960,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
       correlation.externalAnchor (Section 13).  Updated the audit-record
       reference to -02 and added Sankalp Gilda to the Acknowledgements.
 
+   *  Moved the WIMSE architecture to the informative references: the
+      profile builds on it, and the terms it borrows are used as
+      described there.  Updated the references to draft-ietf-wimse-
+      identifier-04 and draft-sharif-agent-audit-trail-09.
+
    *  Regenerated the test vectors: receipt seq 3, the admission receipt
       and the Serving Party Credential changed, and so did every value
       derived from them (Appendix A).
 
-Authors' Addresses
 
-   Shameer Thaha
-   Individual Contributor
-   Dubai
-   United Arab Emirates
 
 
 
@@ -3978,6 +3978,12 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 71]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+Authors' Addresses
+
+   Shameer Thaha
+   Individual Contributor
+   Dubai
+   United Arab Emirates
    Email: shameerthaha@gmail.com
 
 
@@ -3985,12 +3991,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    Individual Contributor
    United Arab Emirates
    Email: shaibis@gmail.com
-
-
-
-
-
-
 
 
 
