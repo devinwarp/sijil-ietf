@@ -5,7 +5,7 @@
 Workload Identity in Multi System Environments                  S. Thaha
 Internet-Draft                                             S. Shamsudeen
 Intended status: Informational                    Individual Contributor
-Expires: 25 April 2027                                      October 2026
+Expires: 1 May 2027                                         October 2026
 
 
                Evidence Binding for AI Agent Credentials
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 1]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 1]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -94,31 +94,31 @@ Table of Contents
      4.1.  Relying Party Behaviour . . . . . . . . . . . . . . . . .  10
    5.  Admission by a Serving Party  . . . . . . . . . . . . . . . .  12
    6.  Carrying the Caller Reference and Actor Chain . . . . . . . .  13
-     6.1.  The AEE-Caller-Ref Field  . . . . . . . . . . . . . . . .  13
-     6.2.  Actor Chain and Principal Link  . . . . . . . . . . . . .  14
+     6.1.  The AEE-Caller-Ref Field  . . . . . . . . . . . . . . . .  14
+     6.2.  Actor Chain and Principal Link  . . . . . . . . . . . . .  15
      6.3.  Other Protocols . . . . . . . . . . . . . . . . . . . . .  15
    7.  Composition with the WIMSE Audit Record . . . . . . . . . . .  15
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  16
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  17
    9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  18
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
-     10.1.  JSON Web Token Claims  . . . . . . . . . . . . . . . . .  18
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  19
+     10.1.  JSON Web Token Claims  . . . . . . . . . . . . . . . . .  19
      10.2.  CBOR Web Token Claims  . . . . . . . . . . . . . . . . .  19
      10.3.  HTTP Field Name  . . . . . . . . . . . . . . . . . . . .  19
-     10.4.  IETF URN Sub-namespace . . . . . . . . . . . . . . . . .  19
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
+     10.4.  IETF URN Sub-namespace . . . . . . . . . . . . . . . . .  20
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  20
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 2]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 2]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
 
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .  19
+     11.1.  Normative References . . . . . . . . . . . . . . . . . .  20
      11.2.  Informative References . . . . . . . . . . . . . . . . .  21
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  22
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  23
    Changes since -00 . . . . . . . . . . . . . . . . . . . . . . . .  23
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  23
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  24
 
 1.  Introduction
 
@@ -165,7 +165,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 3]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 3]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -221,7 +221,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 4]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 4]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -277,7 +277,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 5]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 5]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -333,7 +333,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 6]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 6]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -389,7 +389,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 7]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 7]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -445,7 +445,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 8]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 8]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -501,7 +501,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                 [Page 9]
+Thaha & Shamsudeen         Expires 1 May 2027                   [Page 9]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -557,7 +557,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 10]
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 10]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -613,7 +613,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 11]
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 11]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -669,7 +669,7 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 
 
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 12]
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 12]
 
 Internet-Draft           Agent Evidence Binding             October 2026
 
@@ -684,7 +684,10 @@ Internet-Draft           Agent Evidence Binding             October 2026
    4.  Check the Principal and every Actor in the Actor Chain
        (Section 6) against its policy for the operation, including any
        status of the Principal's delegation and any minimum Principal
-       assurance it requires.
+       assurance it requires.  The Actor Chain is attribution, not
+       authority: the Serving Party uses it as policy input, as
+       Section 4.1 of [RFC8693] permits, and does not treat it as
+       evidence that any hop held or narrowed authority.
 
    5.  Where AEE-Caller-Ref is present, compute call_digest over the
        request received, as defined in Section 6.7 of
@@ -717,18 +720,21 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
 6.  Carrying the Caller Reference and Actor Chain
 
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 13]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
 6.1.  The AEE-Caller-Ref Field
 
    A Calling Agent that makes an HTTP request to a Serving Party
    includes the AEE-Caller-Ref request header field.  It is a Dictionary
    Structured Field [RFC9651] with the following members:
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 13]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    es:  A String: the Issuer identifier of the Calling Agent's Evidence
       Service.
@@ -747,6 +753,11 @@ Internet-Draft           Agent Evidence Binding             October 2026
       SHA-256 for HTTP.  It is REQUIRED when that receipt carries
       call_digest.
 
+   Token claims, such as aee_evidence, bind the agent and its policy
+   across the calls a token covers; AEE-Caller-Ref binds one call.  A
+   caller reference MUST NOT be carried in a token that can be presented
+   on more than one call.
+
    Unknown members are ignored.  For example, with a line break added
    for display:
 
@@ -763,6 +774,18 @@ Internet-Draft           Agent Evidence Binding             October 2026
    Calling Agent's receipt is produced before the request is sent, so
    the hash is available when the field is built.
 
+
+
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 14]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
 6.2.  Actor Chain and Principal Link
 
    The Actor Chain travels in the token presented on the call as nested
@@ -771,20 +794,14 @@ Internet-Draft           Agent Evidence Binding             October 2026
    first.  Each party computes the principal_link as SHA-256 over the
    octets of the access token in the request's Authorization header
    field (not the Workload Identity Token or proof token), so no further
-   field is needed.  A Serving Party evaluates every Actor in the chain,
-   not only the current one (Section 5).
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 14]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
+   field is needed.  A Serving Party evaluates every Actor in the chain
+   against its own policy, not only the current one (Section 5); the
+   chain carries attribution, not authority.  Authority carried across
+   hops needs per-hop signed evidence, such as a delegation chain
+   [I-D.ietf-oauth-identity-chaining] or the linked receipts of
+   Section 9.1 of [I-D.thaha-scitt-agent-execution-evidence]; showing
+   that authority narrowed at each hop remains an open issue of that
+   document.
 
 6.3.  Other Protocols
 
@@ -817,6 +834,14 @@ Internet-Draft           Agent Evidence Binding             October 2026
    receipt JSON object, including agent_sig when present; this is the
    JSON-form record-hash of [I-D.thaha-scitt-agent-execution-evidence].
    Conversion from the CBOR form changes the bytes and therefore the
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 15]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    digest and the epoch inclusion proof: a JSON predicate converted from
    CBOR MUST NOT be presented as carrying the CBOR record-hash or its
    epoch proof.  Where the CBOR chain must be preserved, the original
@@ -832,26 +857,17 @@ Internet-Draft           Agent Evidence Binding             October 2026
       audit record's decision.requestDigest pre-image, so that both
       commit to the same request bytes once the pre-image is validated.
 
-
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 15]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
-   *  The audit record's correlation.externalAnchor, a member of the
-      audit-record schema, with kind transparency-log MAY carry the
-      SCITT Receipt [RFC9942] of the Execution Epoch Statement, or of
-      the individual Execution Receipt Statement, that registers the
-      receipt.  A relying party validates the anchor under an explicitly
-      defined anchor-validation procedure and verifies the receipt's
-      inclusion in the named epoch.  The proof establishes the
-      Transparency Service's registration time for the receipt or epoch;
-      it does not establish when the separately created audit record
-      existed, or when the underlying action occurred.
+   *  The audit record MAY point to the Execution Receipt for the same
+      call, for example by its record-hash or by the SCITT Receipt
+      [RFC9942] that registers it.  Such a pointer associates the two
+      records and dates neither of them.  A SCITT Receipt for the
+      Execution Receipt proves the inclusion of that receipt, not of the
+      audit record's envelope, so it is not a transparency-log anchor
+      under Section 4.7.2 of [I-D.gilda-audit-agent-audit-record] and is
+      not carried in correlation.externalAnchor.  Dating the audit
+      record through SCITT would need a Signed Statement registered over
+      the audit record's envelope digest; this document does not define
+      one.
 
    Neither document is required for the other: deployments may implement
    either format independently where their requirements permit.
@@ -869,6 +885,18 @@ Internet-Draft           Agent Evidence Binding             October 2026
    admission receipt is the corresponding record at the Serving Party,
    and the aee_evidence claim is part of the audit context carried with
    the agent's credential.
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 16]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
 
 8.  Security Considerations
 
@@ -889,14 +917,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
    keys are trusted only when obtained out of band or under an accepted
    retrieval and trust policy, and following a validly signed pointer to
    an untrusted service does not make that service trusted.
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 16]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    The policy_pack_digest in the claim lets a relying party compare the
    declared policy commitment with the digests in receipts.  It does not
@@ -926,6 +946,14 @@ Internet-Draft           Agent Evidence Binding             October 2026
    Party or relying party that requires tight freshness SHOULD check the
    status list itself for high-risk operations, as in Section 5.
 
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 17]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    The AEE-Caller-Ref field and the act claims are assertions by the
    Calling Agent.  A field naming a receipt that does not exist fails
    Linked Verification with E_CALLER_REF.  One naming a different real
@@ -935,24 +963,14 @@ Internet-Draft           Agent Evidence Binding             October 2026
    different host fails with E_SERVING_HOST, because the caller's
    egress_host is not among the hosts the Serving Party declared.
    Services behind one shared gateway host are told apart only by the
-   request-target that cd binds and by the gateway's routing (Security
-   Considerations of [I-D.thaha-scitt-agent-execution-evidence]).  A
-   Serving Party refuses at admission a call whose cd differs from the
-   value it computed.  A replayed field is refused by the Serving Party
-   that already admitted it, and detected by Linked Verification when
-   used at another.  A Serving Party that acts before verifying them
-   relies on its own checks of the token and the Principal, not on the
-   field.
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 17]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
+   request-target that cd binds and by the gateway's routing, which no
+   receipt records (Security Considerations of
+   [I-D.thaha-scitt-agent-execution-evidence]).  A Serving Party refuses
+   at admission a call whose cd differs from the value it computed.  A
+   replayed field is refused by the Serving Party that already admitted
+   it, and detected by Linked Verification when used at another.  A
+   Serving Party that acts before verifying them relies on its own
+   checks of the token and the Principal, not on the field.
 
    Including transparency_service in the token reveals to any token
    recipient which Transparency Service the operator uses.  Operators
@@ -981,6 +999,17 @@ Internet-Draft           Agent Evidence Binding             October 2026
    reveal which operators' agents took part in a request.  Calling
    Agents SHOULD send them only to the Serving Parties they call.
 
+
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 18]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    The privacy considerations of
    [I-D.thaha-scitt-agent-execution-evidence], in particular its
    treatment of natural-person Principals, apply to the evidence the
@@ -1002,13 +1031,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
    *  Change Controller: IETF
 
    *  Reference: Section 4 of this document
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 18]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
 10.2.  CBOR Web Token Claims
 
@@ -1037,6 +1059,13 @@ Internet-Draft           Agent Evidence Binding             October 2026
    Transfer Protocol (HTTP) Field Name Registry" per Section 16.3.1 of
    [RFC9110]:
 
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 19]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    *  Field Name: AEE-Caller-Ref
 
    *  Status: permanent
@@ -1057,14 +1086,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
 11.  References
 
 11.1.  Normative References
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 19]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    [I-D.ietf-wimse-aims]
               Kasselman, P., Lombardo, J., Rosomakho, Y., Campbell, B.,
@@ -1092,6 +1113,15 @@ Internet-Draft           Agent Evidence Binding             October 2026
               Parameters", BCP 73, RFC 3553, DOI 10.17487/RFC3553, June
               2003, <https://www.rfc-editor.org/rfc/rfc3553>.
 
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 20]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
               <https://www.rfc-editor.org/rfc/rfc7519>.
@@ -1113,14 +1143,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
               Canonicalization Scheme (JCS)", RFC 8785,
               DOI 10.17487/RFC8785, June 2020,
               <https://www.rfc-editor.org/rfc/rfc8785>.
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 20]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
 
    [RFC9110]  Fielding, R., Nottingham, M., and J. Reschke, "HTTP
               Semantics", STD 97, RFC 9110, DOI 10.17487/RFC9110, June
@@ -1148,9 +1170,25 @@ Internet-Draft           Agent Evidence Binding             October 2026
    [I-D.gilda-audit-agent-audit-record]
               Gilda, S., "An Audit Record Format for AI Agent
               Authorization Decisions", Work in Progress, Internet-
-              Draft, draft-gilda-audit-agent-audit-record-00, October
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 21]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
+
+              Draft, draft-gilda-audit-agent-audit-record-02, October
               2026, <https://datatracker.ietf.org/doc/html/draft-gilda-
-              audit-agent-audit-record-00>.
+              audit-agent-audit-record-02>.
+
+   [I-D.ietf-oauth-identity-chaining]
+              Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
+              M., Campbell, B., and A. Parecki, "OAuth Identity and
+              Authorization Chaining Across Domains", Work in Progress,
+              Internet-Draft, draft-ietf-oauth-identity-chaining-17,
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-identity-chaining-17>.
 
    [I-D.ietf-oauth-transaction-tokens]
               Tulshibagwale, A., Fletcher, G., and P. Kasselman,
@@ -1170,14 +1208,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
    [I-D.ietf-wimse-arch]
               Salowey, J., Rosomakho, Y., and H. Tschofenig, "Workload
               Identity in a Multi System Environment (WIMSE)
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 21]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
-
               Architecture", Work in Progress, Internet-Draft, draft-
               ietf-wimse-arch-08, July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
@@ -1190,6 +1220,19 @@ Internet-Draft           Agent Evidence Binding             October 2026
               creds-02, July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
               workload-creds-02>.
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 22]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
 
    [I-D.kuehlewind-audit-architecture]
               Kuehlewind, M. and H. Birkholz, "An Architecture for
@@ -1223,16 +1266,10 @@ Acknowledgements
    [I-D.kuehlewind-audit-architecture], whose work this document is
    intended to connect rather than duplicate.  The authors thank Iman
    Schrock for her review of linked verification and status freshness in
-   the -00 drafts.
-
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 22]
-
-Internet-Draft           Agent Evidence Binding             October 2026
-
+   the -00 drafts, Jiahui Miao for reviewing the split between token
+   claims and the caller reference, Sankalp Gilda for reviewing the
+   composition with the audit record, and Kieran Sweeney for reviewing
+   the use of the Actor Chain.
 
 Changes since -00
 
@@ -1245,6 +1282,13 @@ Changes since -00
 
    *  Added the cd member to AEE-Caller-Ref, carrying the caller's
       call_digest, and regenerated the example (Section 6).
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 23]
+
+Internet-Draft           Agent Evidence Binding             October 2026
+
 
    *  A Serving Party computes its own call_digest, and refuses a call
       whose cd differs.  A Serving Party MUST refuse a caller reference
@@ -1260,6 +1304,25 @@ Changes since -00
 
    *  Updated references to the -01 revision of the SCITT draft, and
       added EP-AEC as an informative reference.
+
+   *  Stated the split between token claims, which bind the agent and
+      its policy, and AEE-Caller-Ref, which binds one call; a caller
+      reference MUST NOT be carried in a token that can be presented on
+      more than one call (Section 6).
+
+   *  An audit record's pointer to an Execution Receipt or its SCITT
+      Receipt dates neither record and is not carried in
+      correlation.externalAnchor (Section 7).  Updated the audit-record
+      reference to -02.
+
+   *  The Actor Chain is policy input carrying attribution, not
+      authority; authority carried across hops needs per-hop signed
+      evidence, such as a delegation chain or linked receipts, and
+      showing that authority narrowed at each hop remains open.
+      (Section 5, Section 6).
+
+   *  Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the
+      Acknowledgements.
 
 Authors' Addresses
 
@@ -1278,11 +1341,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-Thaha & Shamsudeen        Expires 25 April 2027                [Page 23]
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 24]

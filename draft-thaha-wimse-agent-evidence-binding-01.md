@@ -146,6 +146,18 @@ normative:
       Internet-Draft: draft-ietf-wimse-aims-00
 
 informative:
+  I-D.ietf-oauth-identity-chaining:
+    title: OAuth Identity and Authorization Chaining Across Domains
+    author:
+      - ins: A. Schwenkschuster
+      - ins: P. Kasselman
+      - ins: K. Burgin
+      - ins: M. Jenkins
+      - ins: B. Campbell
+      - ins: A. Parecki
+    date: 2026-07
+    seriesinfo:
+      Internet-Draft: draft-ietf-oauth-identity-chaining-17
   DID-WEB:
     title: "did:web Method Specification"
     author:
@@ -198,7 +210,7 @@ informative:
       - ins: S. Gilda
     date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-gilda-audit-agent-audit-record-00
+      Internet-Draft: draft-gilda-audit-agent-audit-record-02
   I-D.kuehlewind-audit-architecture:
     title: An Architecture for Auditing Agent Delegation and Interactions
     author:
@@ -415,7 +427,7 @@ A Serving Party that admits calls from agents only if they are registered and as
 1. Validate the token and the proof of possession for this request under the applicable credential and authentication profiles; {{I-D.ietf-wimse-workload-creds}} defines the Workload Identity Token, while its proof-of-possession mechanisms are specified separately.
 2. Determine the Assurance Statement and Agent Registration Statement that apply, from `aee_evidence` or by other configured means, and their status. The status MUST be no older than the freshness the Serving Party's policy requires for the operation. A token's `assurance_level` and `assurance_status` MAY be used as that status only under the rule on `status_checked_at` in {{claim}}; if that rule is not met, the Serving Party checks the status list itself. For operations its policy marks as high-risk, the Serving Party SHOULD check the status list itself.
 3. Check that the registration is from an accepted Agent Registration Authority and is valid; that the Assurance Statement's level meets the minimum the Serving Party's policy sets for the operation, from an accepted assessor and scheme; and that its status is VALID, or RESTRICTED with the operation within the restricted class the scheme defines.
-4. Check the Principal and every Actor in the Actor Chain ({{carrying}}) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires.
+4. Check the Principal and every Actor in the Actor Chain ({{carrying}}) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires. The Actor Chain is attribution, not authority: the Serving Party uses it as policy input, as {{Section 4.1 of RFC8693}} permits, and does not treat it as evidence that any hop held or narrowed authority.
 5. Where `AEE-Caller-Ref` is present, compute `call_digest` over the request received, as defined in Section 6.7 of {{I-D.thaha-scitt-agent-execution-evidence}}; never use the value the caller presents. Refuse the call if `cd` is present and differs from the computed value, or if `cd` is absent while the Serving Party's policy requires linking. Refuse the call if its caller reference names a caller receipt that an earlier admission of this Serving Party already names (Section 6.7.2 of {{I-D.thaha-scitt-agent-execution-evidence}}).
 6. Produce an `admission` receipt recording the decision and its basis, as Section 6.7.2 of {{I-D.thaha-scitt-agent-execution-evidence}} specifies, whether the call is admitted or refused. The receipt records the `call_digest` computed in step 5 and, in `admission_basis`, the time of the status observation relied on, which is the token's `status_checked_at` where the token's cached status was used. It is not the time of admission.
 7. Act on the call, or refuse it.
@@ -445,6 +457,8 @@ A Calling Agent that makes an HTTP request to a Serving Party includes the `AEE-
 `cd`:
 : A Byte Sequence: the `call_digest` value of the Calling Agent's receipt for this call, that is, the digest bytes only, which are SHA-256 for HTTP. It is REQUIRED when that receipt carries `call_digest`.
 
+Token claims, such as `aee_evidence`, bind the agent and its policy across the calls a token covers; `AEE-Caller-Ref` binds one call. A caller reference MUST NOT be carried in a token that can be presented on more than one call.
+
 Unknown members are ignored. For example, with a line break added for display:
 
 ~~~ http-message
@@ -457,7 +471,7 @@ The Serving Party copies `es`, `seq`, `h` and `txn` into the `caller_ref` and `t
 
 ## Actor Chain and Principal Link
 
-The Actor Chain travels in the token presented on the call as nested `act` claims ({{Section 4.1 of RFC8693}}), the outermost naming the Calling Agent. Both parties record it as `actor_chain`, least recent first. Each party computes the `principal_link` as SHA-256 over the octets of the access token in the request's `Authorization` header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain, not only the current one ({{admission}}).
+The Actor Chain travels in the token presented on the call as nested `act` claims ({{Section 4.1 of RFC8693}}), the outermost naming the Calling Agent. Both parties record it as `actor_chain`, least recent first. Each party computes the `principal_link` as SHA-256 over the octets of the access token in the request's `Authorization` header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain against its own policy, not only the current one ({{admission}}); the chain carries attribution, not authority. Authority carried across hops needs per-hop signed evidence, such as a delegation chain {{I-D.ietf-oauth-identity-chaining}} or the linked receipts of Section 9.1 of {{I-D.thaha-scitt-agent-execution-evidence}}; showing that authority narrowed at each hop remains an open issue of that document.
 
 ## Other Protocols
 
@@ -478,7 +492,7 @@ The predicate is the JSON form of an Execution Receipt as defined in Section 6.7
 An audit record per {{I-D.gilda-audit-agent-audit-record}} and an Execution Receipt for the same call are associated through two verifiable commitments:
 
 * The Execution Receipt's `request_digest` MAY be the digest of the audit record's `decision.requestDigest` pre-image, so that both commit to the same request bytes once the pre-image is validated.
-* The audit record's `correlation.externalAnchor`, a member of the audit-record schema, with `kind` `transparency-log` MAY carry the SCITT Receipt {{RFC9942}} of the Execution Epoch Statement, or of the individual Execution Receipt Statement, that registers the receipt. A relying party validates the anchor under an explicitly defined anchor-validation procedure and verifies the receipt's inclusion in the named epoch. The proof establishes the Transparency Service's registration time for the receipt or epoch; it does not establish when the separately created audit record existed, or when the underlying action occurred.
+* The audit record MAY point to the Execution Receipt for the same call, for example by its record-hash or by the SCITT Receipt {{RFC9942}} that registers it. Such a pointer associates the two records and dates neither of them. A SCITT Receipt for the Execution Receipt proves the inclusion of that receipt, not of the audit record's envelope, so it is not a `transparency-log` anchor under {{Section 4.7.2 of I-D.gilda-audit-agent-audit-record}} and is not carried in `correlation.externalAnchor`. Dating the audit record through SCITT would need a Signed Statement registered over the audit record's envelope digest; this document does not define one.
 
 Neither document is required for the other: deployments may implement either format independently where their requirements permit. Conformance to {{I-D.thaha-scitt-agent-execution-evidence}} or to {{I-D.gilda-audit-agent-audit-record}} is determined by each document's full set of applicable requirements, not by the presence of an artifact of the expected name, and the strength of a cross-format association depends on the verified commitments and registration proofs and on each format's observation scope. An operator that produces both and links them as above gives a relying party a sealed chain and a rich decision record for the same call.
 
@@ -494,7 +508,7 @@ An `assurance_statement_digest` is a binding, not a guarantee. The referenced st
 
 `assurance_level` and `assurance_status` in a token can be as stale as the `status_checked_at` that the Serving Party's policy accepts; the token's validity period does not bound it. The freshness rule of {{claim}} bounds this, and the Serving Party's own status check for high-risk operations removes it where it matters most. `status_checked_at` is signed inside the token, so a token issuer that misstates it is detectable only against the status list. A Serving Party or relying party that requires tight freshness SHOULD check the status list itself for high-risk operations, as in {{admission}}.
 
-The `AEE-Caller-Ref` field and the `act` claims are assertions by the Calling Agent. A field naming a receipt that does not exist fails Linked Verification with `E_CALLER_REF`. One naming a different real call, such as a payment of another amount under the same token and transaction, fails with `E_CALL_MISMATCH`, because the `call_digest` values differ. One naming the same request sent to a service under a different host fails with `E_SERVING_HOST`, because the caller's `egress_host` is not among the `hosts` the Serving Party declared. Services behind one shared gateway host are told apart only by the request-target that `cd` binds and by the gateway's routing (Security Considerations of {{I-D.thaha-scitt-agent-execution-evidence}}). A Serving Party refuses at admission a call whose `cd` differs from the value it computed. A replayed field is refused by the Serving Party that already admitted it, and detected by Linked Verification when used at another. A Serving Party that acts before verifying them relies on its own checks of the token and the Principal, not on the field.
+The `AEE-Caller-Ref` field and the `act` claims are assertions by the Calling Agent. A field naming a receipt that does not exist fails Linked Verification with `E_CALLER_REF`. One naming a different real call, such as a payment of another amount under the same token and transaction, fails with `E_CALL_MISMATCH`, because the `call_digest` values differ. One naming the same request sent to a service under a different host fails with `E_SERVING_HOST`, because the caller's `egress_host` is not among the `hosts` the Serving Party declared. Services behind one shared gateway host are told apart only by the request-target that `cd` binds and by the gateway's routing, which no receipt records (Security Considerations of {{I-D.thaha-scitt-agent-execution-evidence}}). A Serving Party refuses at admission a call whose `cd` differs from the value it computed. A replayed field is refused by the Serving Party that already admitted it, and detected by Linked Verification when used at another. A Serving Party that acts before verifying them relies on its own checks of the token and the Principal, not on the field.
 
 Including `transparency_service` in the token reveals to any token recipient which Transparency Service the operator uses. Operators who consider that sensitive omit it and distribute the Transparency Service's identity out of band.
 
@@ -549,7 +563,7 @@ IANA is requested to register the sub-namespace `aee` in the "IETF URN Sub-names
 # Acknowledgements
 {:numbered="false"}
 
-The authors thank the authors of {{I-D.ietf-wimse-aims}}, {{I-D.gilda-audit-agent-audit-record}} and {{I-D.kuehlewind-audit-architecture}}, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts.
+The authors thank the authors of {{I-D.ietf-wimse-aims}}, {{I-D.gilda-audit-agent-audit-record}} and {{I-D.kuehlewind-audit-architecture}}, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, Sankalp Gilda for reviewing the composition with the audit record, and Kieran Sweeney for reviewing the use of the Actor Chain.
 
 # Changes since -00
 {:numbered="false"}
@@ -562,3 +576,7 @@ This section is to be removed before publication as an RFC.
 * Corrected the statement in the Security Considerations that a forged caller reference always fails Linked Verification; the failure cases and the replay rule are now listed.
 * Noted that services behind one shared gateway host are told apart only by the request-target and the gateway's routing.
 * Updated references to the -01 revision of the SCITT draft, and added EP-AEC as an informative reference.
+* Stated the split between token claims, which bind the agent and its policy, and `AEE-Caller-Ref`, which binds one call; a caller reference MUST NOT be carried in a token that can be presented on more than one call ({{carrying}}).
+* An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record and is not carried in `correlation.externalAnchor` ({{intoto}}). Updated the audit-record reference to -02.
+* The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts, and showing that authority narrowed at each hop remains open. ({{admission}}, {{carrying}}).
+* Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the Acknowledgements.

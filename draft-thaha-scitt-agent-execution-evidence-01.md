@@ -179,23 +179,14 @@ normative:
     seriesinfo:
       RFC: 9530
       DOI: 10.17487/RFC9530
-  I-D.ietf-wimse-arch:
-    title: Workload Identity in a Multi System Environment (WIMSE) Architecture
-    author:
-      - ins: J. Salowey
-      - ins: Y. Rosomakho
-      - ins: H. Tschofenig
-    date: 2026-07
-    seriesinfo:
-      Internet-Draft: draft-ietf-wimse-arch-08
   I-D.ietf-wimse-identifier:
     title: Workload Identifier
     author:
       - ins: Y. Rosomakho
       - ins: J. Salowey
-    date: 2026-07
+    date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-ietf-wimse-identifier-03
+      Internet-Draft: draft-ietf-wimse-identifier-04
   I-D.ietf-oauth-status-list:
     title: Token Status List (TSL)
     author:
@@ -240,6 +231,15 @@ normative:
     target: https://www.unicode.org/reports/tr15/
 
 informative:
+  I-D.ietf-wimse-arch:
+    title: Workload Identity in a Multi System Environment (WIMSE) Architecture
+    author:
+      - ins: J. Salowey
+      - ins: Y. Rosomakho
+      - ins: H. Tschofenig
+    date: 2026-07
+    seriesinfo:
+      Internet-Draft: draft-ietf-wimse-arch-08
   NIST.SP.800-63-4:
     title: "Digital Identity Guidelines"
     author:
@@ -388,7 +388,7 @@ informative:
       - ins: S. Gilda
     date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-gilda-audit-agent-audit-record-00
+      Internet-Draft: draft-gilda-audit-agent-audit-record-02
   I-D.kuehlewind-audit-architecture:
     title: An Architecture for Auditing Agent Delegation and Interactions
     author:
@@ -432,7 +432,7 @@ informative:
       - ins: R. Sharif
     date: 2026-10
     seriesinfo:
-      Internet-Draft: draft-sharif-agent-audit-trail-08
+      Internet-Draft: draft-sharif-agent-audit-trail-09
   I-D.thaha-wimse-agent-evidence-binding:
     title: Evidence Binding for AI Agent Credentials
     author:
@@ -448,6 +448,13 @@ informative:
     date: 2026-10
     seriesinfo:
       Internet-Draft: draft-schrock-ep-authorization-evidence-chain-08
+  I-D.schrock-action-evidence-boundary:
+    title: "The Action Evidence Boundary for Consequential Agent Effects"
+    author:
+      - ins: I. Schrock
+    date: 2026-09
+    seriesinfo:
+      Internet-Draft: draft-schrock-action-evidence-boundary-07
   AP2:
     title: Agent Payments Protocol (AP2) Specification
     author:
@@ -489,7 +496,7 @@ AI agents act through calls to models, tools and other agents. Identity work est
 
 An AI agent is a workload whose behaviour is driven, in whole or in part, by a non-deterministic decision process, typically a large language model (LLM), and which acts on the world by invoking tools, services and resources. Every consequential thing an agent does passes through one of two doors: a call to a model (an inference) or a call to a tool. If evidence is produced at those two doors, bound to the agent's identity and to the policy in force, and registered in an append-only, non-equivocating log, a third party can later establish what the agent did, under which rules, and with which configuration, without trusting the operator's own logs.
 
-The WIMSE AI Identity Management System {{I-D.ietf-wimse-aims}} describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but leaves the format of those logs open; it states that posture evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in {{I-D.kuehlewind-audit-architecture}} identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile.
+The WIMSE AI Identity Management System {{I-D.ietf-wimse-aims}} describes how agent identities are established, credentials provisioned and authorization decisions made. It requires tamper-evident audit logs with a minimum set of fields (Section 11) but leaves the format of those logs open; it states that posture evidence formats (Section 8), the policy model and document format (Section 12) and compliance criteria (Section 13) are out of scope. The audit architecture in {{I-D.kuehlewind-audit-architecture}} identifies SCITT Signed Statements, Receipts and Transparent Statements as the canonical artifacts for non-repudiable custody of audit records and lists a SCITT registration policy profile as a work item. This document is a concrete proposal for that profile. It builds on the WIMSE architecture {{I-D.ietf-wimse-arch}}: agents are workloads in its sense, and their runtime identities are WIMSE workload identifiers {{I-D.ietf-wimse-identifier}}.
 
 Several individual drafts already profile SCITT for agent actions ({{related}}). Each records that an action happened and its disposition. Four gaps remain that this profile addresses:
 
@@ -503,7 +510,7 @@ Several individual drafts already profile SCITT for agent actions ({{related}}).
 
 A Serving Party decides on every call whether to act. It is the only party that can apply its own conditions whatever the caller's operator does, but it sees one call at a time and not the history that led to it. The decision is made per call, not per session or per credential, because what it depends on changes between calls: an agent's assurance can be suspended within minutes, one agent can act for many Principals with different permissions, and operations on the same service carry different risk. This profile therefore defines an admission record that a Serving Party produces for every call it receives, stating what it checked and what it decided. That record is the Serving Party's evidence of its own conduct and gives an auditor a second, independent record of the call. Only the caller's record shows why a call was made; only the Serving Party's record shows what was admitted and on what basis; comparing the two, when both parties' chains are verified together, shows a call that either side omitted.
 
-When a request passes through intermediaries, four questions need answers that no single hop's record supplies: which agent originated the request and for which Principal; whether any intermediary used authority broader than that Principal's; whether suspending an agent stops the work it started further along; and which operator's agent did what. The WIMSE architecture requires that "each hop in the chain MUST explicitly scope and re-bind the security context" and that autonomous actions "MUST be clearly distinguished from delegated ones" (Section 3.4.11 of {{I-D.ietf-wimse-arch}}). This profile links each hop's records to those of the hop before it and carries the principal of the transaction, a transaction identifier and the sequence of acting agents with the request, so that a verifier can answer these questions from evidence rather than from the operators' accounts.
+When a request passes through intermediaries, four questions need answers that no single hop's record supplies: which agent originated the request and for which Principal; whether any intermediary used authority broader than that Principal's; whether suspending an agent stops the work it started further along; and which operator's agent did what. The WIMSE architecture requires that "each hop in the chain MUST explicitly scope and re-bind the security context" and that autonomous actions "MUST be clearly distinguished from delegated ones" (Section 3.4.11 of {{I-D.ietf-wimse-arch}}). This profile links each hop's records to those of the hop before it and carries the principal of the transaction, a transaction identifier and the sequence of acting agents with the request, so that a verifier can answer these questions from evidence rather than from the operators' accounts. The receipts show what each hop recorded and on what basis it was admitted; showing that no intermediary used authority broader than the Principal's needs, in addition, a common representation of scopes ({{open-issues}}).
 
 A declared objective, attested runtime and guardrails do not constrain every means an agent may choose. During a 2026 cyber-capability evaluation, agents created an unsanctioned coordination channel, pursued scorer tampering, crossed task boundaries and investigated altering their traces {{METR-HF}}. This motivates third-party review of whether capabilities and controls are proportionate to purpose.
 
@@ -517,12 +524,12 @@ This document is a profile of {{RFC9943}} and {{RFC9942}}. It does not change th
 
 # Terminology {#terminology}
 
-This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in {{Section 3 of RFC9943}}; Workload, Trust Domain and Workload Identity Credential as defined in {{Section 2 of I-D.ietf-wimse-arch}}; Actor and Delegation as in Sections 1.1 and 4.1 of {{RFC8693}}; and Call Chain and Transaction as defined in {{Section 3 of I-D.ietf-oauth-transaction-tokens}}, except that a Call Chain here may cross Trust Domains. The principal of the transaction is the subject named by the `sub` claim of a Transaction Token ({{Section 9.2 of I-D.ietf-oauth-transaction-tokens}}). This profile uses delegation semantics only, never impersonation.
+This document uses the terms Artifact, Issuer, Receipt, Registration, Registration Policy, Relying Party, Signed Statement, Statement, Transparency Service (TS), Transparent Statement and Verifiable Data Structure (VDS) as defined in {{Section 3 of RFC9943}}; Workload, Trust Domain and Workload Identity Credential as described in {{Section 2 of I-D.ietf-wimse-arch}}; Actor and Delegation as in Sections 1.1 and 4.1 of {{RFC8693}}; and Call Chain and Transaction as defined in {{Section 3 of I-D.ietf-oauth-transaction-tokens}}, except that a Call Chain here may cross Trust Domains. The principal of the transaction is the subject named by the `sub` claim of a Transaction Token ({{Section 9.2 of I-D.ietf-oauth-transaction-tokens}}). This profile uses delegation semantics only, never impersonation.
 
 The terms below are either profiled from existing IETF vocabulary, as stated in each definition, or introduced by this document. Agent Registration Authority, Calling Agent, Caller Reference, Linked Evidence Chains, Linked Verification, Principal Link, Responsible Entity, Serving Party, Sub-agent and Supervisory Authority have no equivalent in the IETF specifications cited here.
 
 Actor Chain:
-: The ordered list of Actors that have acted on a request, least recent first. It is the list form of a chain of delegation expressed by nested `act` claims ({{Section 4.1 of RFC8693}}): the most deeply nested `act` is the first entry and the outermost `act`, the current actor, is the last. The term "actor chain" is used in {{Section 3.4.9 of I-D.ietf-wimse-arch}}.
+: The ordered list of Actors that have acted on a request, least recent first. It is the list form of a chain of delegation expressed by nested `act` claims ({{Section 4.1 of RFC8693}}): the most deeply nested `act` is the first entry and the outermost `act`, the current actor, is the last. The term "actor chain" is used in {{Section 3.4.9 of I-D.ietf-wimse-arch}}. It records attribution, not authority ({{admission}}).
 
 Admission:
 : The authorization decision a Serving Party makes for one call, recorded as an Execution Receipt of type `admission` ({{admission}}). It is a policy decision in the sense of {{RFC3198}}, made per call and recorded.
@@ -1067,7 +1074,7 @@ An Ingress Decision Point produces an `admission` receipt, with `decision_point`
 * `caller_ref`, `actor_chain`, `principal_link` and `txn`, where received ({{linking}}); and
 * `admission_basis`: what the decision relied on. A Serving Party that enforces assurance MUST record it on every `allow`, with the Assurance Statement and level relied on, the registration, and when the status was checked and the value observed; it SHOULD also record a digest of the token presented.
 
-A Serving Party MUST NOT admit an operation beyond what its policy permits for the principal of the transaction and for every Actor in `actor_chain`. This goes beyond {{Section 4.1 of RFC8693}}, under which prior actors are informational only: under this profile a Serving Party evaluates every Actor, because authority that widened at any hop is not narrowed by later ones. The status of the Calling Agent's Assurance Statement and registration MUST be no older than the freshness the Serving Party's policy requires when the decision is taken. An agent whose Assurance Statement is RESTRICTED ({{supervision}}) is admitted only for operations within the restricted class.
+A Serving Party MUST NOT admit an operation beyond what its policy permits for the principal of the transaction and for every Actor in `actor_chain`. A Serving Party evaluates every Actor in `actor_chain` against its own policy, as {{Section 4.1 of RFC8693}} permits for informational claims. The Actor Chain is attribution, not authority: it records who is claimed to have acted, not that any hop held or narrowed authority. Evidence of what each hop did, and on what basis it was admitted, comes from the linked receipts on both sides of that hop and their `admission_basis` ({{linking}}), verified hop by hop; showing mechanically that authority narrowed at each hop needs a common representation of scopes ({{open-issues}}). Where authority itself must be carried across hops, delegation-chain mechanisms such as {{I-D.ietf-oauth-identity-chaining}} apply; this profile does not define one. The status of the Calling Agent's Assurance Statement and registration MUST be no older than the freshness the Serving Party's policy requires when the decision is taken. An agent whose Assurance Statement is RESTRICTED ({{supervision}}) is admitted only for operations within the restricted class.
 
 A Serving Party that receives a `cd` value with a call ({{I-D.thaha-wimse-agent-evidence-binding}}) computes its own `call_digest` over the request it received, and MUST NOT use the presented value. It MUST refuse the call, recorded as `block`, when the two differ. A Serving Party MUST refuse a call whose `caller_ref` names a caller receipt that an earlier `admission` receipt in its own Evidence Chain already names, and records the refusal as `block`. The check and the recording of the admission MUST be atomic, so that concurrent requests carrying the same `caller_ref` cannot both be admitted. The check covers only the Serving Party's own Evidence Chain; what other Serving Parties have admitted is not visible to it, which is why {{linked-verification}} also checks the service binding.
 
@@ -1423,7 +1430,7 @@ Service declaration:
 : A Serving Party that lists in `hosts` a host it does not control can be linked to calls meant for that host. The list is a signed claim by the Serving Party, and a Relying Party relies on it as it relies on the other claims of the credential. Front ends run by other operators are the subject of an open issue ({{open-issues}}).
 
 Shared front ends:
-: One gateway host can front several services, and each lists that host in `hosts`, so `E_SERVING_HOST` cannot tell them apart. Where the gateway routes on the request path, `call_digest` binds that path and a request meant for one service is not delivered to another. Two cases remain. A gateway that routes on something `call_digest` excludes, such as a header or tenant identifier, can deliver an identical request to either service. A request that reaches a service without passing through the gateway is admitted under the shared host. In both cases a caller reference meant for one service passes Linked Verification at the other, unless both admissions are in the same Linked Bundle and fail `E_CALLER_MISMATCH`. Operators of such gateways SHOULD route on the request-target, and services behind them SHOULD accept calls only through the gateway.
+: One gateway host can front several services, and each lists that host in `hosts`, so `E_SERVING_HOST` cannot tell them apart. Where the gateway routes on the request path, `call_digest` binds that path, but the mapping from path to service is the gateway's own configuration, which a Relying Party trusts and which no receipt records. Two cases remain. A gateway that routes on something `call_digest` excludes, such as a header or tenant identifier, can deliver an identical request to either service. A request that reaches a service without passing through the gateway is admitted under the shared host. In both cases a caller reference meant for one service passes Linked Verification at the other, unless both admissions are in the same Linked Bundle and fail `E_CALLER_MISMATCH`. Operators of such gateways SHOULD route on the request-target, and services behind them SHOULD accept calls only through the gateway.
 
 Status freshness at admission:
 : An admission decision based on a status observation older than the suspension of the agent admits a suspended agent. What matters is the age of the authenticated status observation, recorded as `status_checked_at`, and not the remaining lifetime of the token that carries it: a token with seconds left can carry an hour-old observation. A Serving Party bounds the age by the freshness its policy requires and SHOULD check the status list itself for operations its policy marks as high-risk.
@@ -1534,10 +1541,10 @@ Audit architecture {{I-D.kuehlewind-audit-architecture}}:
 : Roles and four record types (Interaction, Action, Delegation, Authorization Transition). The Execution Receipt is an Action Record at the Harness vantage, and the `admission` receipt is the corresponding record at the serving side; this profile is a candidate for that document's WI-3. A Delegation record composes with `actor_chain` and `delegation_ref`.
 
 OAuth Token Exchange {{RFC8693}}, Transaction Tokens {{I-D.ietf-oauth-transaction-tokens}} and Identity and Authorization Chaining {{I-D.ietf-oauth-identity-chaining}}:
-: Token Exchange expresses a chain of delegation by nested `act` claims; this profile records it as `actor_chain` and, unlike that specification, requires a Serving Party to evaluate prior actors. Transaction Tokens propagate the principal of the transaction and a `txn` identifier along a Call Chain within one Trust Domain; this profile records `txn` on both sides of every call and extends the Call Chain across Trust Domains. Identity and Authorization Chaining carries identity across Trust Domains and leaves the format of transcribed claims open; the Actor Chain is one concrete record of what it carries. This profile complements these specifications with evidence and does not change them.
+: Token Exchange expresses a chain of delegation by nested `act` claims; this profile records it as `actor_chain`; a Serving Party uses prior actors as policy input, as that specification permits, and takes evidence of what each hop did from per-hop receipts rather than from the `act` claim. Transaction Tokens propagate the principal of the transaction and a `txn` identifier along a Call Chain within one Trust Domain; this profile records `txn` on both sides of every call and extends the Call Chain across Trust Domains. Identity and Authorization Chaining carries identity across Trust Domains and leaves the format of transcribed claims open; the Actor Chain is one concrete record of what it carries. This profile complements these specifications with evidence and does not change them.
 
 Agent audit record {{I-D.gilda-audit-agent-audit-record}}:
-: A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. {{I-D.thaha-wimse-agent-evidence-binding}} defines an in-toto {{IN-TOTO}} predicate type for Execution Receipts, and an audit record's `correlation.externalAnchor` of kind `transparency-log` can point at the SCITT Receipt of the enclosing epoch.
+: A JCS-canonicalized in-toto Statement in a DSSE envelope, richer per event and oriented to authorization decisions. {{I-D.thaha-wimse-agent-evidence-binding}} defines an in-toto {{IN-TOTO}} predicate type for Execution Receipts. An audit record can point to the Execution Receipt for the same call, or to the SCITT Receipt that registers it; the pointer associates the two records and dates neither of them ({{I-D.thaha-wimse-agent-evidence-binding}}).
 
 Agent Action Capsule {{I-D.mih-scitt-agent-action-capsule}}:
 : A JSON Capsule per action with disposition and an Effect Record, registered by Capsule ID. Its may/did distinction is finer than `decision` plus `tool_result`; a Capsule ID can be the `request_digest` of a `tool_call` receipt. This profile defers effect tracking to the Capsule.
@@ -1569,7 +1576,7 @@ This section is to be removed before publication as an RFC.
 * A reputation statement linked through `lineage_id`, and whether identifier forms other than `did:web` should be allowed for `logical_agent_id`.
 * Whether Serving Parties should also be registered by an authority.
 * Representation mapping: a defined mapping between different representations of one request, including proxies that rewrite the path, or a statement issued by a proxy that records what it forwarded ({{linking}}). `call_digest` compares the request as sent with the request as received and cannot match a request that an intermediary changed.
-* Front ends run by other operators, and shared front ends: whether `hosts` in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. A host also does not identify one service where a gateway fronts several ({{security}}). Candidate designs are a path prefix on each `hosts` entry, which a Serving Party can enforce but a verifier cannot check because receipts do not carry the path, and a forwarding statement signed by the gateway naming the backend it routed the call to. This is the question put to the SCITT list.
+* Front ends run by other operators, and shared front ends: whether `hosts` in the Serving Party's own credential is enough, or whether a proxy run by another operator should sign its own forwarding statement. A host also does not identify one service where a gateway fronts several ({{security}}). Candidate designs are a path prefix on each `hosts` entry, which a Serving Party can enforce but a verifier cannot check because receipts do not carry the path, and a forwarding statement signed by the gateway naming the backend it routed the call to. A third is a handoff from the gateway to the effect boundary, as in {{Section 5.8 of I-D.schrock-action-evidence-boundary}}: only the gateway that accepts the call signs, under a key the Relying Party pins, binding the action digest and the executor, so other intermediaries need not sign. This is the question put to the SCITT list.
 
 # Implementation Status
 
@@ -1758,7 +1765,7 @@ This informative mapping does not claim compliance. Execution Receipts, Evidence
 # Acknowledgements
 {:numbered="false"}
 
-The authors thank the SCITT, WIMSE and RATS communities and the authors cited in {{related}}. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts.
+The authors thank the SCITT, WIMSE and RATS communities and the authors cited in {{related}}. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Sankalp Gilda for reviewing the composition with the audit record, and Kieran Sweeney for reviewing the use of the Actor Chain.
 
 # Changes since -00
 {:numbered="false"}
@@ -1777,4 +1784,8 @@ This section is to be removed before publication as an RFC.
 * Added a privacy note on guessing low-entropy content from `call_digest` ({{privacy}}).
 * Stated that `hosts` shows the caller named a declared host, not which service it meant where one gateway host fronts several services, and added the remaining cases to {{security}} and Open Issues.
 * Added EP-AEC to Related Work, Open Issues for representation mapping and for front ends run by other operators, and Iman Schrock to the Acknowledgements.
+* Added a Shared front ends entry to {{security}}: a gateway host shared by several services does not identify one of them, and `call_digest` binds the path while the mapping from path to service is trusted configuration that no receipt records. The front-ends open issue lists path prefixes, a gateway-signed forwarding statement and a handoff signed by the accepting gateway as candidate designs.
+* An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record, and is no longer described as `correlation.externalAnchor` ({{related}}). Updated the audit-record reference to -02 and added Sankalp Gilda to the Acknowledgements.
+* Moved the WIMSE architecture to the informative references: the profile builds on it, and the terms it borrows are used as described there. Updated the references to draft-ietf-wimse-identifier-04 and draft-sharif-agent-audit-trail-09.
+* A Serving Party evaluates every Actor against its own policy, as RFC 8693 permits for informational claims; the claim that this goes beyond RFC 8693 is removed. The Actor Chain is stated to carry attribution, not authority, with evidence of each hop taken from per-hop receipts and delegation-chain mechanisms referenced for carrying authority. The Introduction notes that showing that no intermediary used broader authority also needs a common representation of scopes.
 * Regenerated the test vectors: receipt seq 3, the admission receipt and the Serving Party Credential changed, and so did every value derived from them ({{vectors}}).
