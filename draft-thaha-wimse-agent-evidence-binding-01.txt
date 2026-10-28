@@ -799,7 +799,9 @@ Internet-Draft           Agent Evidence Binding             October 2026
    chain carries attribution, not authority.  Authority carried across
    hops needs per-hop signed evidence, such as a delegation chain
    [I-D.ietf-oauth-identity-chaining] or the linked receipts of
-   Section 9.1 of [I-D.thaha-scitt-agent-execution-evidence].
+   Section 9.1 of [I-D.thaha-scitt-agent-execution-evidence]; showing
+   that authority narrowed at each hop remains an open issue of that
+   document.
 
 6.3.  Other Protocols
 
@@ -832,8 +834,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
    receipt JSON object, including agent_sig when present; this is the
    JSON-form record-hash of [I-D.thaha-scitt-agent-execution-evidence].
    Conversion from the CBOR form changes the bytes and therefore the
-   digest and the epoch inclusion proof: a JSON predicate converted from
-   CBOR MUST NOT be presented as carrying the CBOR record-hash or its
 
 
 
@@ -842,6 +842,8 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 15]
 Internet-Draft           Agent Evidence Binding             October 2026
 
 
+   digest and the epoch inclusion proof: a JSON predicate converted from
+   CBOR MUST NOT be presented as carrying the CBOR record-hash or its
    epoch proof.  Where the CBOR chain must be preserved, the original
    artifact is carried and verified together with an explicit binding to
    the JSON representation.  The DSSE payloadType is application/vnd.in-
@@ -883,8 +885,6 @@ Internet-Draft           Agent Evidence Binding             October 2026
    admission receipt is the corresponding record at the Serving Party,
    and the aee_evidence claim is part of the audit context carried with
    the agent's credential.
-
-
 
 
 
@@ -1317,7 +1317,8 @@ Internet-Draft           Agent Evidence Binding             October 2026
 
    *  The Actor Chain is policy input carrying attribution, not
       authority; authority carried across hops needs per-hop signed
-      evidence, such as a delegation chain or linked receipts.
+      evidence, such as a delegation chain or linked receipts, and
+      showing that authority narrowed at each hop remains open.
       (Section 5, Section 6).
 
    *  Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the
@@ -1336,7 +1337,6 @@ Authors' Addresses
    Individual Contributor
    United Arab Emirates
    Email: shaibis@gmail.com
-
 
 
 

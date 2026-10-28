@@ -471,7 +471,7 @@ The Serving Party copies `es`, `seq`, `h` and `txn` into the `caller_ref` and `t
 
 ## Actor Chain and Principal Link
 
-The Actor Chain travels in the token presented on the call as nested `act` claims ({{Section 4.1 of RFC8693}}), the outermost naming the Calling Agent. Both parties record it as `actor_chain`, least recent first. Each party computes the `principal_link` as SHA-256 over the octets of the access token in the request's `Authorization` header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain against its own policy, not only the current one ({{admission}}); the chain carries attribution, not authority. Authority carried across hops needs per-hop signed evidence, such as a delegation chain {{I-D.ietf-oauth-identity-chaining}} or the linked receipts of Section 9.1 of {{I-D.thaha-scitt-agent-execution-evidence}}.
+The Actor Chain travels in the token presented on the call as nested `act` claims ({{Section 4.1 of RFC8693}}), the outermost naming the Calling Agent. Both parties record it as `actor_chain`, least recent first. Each party computes the `principal_link` as SHA-256 over the octets of the access token in the request's `Authorization` header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain against its own policy, not only the current one ({{admission}}); the chain carries attribution, not authority. Authority carried across hops needs per-hop signed evidence, such as a delegation chain {{I-D.ietf-oauth-identity-chaining}} or the linked receipts of Section 9.1 of {{I-D.thaha-scitt-agent-execution-evidence}}; showing that authority narrowed at each hop remains an open issue of that document.
 
 ## Other Protocols
 
@@ -578,5 +578,5 @@ This section is to be removed before publication as an RFC.
 * Updated references to the -01 revision of the SCITT draft, and added EP-AEC as an informative reference.
 * Stated the split between token claims, which bind the agent and its policy, and `AEE-Caller-Ref`, which binds one call; a caller reference MUST NOT be carried in a token that can be presented on more than one call ({{carrying}}).
 * An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record and is not carried in `correlation.externalAnchor` ({{intoto}}). Updated the audit-record reference to -02.
-* The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts. ({{admission}}, {{carrying}}).
+* The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts, and showing that authority narrowed at each hop remains open. ({{admission}}, {{carrying}}).
 * Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the Acknowledgements.
