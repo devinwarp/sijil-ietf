@@ -10,7 +10,7 @@
 <meta content="
        The WIMSE AI Identity Management System (AIMS) requires tamper-evident agent audit logs but does not specify their format or discovery. This document maps the AIMS minimum fields to the SCITT Agent Execution Evidence profile, defines one claim that binds a workload credential to the persistent agent, governing policy, expected Evidence Service and optional Assurance Statement, and defines an in-toto predicate type for carrying Execution Receipts in the audit format proposed for WIMSE. It also describes how a service admits an agent's call by checking its assurance at the moment of the request, and defines an HTTP field that links each call to the caller's evidence. It is input to the AIMS work and makes no change to it. 
     " name="description">
-<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="xml2rfc 3.35.0" name="generator">
 <meta content="WIMSE" name="keyword">
 <meta content="AI agent" name="keyword">
 <meta content="audit" name="keyword">
@@ -18,20 +18,20 @@
 <meta content="SCITT" name="keyword">
 <meta content="draft-thaha-wimse-agent-evidence-binding-01" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.1
-    Python 3.12.3
-    ConfigArgParse 1.8.0
+  xml2rfc 3.35.0
+    Python 3.10.12
+    ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.3
     natsort 8.4.0
-    platformdirs 4.13.5
+    platformdirs 4.12.4
     pycountry 26.2.16
+    pypdf 6.21.2
     PyYAML 6.0.3
     requests 2.34.2
-    wcwidth 0.9.3
-    weasyprint 70.0
+    wcwidth 0.9.4
 -->
 <link href="draft-thaha-wimse-agent-evidence-binding-01.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1715,7 +1715,7 @@ CBOR value: map
           <p id="section-5-2.3.1">Check that the registration is from an accepted Agent Registration Authority and is valid; that the Assurance Statement's level meets the minimum the Serving Party's policy sets for the operation, from an accepted assessor and scheme; and that its status is VALID, or RESTRICTED with the operation within the restricted class the scheme defines.<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-5-2.4">
-          <p id="section-5-2.4.1">Check the Principal and every Actor in the Actor Chain (<a href="#carrying" class="auto internal xref">Section 6</a>) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires.<a href="#section-5-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-5-2.4.1">Check the Principal and every Actor in the Actor Chain (<a href="#carrying" class="auto internal xref">Section 6</a>) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires. The Actor Chain is attribution, not authority: the Serving Party uses it as policy input, as <span><a href="https://rfc-editor.org/rfc/rfc8693#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> permits, and does not treat it as evidence that any hop held or narrowed authority.<a href="#section-5-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-5-2.5">
           <p id="section-5-2.5.1">Where <code>AEE-Caller-Ref</code> is present, compute <code>call_digest</code> over the request received, as defined in Section 6.7 of <span>[<a href="#I-D.thaha-scitt-agent-execution-evidence" class="cite xref">I-D.thaha-scitt-agent-execution-evidence</a>]</span>; never use the value the caller presents. Refuse the call if <code>cd</code> is present and differs from the computed value, or if <code>cd</code> is absent while the Serving Party's policy requires linking. Refuse the call if its caller reference names a caller receipt that an earlier admission of this Serving Party already names (Section 6.7.2 of <span>[<a href="#I-D.thaha-scitt-agent-execution-evidence" class="cite xref">I-D.thaha-scitt-agent-execution-evidence</a>]</span>).<a href="#section-5-2.5.1" class="pilcrow">¶</a></p>
@@ -1791,7 +1791,7 @@ AEE-Caller-Ref: es="https://harness.example/issuer", seq=3,
         <h3 id="name-actor-chain-and-principal-l">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-actor-chain-and-principal-l" class="section-name selfRef">Actor Chain and Principal Link</a>
         </h3>
-<p id="section-6.2-1">The Actor Chain travels in the token presented on the call as nested <code>act</code> claims (<span><a href="https://rfc-editor.org/rfc/rfc8693#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>), the outermost naming the Calling Agent. Both parties record it as <code>actor_chain</code>, least recent first. Each party computes the <code>principal_link</code> as SHA-256 over the octets of the access token in the request's <code>Authorization</code> header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain, not only the current one (<a href="#admission" class="auto internal xref">Section 5</a>).<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">The Actor Chain travels in the token presented on the call as nested <code>act</code> claims (<span><a href="https://rfc-editor.org/rfc/rfc8693#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>), the outermost naming the Calling Agent. Both parties record it as <code>actor_chain</code>, least recent first. Each party computes the <code>principal_link</code> as SHA-256 over the octets of the access token in the request's <code>Authorization</code> header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain against its own policy, not only the current one (<a href="#admission" class="auto internal xref">Section 5</a>); the chain carries attribution, not authority. Authority carried across hops needs per-hop signed evidence, such as a delegation chain <span>[<a href="#I-D.ietf-oauth-identity-chaining" class="cite xref">I-D.ietf-oauth-identity-chaining</a>]</span> or the linked receipts of <span><a href="https://datatracker.ietf.org/doc/html/draft-thaha-scitt-agent-execution-evidence-01#section-9.1" class="relref">Section 9.1</a> of [<a href="#I-D.thaha-scitt-agent-execution-evidence" class="cite xref">I-D.thaha-scitt-agent-execution-evidence</a>]</span>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="other-protocols">
@@ -2024,6 +2024,10 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
         <dd>
 <span class="refAuthor">Gilda, S.</span>, <span class="refTitle">"An Audit Record Format for AI Agent Authorization Decisions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-gilda-audit-agent-audit-record-02</span>, <time datetime="2026-10" class="refDate">October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-gilda-audit-agent-audit-record-02">https://datatracker.ietf.org/doc/html/draft-gilda-audit-agent-audit-record-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ietf-oauth-identity-chaining">[I-D.ietf-oauth-identity-chaining]</dt>
+        <dd>
+<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-17</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-17">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-17</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-oauth-transaction-tokens">[I-D.ietf-oauth-transaction-tokens]</dt>
         <dd>
 <span class="refAuthor">Tulshibagwale, A.</span>, <span class="refAuthor">Fletcher, G.</span>, and <span class="refAuthor">P. Kasselman</span>, <span class="refTitle">"Transaction Tokens"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-transaction-tokens-11</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-11">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-11</a>&gt;</span>. </dd>
@@ -2066,7 +2070,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
       <h2 id="name-acknowledgements">
 <a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
       </h2>
-<p id="appendix-A-1">The authors thank the authors of <span>[<a href="#I-D.ietf-wimse-aims" class="cite xref">I-D.ietf-wimse-aims</a>]</span>, <span>[<a href="#I-D.gilda-audit-agent-audit-record" class="cite xref">I-D.gilda-audit-agent-audit-record</a>]</span> and <span>[<a href="#I-D.kuehlewind-audit-architecture" class="cite xref">I-D.kuehlewind-audit-architecture</a>]</span>, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, and Sankalp Gilda for reviewing the composition with the audit record.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">The authors thank the authors of <span>[<a href="#I-D.ietf-wimse-aims" class="cite xref">I-D.ietf-wimse-aims</a>]</span>, <span>[<a href="#I-D.gilda-audit-agent-audit-record" class="cite xref">I-D.gilda-audit-agent-audit-record</a>]</span> and <span>[<a href="#I-D.kuehlewind-audit-architecture" class="cite xref">I-D.kuehlewind-audit-architecture</a>]</span>, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, Sankalp Gilda for reviewing the composition with the audit record, and Kieran Sweeney for reviewing the use of the Actor Chain.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="changes-since-00">
@@ -2101,7 +2105,10 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
           <p id="appendix-B-2.8.1">An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record and is not carried in <code>correlation.externalAnchor</code> (<a href="#intoto" class="auto internal xref">Section 7</a>). Updated the audit-record reference to -02.<a href="#appendix-B-2.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-2.9">
-          <p id="appendix-B-2.9.1">Added Jiahui Miao and Sankalp Gilda to the Acknowledgements.<a href="#appendix-B-2.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-2.9.1">The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts. (<a href="#admission" class="auto internal xref">Section 5</a>, <a href="#carrying" class="auto internal xref">Section 6</a>).<a href="#appendix-B-2.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-2.10">
+          <p id="appendix-B-2.10.1">Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the Acknowledgements.<a href="#appendix-B-2.10.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

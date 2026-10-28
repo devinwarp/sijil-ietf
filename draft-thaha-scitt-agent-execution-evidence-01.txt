@@ -115,7 +115,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
 
        6.7.4.  Execution Epoch Statement . . . . . . . . . . . . . .  31
-     6.8.  Assurance Statement . . . . . . . . . . . . . . . . . . .  31
+     6.8.  Assurance Statement . . . . . . . . . . . . . . . . . . .  32
        6.8.1.  Agent Identity Assurance Levels (AIAL)  . . . . . . .  34
        6.8.2.  Supervision . . . . . . . . . . . . . . . . . . . . .  36
        6.8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . .  37
@@ -123,9 +123,9 @@ Internet-Draft          Agent Execution Evidence            October 2026
    8.  Bundle  . . . . . . . . . . . . . . . . . . . . . . . . . . .  40
    9.  Verification  . . . . . . . . . . . . . . . . . . . . . . . .  41
      9.1.  Linked Verification . . . . . . . . . . . . . . . . . . .  44
-     9.2.  Meaning of PASS . . . . . . . . . . . . . . . . . . . . .  45
+     9.2.  Meaning of PASS . . . . . . . . . . . . . . . . . . . . .  46
        9.2.1.  Derivable Risk Facts  . . . . . . . . . . . . . . . .  46
-   10. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  46
+   10. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  47
    11. Security Considerations . . . . . . . . . . . . . . . . . . .  48
    12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  53
      12.1.  Media Types  . . . . . . . . . . . . . . . . . . . . . .  53
@@ -350,7 +350,8 @@ Internet-Draft          Agent Execution Evidence            October 2026
       delegation expressed by nested act claims (Section 4.1 of
       [RFC8693]): the most deeply nested act is the first entry and the
       outermost act, the current actor, is the last.  The term "actor
-      chain" is used in Section 3.4.9 of [I-D.ietf-wimse-arch].
+      chain" is used in Section 3.4.9 of [I-D.ietf-wimse-arch].  It
+      records attribution, not authority (Section 6.7.2).
 
    Admission:  The authorization decision a Serving Party makes for one
       call, recorded as an Execution Receipt of type admission
@@ -384,7 +385,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       (Section 6.7.3).
 
    Calling Agent, Serving Party:  For a given call, the agent that makes
-
 
 
 
@@ -1561,7 +1561,7 @@ Internet-Draft          Agent Execution Evidence            October 2026
 
    A Serving Party MUST NOT admit an operation beyond what its policy
    permits for the principal of the transaction and for every Actor in
-   actor_chain.  This goes beyond Section 4.1 of [RFC8693], under which
+   actor_chain.  A Serving Party evaluates every Actor in actor_chain
 
 
 
@@ -1570,14 +1570,21 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 28]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
-   prior actors are informational only: under this profile a Serving
-   Party evaluates every Actor, because authority that widened at any
-   hop is not narrowed by later ones.  The status of the Calling Agent's
-   Assurance Statement and registration MUST be no older than the
-   freshness the Serving Party's policy requires when the decision is
-   taken.  An agent whose Assurance Statement is RESTRICTED
-   (Section 6.8.2) is admitted only for operations within the restricted
-   class.
+   against its own policy, as Section 4.1 of [RFC8693] permits for
+   informational claims.  The Actor Chain is attribution, not authority:
+   it records who is claimed to have acted, not that any hop held or
+   narrowed authority.  Evidence of what each hop did, and on what basis
+   it was admitted, comes from the linked receipts on both sides of that
+   hop and their admission_basis (Section 6.7.3), verified hop by hop;
+   showing mechanically that authority narrowed at each hop needs a
+   common representation of scopes (Section 14).  Where authority itself
+   must be carried across hops, delegation-chain mechanisms such as
+   [I-D.ietf-oauth-identity-chaining] apply; this profile does not
+   define one.  The status of the Calling Agent's Assurance Statement
+   and registration MUST be no older than the freshness the Serving
+   Party's policy requires when the decision is taken.  An agent whose
+   Assurance Statement is RESTRICTED (Section 6.8.2) is admitted only
+   for operations within the restricted class.
 
    A Serving Party that receives a cd value with a call
    ([I-D.thaha-wimse-agent-evidence-binding]) computes its own
@@ -1611,13 +1618,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    only call_digest and the service binding establish that they record
    the same call.  A shared transaction, principal or session is not a
    match.  A match is exact equality of digests over the same
-   representation, computed by each side from the request it sent or
-   received and never taken from the evidence presented, and a failed
-   match is reported separately from verification and correlation
-   failures.  This follows the separation of correlation from matching
-   in Section 7 of [I-D.schrock-ep-authorization-evidence-chain].  The
-   following rules apply:
-
 
 
 
@@ -1625,6 +1625,13 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 29]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   representation, computed by each side from the request it sent or
+   received and never taken from the evidence presented, and a failed
+   match is reported separately from verification and correlation
+   failures.  This follows the separation of correlation from matching
+   in Section 7 of [I-D.schrock-ep-authorization-evidence-chain].  The
+   following rules apply:
 
    1.  caller_ref names a tool_call receipt with decision allow (for a
        confirmed call, its allow outcome) or an egress receipt, in
@@ -1666,13 +1673,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
        not between Host values as they arrive, so a gateway that
        rewrites Host does not break it.
 
-   A Calling Agent transmits these values with each call by means
-   outside this document; [I-D.thaha-wimse-agent-evidence-binding]
-   defines them for HTTP.  Records linked in this way form Linked
-   Evidence Chains, verified as in Section 9.1.
-
-
-
 
 
 
@@ -1681,6 +1681,11 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 30]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   A Calling Agent transmits these values with each call by means
+   outside this document; [I-D.thaha-wimse-agent-evidence-binding]
+   defines them for HTTP.  Records linked in this way form Linked
+   Evidence Chains, verified as in Section 9.1.
 
 6.7.4.  Execution Epoch Statement
 
@@ -1719,13 +1724,8 @@ Internet-Draft          Agent Execution Evidence            October 2026
    parameter that a Relying Party MAY require to be stated in a Policy
    Pack.
 
-6.8.  Assurance Statement
 
-   An Assurance Statement is a time-bounded assertion about an
-   identified agent's declared purpose, effective capabilities,
-   deployment and controls.  It records the risk basis, assessment depth
-   and, where required, operational monitoring.  It is bound to the
-   digests that determine behaviour.
+
 
 
 
@@ -1737,6 +1737,14 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 31]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+6.8.  Assurance Statement
+
+   An Assurance Statement is a time-bounded assertion about an
+   identified agent's declared purpose, effective capabilities,
+   deployment and controls.  It records the risk basis, assessment depth
+   and, where required, operational monitoring.  It is bound to the
+   digests that determine behaviour.
 
    assurance = {
      1 => 7,                   ; aee-type
@@ -1778,14 +1786,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
      4 => digest               ; risk_assessment_digest
    }
    monitoring-summary = {
-     1 => uint,                ; period_start
-     2 => uint,                ; period_end
-     3 => uint,                ; review_frequency, seconds
-     4 => [ + monitoring-dimension ], ; coverage
-     5 => digest,              ; evidence_digest
-     6 => uint,                ; deviation_count
-     7 => &( continue: 1, reassess: 2, suspend: 3, withdraw: 4 ),
-                                 ; disposition
 
 
 
@@ -1794,6 +1794,14 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 32]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+     1 => uint,                ; period_start
+     2 => uint,                ; period_end
+     3 => uint,                ; review_frequency, seconds
+     4 => [ + monitoring-dimension ], ; coverage
+     5 => digest,              ; evidence_digest
+     6 => uint,                ; deviation_count
+     7 => &( continue: 1, reassess: 2, suspend: 3, withdraw: 4 ),
+                                 ; disposition
      ? 8 => digest             ; findings_digest
    }
    monitoring-dimension = &( purpose: 1, model: 2, tool: 3, data: 4,
@@ -1834,14 +1842,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    This profile defines the required coverage but not the document
    formats or a universal capability taxonomy.
 
-   scheme_id identifies a risk-classification scheme published by a
-   Supervisory Authority (Section 6.8.2), and tier is meaningful only
-   within that scheme.  This profile does not define a universal risk
-   scale.  The scheme SHOULD consider autonomy, persistence
-   (lifecycle_class), effective capabilities, access to sensitive data
-   or resources, delegation powers, potential consequences and control
-   effectiveness.  The Agent Assurance Assessor applies the scheme; it
-   does not define it.  Any single trigger the scheme defines is
 
 
 
@@ -1850,6 +1850,14 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 33]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+   scheme_id identifies a risk-classification scheme published by a
+   Supervisory Authority (Section 6.8.2), and tier is meaningful only
+   within that scheme.  This profile does not define a universal risk
+   scale.  The scheme SHOULD consider autonomy, persistence
+   (lifecycle_class), effective capabilities, access to sensitive data
+   or resources, delegation powers, potential consequences and control
+   effectiveness.  The Agent Assurance Assessor applies the scheme; it
+   does not define it.  Any single trigger the scheme defines is
    sufficient to place an agent in the tier it names, and a tier can be
    raised but not lowered by the assessor. higher_risk records that,
    under the scheme, the independent-assessment and monitoring rules
@@ -1890,14 +1898,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
     |       | period and coverage.                                    |
     +-------+---------------------------------------------------------+
 
-              Table 1: Agent Identity Assurance Levels (AIAL)
-
-   The assurance_level value is an Agent Identity Assurance Level
-   (AIAL).  These levels grade the assessment of an agent's purpose,
-   capabilities, deployment and controls.  They are not the
-   Authenticator Assurance Levels of [NIST.SP.800-63-4], do not express
-   authentication strength, and SHOULD NOT be abbreviated as "AAL".
-   "Identity" is in the name because the levels attach to an identified,
 
 
 
@@ -1906,6 +1906,14 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 34]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+              Table 1: Agent Identity Assurance Levels (AIAL)
+
+   The assurance_level value is an Agent Identity Assurance Level
+   (AIAL).  These levels grade the assessment of an agent's purpose,
+   capabilities, deployment and controls.  They are not the
+   Authenticator Assurance Levels of [NIST.SP.800-63-4], do not express
+   authentication strength, and SHOULD NOT be abbreviated as "AAL".
+   "Identity" is in the name because the levels attach to an identified,
    registered Logical Agent (Section 4); they are closest in role to
    that guideline's Identity Assurance Levels, which grade proofing
    before a credential is issued.  Following the same separation, this
@@ -1946,14 +1954,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    monitoring_summary, use status checking, and have disposition
    continue.  Before a required monitoring period is complete, the
    result MUST be partial, not pass.  The Agent Assurance Assessor MUST
-   issue a replacement statement at the required review frequency.  A
-   material change to purpose, capabilities, policy, configuration,
-   deployment, controls or identity binding requires reassessment.  A
-   Relying Party MUST NOT accept operational assurance from a statement
-   whose disposition is reassess, suspend or withdraw; the status and
-   withdrawal that follow are set as described in Section 6.8.2 and
-   Section 6.8.3.
-
 
 
 
@@ -1961,6 +1961,14 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 35]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   issue a replacement statement at the required review frequency.  A
+   material change to purpose, capabilities, policy, configuration,
+   deployment, controls or identity binding requires reassessment.  A
+   Relying Party MUST NOT accept operational assurance from a statement
+   whose disposition is reassess, suspend or withdraw; the status and
+   withdrawal that follow are set as described in Section 6.8.2 and
+   Section 6.8.3.
 
    Higher-risk agents therefore require independent assessment and
    continuing operational monitoring.  Assurance remains valid only
@@ -1995,6 +2003,21 @@ Internet-Draft          Agent Execution Evidence            October 2026
    *  the Agent Assurance Assessor issues verdicts and monitoring
       summaries and reports deviations to it.
 
+
+
+
+
+
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 36]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    A deviation detected during monitoring MUST be reported to the
    Supervisory Authority.  For deviation classes the scheme marks as
    requiring it, the Supervisory Authority MUST suspend at once.  For
@@ -2010,14 +2033,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    use bits of at least 2.  While a statement is RESTRICTED, a Decision
    Point or Serving Party that enforces assurance MUST refuse operations
    above the risk class the scheme defines for restriction, and SHOULD
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 36]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    let in-flight Tasks reach a safe end.  While a statement is
    SUSPENDED, a Decision Point that enforces assurance MUST refuse
    further model and tool calls by the agent, a Serving Party that
@@ -2051,6 +2066,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
    Reason code 3 (withdrawn) records an adverse finding.  Reason code 5
    (closed) records an administrative retirement with no adverse
    finding, for example an agent retired by its Responsible Entity or a
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 37]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    registration that expired without renewal.  An agent is closed by a
    Revocation Statement with reason code 5 that revokes its Agent
    Registration Statement, issued by the Agent Registration Authority at
@@ -2061,18 +2084,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    operate again only under a new registration and a new assessment.
    Restriction and suspension through the status list are the only
    reversible states.
-
-
-
-
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 37]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
 7.  Registration Policy
 
@@ -2109,6 +2120,16 @@ Internet-Draft          Agent Execution Evidence            October 2026
       directly or through its ancestors.
 
    Configuration Integrity (3):  config_digest MUST equal the digest of
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 38]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       the canonical encoding of entries. entries MUST be ordered by name
       in octet order and MUST NOT contain duplicate names. normalization
       MUST be 1 or 2.
@@ -2122,14 +2143,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       Issuer, or an Issuer the TS's policy accepts for that agent, MUST
       already be registered.  For an individually registered Execution
       Receipt, a Policy Pack Statement with pack_digest equal to
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 38]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       policy_pack_digest MUST already be registered, and a Configuration
       Integrity Statement with config_digest equal to
       config_integrity_digest MUST already be registered, its
@@ -2165,6 +2178,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
       requirements of Section 6.8.
 
    Revocation (8):  A statement whose payload digest equals
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 39]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       subject_digest MUST already be registered.  The Issuer of the
       Revocation Statement MUST be the Issuer of that statement or, for
       an Assurance Statement, the Supervisory Authority that the TS's
@@ -2178,13 +2199,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       MUST already be registered.  If the TS's policy requires it, each
       of provider_statement_digests MUST name a registered Model
       Provider Statement.
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 39]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    Serving Party Credential (10):  validity.nbf MUST be less than
       validity.exp, and the service_key MUST be a COSE_Key whose alg is
@@ -2220,6 +2234,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
    the lineage of every policy_pack_digest in key 2, every Configuration
    Integrity Statement referenced, every Execution Epoch Statement
    covering a receipt in key 2 (or the receipt's own Transparent
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 40]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    Statement), and any Assurance and Revocation Statements the producer
    wishes considered.  Key 3 is REQUIRED for any receipt whose epoch is
    not wholly present in key 2.  Key 4 carries a snapshot of each Status
@@ -2233,14 +2255,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    Section 9.1.
 
    aee-linked-bundle = [ 2* aee-bundle ]
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 40]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    The media type of a Bundle is application/aee-bundle+cbor.  A JSON
    form with the member names statements, receipts, proofs and
@@ -2276,6 +2290,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
    4.   Identify exactly one Agent Credential or Serving Party
         Credential Statement whose Issuer the Relying Party accepts and
         whose identifiers include the agent_id of the first receipt in
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 41]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
         key 2.  Check that no Revocation Statement in the Bundle, from
         the same Issuer, names its payload digest.  On failure:
         E_CREDENTIAL.  For an Agent Credential, identify the Agent
@@ -2289,14 +2311,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
         Revocation Statement from its Issuer names it, and that any
         provider_statement_digest in the credential is among its
         provider_statement_digests.  On failure: E_REGISTRATION.
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 41]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    5.   For each receipt in key 2, check that its agent_id appears, with
         valid_from <= ts < valid_until, in the runtime_identities of the
@@ -2332,6 +2346,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
         confirm has at most one outcome.  A confirm without an outcome
         in key 2 fails only if its Task's task_end is in key 2, or a
         later receipt of that Task names the confirm receipt as its
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 42]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
         parent; otherwise the call is reported as not proceeded, which
         does not prevent PASS.  On failure of the Task rules or of
         confirm/outcome pairing: E_TASK.
@@ -2346,13 +2368,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
         listed, otherwise with the agent_key of the Agent Credential
         Statement or the service_key of the Serving Party Credential
         Statement.  On failure: E_AGENT_SIG.
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 42]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    11.  For each distinct policy_pack_digest in key 2, locate the Policy
         Pack Statement and walk parent_pack_digest to a root.  Every
@@ -2387,6 +2402,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
         summary is present, require its disposition to be continue.  For
         higher-risk agents, also require level 4 and a monitoring
         summary whose required coverage is accepted, and whose
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 43]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
         period_end is no more than review_frequency before each receipt
         time after conversion to seconds.  On failure:
         E_ASSURANCE_BINDING, E_SCOPE_MISMATCH or E_MONITORING_STALE.
@@ -2401,14 +2424,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
         no Revocation Statement from its Issuer or from the designated
         Supervisory Authority names its payload digest.  On failure:
         E_ASSURANCE_STATUS or E_RESTRICTED.
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 43]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    15.  For each receipt carrying subagent, check that subagent_ref and
         function match an entry of the governing Agent Credential
@@ -2443,6 +2458,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
        caller_ref's, its seq matches, and its chain's Evidence Service
        is the Issuer named by caller_ref; on failure, E_CALLER_REF;
 
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 44]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    2.  the named receipt and the admission both carry call_digest, and
        the values are equal; on failure, E_CALL_MISMATCH;
 
@@ -2456,15 +2479,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
        receipt, in either case one that carries call_digest, no other
        admission names it, and its ts is not later than the admission's
        ts plus the stated skew; on failure, E_CALLER_MISMATCH;
-
-
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 44]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
    5.  principal_link and txn are present and equal on both receipts; on
        failure, E_PRINCIPAL_LINK;
@@ -2496,6 +2510,18 @@ Internet-Draft          Agent Execution Evidence            October 2026
    are reported, not failed: the other party's records may simply be
    absent from the Linked Bundle.
 
+
+
+
+
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 45]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
 9.2.  Meaning of PASS
 
    A PASS establishes that: the TS committed to each statement in its
@@ -2514,14 +2540,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
    the service the caller meant where several services share that host,
    that every hop of the Call Chain is present, that an intermediary
    forwarded the request unchanged in the parts call_digest excludes, or
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 45]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
    that a Serving Party checked more than its admission_basis records.
 
    A PASS does not establish that the Harness recorded every call, that
@@ -2552,6 +2570,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
    accompanied by level 2 or higher attestation, provides a second
    witness.  This document sets no thresholds for either fact; it notes
    that both are derivable so that Policy Packs and Agent Assurance
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 46]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
    Assessors can set them.
 
 10.  Privacy Considerations
@@ -2570,14 +2596,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       across deployments with different peppers.
 
    Linking across parties:  principal_link lets the two parties to one
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 46]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
-
       call show that they recorded the same Principal without either
       revealing it, because it is a digest of a token both already hold.
       It does not link the Principal across calls unless the same token
@@ -2608,6 +2626,14 @@ Internet-Draft          Agent Execution Evidence            October 2026
       members of a receipt and MUST NOT contain query, user, argument or
       parameter-value components; a tool name derived from an HTTP
       operation MAY carry its method and path template.  Issuers MUST
+
+
+
+Thaha & Shamsudeen         Expires 1 May 2027                  [Page 47]
+
+Internet-Draft          Agent Execution Evidence            October 2026
+
+
       NOT place Principal identifiers or content in identifiers.
       Purpose, objective, intended-use and risk-tier strings SHOULD use
       concise categories or URIs rather than sensitive operational
@@ -2626,13 +2652,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       identifier.  Operators for whom the existence of an agent is
       sensitive SHOULD use opaque identifiers under their own trust
       domain.
-
-
-
-Thaha & Shamsudeen         Expires 1 May 2027                  [Page 47]
-
-Internet-Draft          Agent Execution Evidence            October 2026
-
 
 11.  Security Considerations
 
@@ -2659,25 +2678,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       record.
 
    Confused deputy:  An agent serving several Principals can be induced
-      to use one Principal's authority for another's request.  Recording
-      the Principal on every receipt of a Task, carrying the Actor
-      Chain, and requiring a Serving Party to evaluate every Actor
-      (Section 6.7.2) make the substitution visible and let the Serving
-      Party refuse it; they do not prevent an agent from misusing
-      authority it legitimately holds.
-
-   Forged or replayed caller references:  A caller_ref, actor_chain or
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2690,6 +2690,14 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 48]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+      to use one Principal's authority for another's request.  Recording
+      the Principal on every receipt of a Task, carrying the Actor
+      Chain, and requiring a Serving Party to evaluate every Actor
+      (Section 6.7.2) make the substitution visible and let the Serving
+      Party refuse it; they do not prevent an agent from misusing
+      authority it legitimately holds.
+
+   Forged or replayed caller references:  A caller_ref, actor_chain or
       principal_link received with a call is the caller's claim until
       checked against the caller's registered chain.  A caller_ref
       naming a receipt that does not exist fails E_CALLER_REF.  One
@@ -2730,14 +2738,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       route on the request-target, and services behind them SHOULD
       accept calls only through the gateway.
 
-   Status freshness at admission:  An admission decision based on a
-
-
-
-
-
-
-
 
 
 
@@ -2746,6 +2746,7 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 49]
 Internet-Draft          Agent Execution Evidence            October 2026
 
 
+   Status freshness at admission:  An admission decision based on a
       status observation older than the suspension of the agent admits a
       suspended agent.  What matters is the age of the authenticated
       status observation, recorded as status_checked_at, and not the
@@ -2792,7 +2793,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       runtime_identities minimal and windows short.
 
    Session binding:  The Evidence Service MUST authenticate each
-
 
 
 
@@ -3048,16 +3048,17 @@ Internet-Draft          Agent Execution Evidence            October 2026
    [I-D.ietf-oauth-transaction-tokens] and Identity and Authorization
    Chaining [I-D.ietf-oauth-identity-chaining]:  Token Exchange
       expresses a chain of delegation by nested act claims; this profile
-      records it as actor_chain and, unlike that specification, requires
-      a Serving Party to evaluate prior actors.  Transaction Tokens
-      propagate the principal of the transaction and a txn identifier
-      along a Call Chain within one Trust Domain; this profile records
-      txn on both sides of every call and extends the Call Chain across
-      Trust Domains.  Identity and Authorization Chaining carries
-      identity across Trust Domains and leaves the format of transcribed
-      claims open; the Actor Chain is one concrete record of what it
-      carries.  This profile complements these specifications with
-      evidence and does not change them.
+      records it as actor_chain; a Serving Party uses prior actors as
+      policy input, as that specification permits, and takes evidence of
+      what each hop did from per-hop receipts rather than from the act
+      claim.  Transaction Tokens propagate the principal of the
+      transaction and a txn identifier along a Call Chain within one
+      Trust Domain; this profile records txn on both sides of every call
+      and extends the Call Chain across Trust Domains.  Identity and
+      Authorization Chaining carries identity across Trust Domains and
+      leaves the format of transcribed claims open; the Actor Chain is
+      one concrete record of what it carries.  This profile complements
+      these specifications with evidence and does not change them.
 
    Agent audit record [I-D.gilda-audit-agent-audit-record]:  A JCS-
       canonicalized in-toto Statement in a DSSE envelope, richer per
@@ -3070,7 +3071,6 @@ Internet-Draft          Agent Execution Evidence            October 2026
       ([I-D.thaha-wimse-agent-evidence-binding]).
 
    Agent Action Capsule [I-D.mih-scitt-agent-action-capsule]:  A JSON
-
 
 
 
@@ -3882,8 +3882,8 @@ Acknowledgements
    The authors thank the SCITT, WIMSE and RATS communities and the
    authors cited in Section 13.  The authors thank Iman Schrock for her
    review of linked verification and status freshness in the -00 drafts,
-   and Sankalp Gilda for reviewing the composition with the audit
-   record.
+   Sankalp Gilda for reviewing the composition with the audit record,
+   and Kieran Sweeney for reviewing the use of the Actor Chain.
 
 Changes since -00
 
@@ -3965,9 +3965,9 @@ Internet-Draft          Agent Execution Evidence            October 2026
       described there.  Updated the references to draft-ietf-wimse-
       identifier-04 and draft-sharif-agent-audit-trail-09.
 
-   *  Regenerated the test vectors: receipt seq 3, the admission receipt
-      and the Serving Party Credential changed, and so did every value
-      derived from them (Appendix A).
+
+
+
 
 
 
@@ -3977,6 +3977,17 @@ Thaha & Shamsudeen         Expires 1 May 2027                  [Page 71]
 
 Internet-Draft          Agent Execution Evidence            October 2026
 
+
+   *  A Serving Party evaluates every Actor against its own policy, as
+      RFC 8693 permits for informational claims; the claim that this
+      goes beyond RFC 8693 is removed.  The Actor Chain is stated to
+      carry attribution, not authority, with evidence of each hop taken
+      from per-hop receipts and delegation-chain mechanisms referenced
+      for carrying authority.
+
+   *  Regenerated the test vectors: receipt seq 3, the admission receipt
+      and the Serving Party Credential changed, and so did every value
+      derived from them (Appendix A).
 
 Authors' Addresses
 
@@ -3991,17 +4002,6 @@ Authors' Addresses
    Individual Contributor
    United Arab Emirates
    Email: shaibis@gmail.com
-
-
-
-
-
-
-
-
-
-
-
 
 
 

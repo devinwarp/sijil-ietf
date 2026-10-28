@@ -146,6 +146,18 @@ normative:
       Internet-Draft: draft-ietf-wimse-aims-00
 
 informative:
+  I-D.ietf-oauth-identity-chaining:
+    title: OAuth Identity and Authorization Chaining Across Domains
+    author:
+      - ins: A. Schwenkschuster
+      - ins: P. Kasselman
+      - ins: K. Burgin
+      - ins: M. Jenkins
+      - ins: B. Campbell
+      - ins: A. Parecki
+    date: 2026-07
+    seriesinfo:
+      Internet-Draft: draft-ietf-oauth-identity-chaining-17
   DID-WEB:
     title: "did:web Method Specification"
     author:
@@ -415,7 +427,7 @@ A Serving Party that admits calls from agents only if they are registered and as
 1. Validate the token and the proof of possession for this request under the applicable credential and authentication profiles; {{I-D.ietf-wimse-workload-creds}} defines the Workload Identity Token, while its proof-of-possession mechanisms are specified separately.
 2. Determine the Assurance Statement and Agent Registration Statement that apply, from `aee_evidence` or by other configured means, and their status. The status MUST be no older than the freshness the Serving Party's policy requires for the operation. A token's `assurance_level` and `assurance_status` MAY be used as that status only under the rule on `status_checked_at` in {{claim}}; if that rule is not met, the Serving Party checks the status list itself. For operations its policy marks as high-risk, the Serving Party SHOULD check the status list itself.
 3. Check that the registration is from an accepted Agent Registration Authority and is valid; that the Assurance Statement's level meets the minimum the Serving Party's policy sets for the operation, from an accepted assessor and scheme; and that its status is VALID, or RESTRICTED with the operation within the restricted class the scheme defines.
-4. Check the Principal and every Actor in the Actor Chain ({{carrying}}) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires.
+4. Check the Principal and every Actor in the Actor Chain ({{carrying}}) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires. The Actor Chain is attribution, not authority: the Serving Party uses it as policy input, as {{Section 4.1 of RFC8693}} permits, and does not treat it as evidence that any hop held or narrowed authority.
 5. Where `AEE-Caller-Ref` is present, compute `call_digest` over the request received, as defined in Section 6.7 of {{I-D.thaha-scitt-agent-execution-evidence}}; never use the value the caller presents. Refuse the call if `cd` is present and differs from the computed value, or if `cd` is absent while the Serving Party's policy requires linking. Refuse the call if its caller reference names a caller receipt that an earlier admission of this Serving Party already names (Section 6.7.2 of {{I-D.thaha-scitt-agent-execution-evidence}}).
 6. Produce an `admission` receipt recording the decision and its basis, as Section 6.7.2 of {{I-D.thaha-scitt-agent-execution-evidence}} specifies, whether the call is admitted or refused. The receipt records the `call_digest` computed in step 5 and, in `admission_basis`, the time of the status observation relied on, which is the token's `status_checked_at` where the token's cached status was used. It is not the time of admission.
 7. Act on the call, or refuse it.
@@ -459,7 +471,7 @@ The Serving Party copies `es`, `seq`, `h` and `txn` into the `caller_ref` and `t
 
 ## Actor Chain and Principal Link
 
-The Actor Chain travels in the token presented on the call as nested `act` claims ({{Section 4.1 of RFC8693}}), the outermost naming the Calling Agent. Both parties record it as `actor_chain`, least recent first. Each party computes the `principal_link` as SHA-256 over the octets of the access token in the request's `Authorization` header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain, not only the current one ({{admission}}).
+The Actor Chain travels in the token presented on the call as nested `act` claims ({{Section 4.1 of RFC8693}}), the outermost naming the Calling Agent. Both parties record it as `actor_chain`, least recent first. Each party computes the `principal_link` as SHA-256 over the octets of the access token in the request's `Authorization` header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain against its own policy, not only the current one ({{admission}}); the chain carries attribution, not authority. Authority carried across hops needs per-hop signed evidence, such as a delegation chain {{I-D.ietf-oauth-identity-chaining}} or the linked receipts of Section 9.1 of {{I-D.thaha-scitt-agent-execution-evidence}}.
 
 ## Other Protocols
 
@@ -551,7 +563,7 @@ IANA is requested to register the sub-namespace `aee` in the "IETF URN Sub-names
 # Acknowledgements
 {:numbered="false"}
 
-The authors thank the authors of {{I-D.ietf-wimse-aims}}, {{I-D.gilda-audit-agent-audit-record}} and {{I-D.kuehlewind-audit-architecture}}, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, and Sankalp Gilda for reviewing the composition with the audit record.
+The authors thank the authors of {{I-D.ietf-wimse-aims}}, {{I-D.gilda-audit-agent-audit-record}} and {{I-D.kuehlewind-audit-architecture}}, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, Sankalp Gilda for reviewing the composition with the audit record, and Kieran Sweeney for reviewing the use of the Actor Chain.
 
 # Changes since -00
 {:numbered="false"}
@@ -566,4 +578,5 @@ This section is to be removed before publication as an RFC.
 * Updated references to the -01 revision of the SCITT draft, and added EP-AEC as an informative reference.
 * Stated the split between token claims, which bind the agent and its policy, and `AEE-Caller-Ref`, which binds one call; a caller reference MUST NOT be carried in a token that can be presented on more than one call ({{carrying}}).
 * An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record and is not carried in `correlation.externalAnchor` ({{intoto}}). Updated the audit-record reference to -02.
-* Added Jiahui Miao and Sankalp Gilda to the Acknowledgements.
+* The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts. ({{admission}}, {{carrying}}).
+* Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the Acknowledgements.

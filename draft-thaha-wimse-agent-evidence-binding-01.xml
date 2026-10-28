@@ -298,7 +298,7 @@ CBOR value: map
   <t>Validate the token and the proof of possession for this request under the applicable credential and authentication profiles; <xref target="I-D.ietf-wimse-workload-creds"/> defines the Workload Identity Token, while its proof-of-possession mechanisms are specified separately.</t>
   <t>Determine the Assurance Statement and Agent Registration Statement that apply, from <spanx style="verb">aee_evidence</spanx> or by other configured means, and their status. The status <bcp14>MUST</bcp14> be no older than the freshness the Serving Party's policy requires for the operation. A token's <spanx style="verb">assurance_level</spanx> and <spanx style="verb">assurance_status</spanx> <bcp14>MAY</bcp14> be used as that status only under the rule on <spanx style="verb">status_checked_at</spanx> in <xref target="claim"/>; if that rule is not met, the Serving Party checks the status list itself. For operations its policy marks as high-risk, the Serving Party <bcp14>SHOULD</bcp14> check the status list itself.</t>
   <t>Check that the registration is from an accepted Agent Registration Authority and is valid; that the Assurance Statement's level meets the minimum the Serving Party's policy sets for the operation, from an accepted assessor and scheme; and that its status is VALID, or RESTRICTED with the operation within the restricted class the scheme defines.</t>
-  <t>Check the Principal and every Actor in the Actor Chain (<xref target="carrying"/>) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires.</t>
+  <t>Check the Principal and every Actor in the Actor Chain (<xref target="carrying"/>) against its policy for the operation, including any status of the Principal's delegation and any minimum Principal assurance it requires. The Actor Chain is attribution, not authority: the Serving Party uses it as policy input, as <xref section="4.1" sectionFormat="of" target="RFC8693"/> permits, and does not treat it as evidence that any hop held or narrowed authority.</t>
   <t>Where <spanx style="verb">AEE-Caller-Ref</spanx> is present, compute <spanx style="verb">call_digest</spanx> over the request received, as defined in Section 6.7 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>; never use the value the caller presents. Refuse the call if <spanx style="verb">cd</spanx> is present and differs from the computed value, or if <spanx style="verb">cd</spanx> is absent while the Serving Party's policy requires linking. Refuse the call if its caller reference names a caller receipt that an earlier admission of this Serving Party already names (Section 6.7.2 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/>).</t>
   <t>Produce an <spanx style="verb">admission</spanx> receipt recording the decision and its basis, as Section 6.7.2 of <xref target="I-D.thaha-scitt-agent-execution-evidence"/> specifies, whether the call is admitted or refused. The receipt records the <spanx style="verb">call_digest</spanx> computed in step 5 and, in <spanx style="verb">admission_basis</spanx>, the time of the status observation relied on, which is the token's <spanx style="verb">status_checked_at</spanx> where the token's cached status was used. It is not the time of admission.</t>
   <t>Act on the call, or refuse it.</t>
@@ -353,7 +353,7 @@ AEE-Caller-Ref: es="https://harness.example/issuer", seq=3,
 </section>
 <section anchor="actor-chain-and-principal-link"><name>Actor Chain and Principal Link</name>
 
-<t>The Actor Chain travels in the token presented on the call as nested <spanx style="verb">act</spanx> claims (<xref section="4.1" sectionFormat="of" target="RFC8693"/>), the outermost naming the Calling Agent. Both parties record it as <spanx style="verb">actor_chain</spanx>, least recent first. Each party computes the <spanx style="verb">principal_link</spanx> as SHA-256 over the octets of the access token in the request's <spanx style="verb">Authorization</spanx> header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain, not only the current one (<xref target="admission"/>).</t>
+<t>The Actor Chain travels in the token presented on the call as nested <spanx style="verb">act</spanx> claims (<xref section="4.1" sectionFormat="of" target="RFC8693"/>), the outermost naming the Calling Agent. Both parties record it as <spanx style="verb">actor_chain</spanx>, least recent first. Each party computes the <spanx style="verb">principal_link</spanx> as SHA-256 over the octets of the access token in the request's <spanx style="verb">Authorization</spanx> header field (not the Workload Identity Token or proof token), so no further field is needed. A Serving Party evaluates every Actor in the chain against its own policy, not only the current one (<xref target="admission"/>); the chain carries attribution, not authority. Authority carried across hops needs per-hop signed evidence, such as a delegation chain <xref target="I-D.ietf-oauth-identity-chaining"/> or the linked receipts of <xref section="9.1" sectionFormat="of" target="I-D.thaha-scitt-agent-execution-evidence"/>.</t>
 
 </section>
 <section anchor="other-protocols"><name>Other Protocols</name>
@@ -696,6 +696,31 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
     <references title='Informative References' anchor="sec-informative-references">
 
+<reference anchor="I-D.ietf-oauth-identity-chaining" >
+  <front>
+    <title>OAuth Identity and Authorization Chaining Across Domains</title>
+    <author initials="A." surname="Schwenkschuster">
+      <organization></organization>
+    </author>
+    <author initials="P." surname="Kasselman">
+      <organization></organization>
+    </author>
+    <author initials="K." surname="Burgin">
+      <organization></organization>
+    </author>
+    <author initials="M." surname="Jenkins">
+      <organization></organization>
+    </author>
+    <author initials="B." surname="Campbell">
+      <organization></organization>
+    </author>
+    <author initials="A." surname="Parecki">
+      <organization></organization>
+    </author>
+    <date year="2026" month="July"/>
+  </front>
+  <seriesInfo name="Internet-Draft" value="draft-ietf-oauth-identity-chaining-17"/>
+</reference>
 <reference anchor="DID-WEB" target="https://w3c-ccg.github.io/did-method-web/">
   <front>
     <title>did:web Method Specification</title>
@@ -857,7 +882,7 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
 
 <section numbered="false" anchor="acknowledgements"><name>Acknowledgements</name>
 
-<t>The authors thank the authors of <xref target="I-D.ietf-wimse-aims"/>, <xref target="I-D.gilda-audit-agent-audit-record"/> and <xref target="I-D.kuehlewind-audit-architecture"/>, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, and Sankalp Gilda for reviewing the composition with the audit record.</t>
+<t>The authors thank the authors of <xref target="I-D.ietf-wimse-aims"/>, <xref target="I-D.gilda-audit-agent-audit-record"/> and <xref target="I-D.kuehlewind-audit-architecture"/>, whose work this document is intended to connect rather than duplicate. The authors thank Iman Schrock for her review of linked verification and status freshness in the -00 drafts, Jiahui Miao for reviewing the split between token claims and the caller reference, Sankalp Gilda for reviewing the composition with the audit record, and Kieran Sweeney for reviewing the use of the Actor Chain.</t>
 
 </section>
 <section numbered="false" anchor="changes-since-00"><name>Changes since -00</name>
@@ -873,7 +898,8 @@ predicateType: urn:ietf:params:aee:predicate:execution-receipt
   <t>Updated references to the -01 revision of the SCITT draft, and added EP-AEC as an informative reference.</t>
   <t>Stated the split between token claims, which bind the agent and its policy, and <spanx style="verb">AEE-Caller-Ref</spanx>, which binds one call; a caller reference <bcp14>MUST NOT</bcp14> be carried in a token that can be presented on more than one call (<xref target="carrying"/>).</t>
   <t>An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record and is not carried in <spanx style="verb">correlation.externalAnchor</spanx> (<xref target="intoto"/>). Updated the audit-record reference to -02.</t>
-  <t>Added Jiahui Miao and Sankalp Gilda to the Acknowledgements.</t>
+  <t>The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts. (<xref target="admission"/>, <xref target="carrying"/>).</t>
+  <t>Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the Acknowledgements.</t>
 </list></t>
 
 </section>
