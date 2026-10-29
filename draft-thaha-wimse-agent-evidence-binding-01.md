@@ -250,7 +250,7 @@ informative:
 
 --- abstract
 
-The WIMSE AI Identity Management System (AIMS) requires tamper-evident agent audit logs but does not specify their format or discovery. This document maps the AIMS minimum fields to the SCITT Agent Execution Evidence profile, defines one claim that binds a workload credential to the persistent agent, governing policy, expected Evidence Service and optional Assurance Statement, and defines an in-toto predicate type for carrying Execution Receipts in the audit format proposed for WIMSE. It also describes how a service admits an agent's call by checking its assurance at the moment of the request, and defines an HTTP field that links each call to the caller's evidence. It is input to the AIMS work and makes no change to it.
+The WIMSE AI Identity Management System (AIMS) requires tamper-evident agent audit logs but does not specify their format or discovery. This document maps the AIMS minimum fields to the SCITT Agent Execution Evidence profile, defines one claim that binds a workload credential to the persistent agent, governing policy, expected Evidence Service and optional Assurance Statement, and defines an in-toto predicate type for carrying Execution Receipts alongside the in-toto agent audit record format. It also describes how a service admits an agent's call by checking its assurance at the moment of the request, and defines an HTTP field that links each call to the caller's evidence. It is a companion to the AIMS work and makes no change to it.
 
 --- middle
 
@@ -268,6 +268,8 @@ Section 11 of {{I-D.ietf-wimse-aims}} ("Agent Monitoring, Observability and Reme
 The decision to act is made per call because what it depends on changes between calls: an agent's assurance can be suspended within minutes, one agent can act for many Principals with different permissions, and operations on one service differ in risk. Section 3.4.11 of {{I-D.ietf-wimse-arch}} requires that "each hop in the chain MUST explicitly scope and re-bind the security context"; recording that re-binding on both sides of every hop is what lets it be verified afterwards.
 
 This document is short by design. It proposes one claim, one predicate type and one HTTP field, and defers everything else to the documents it cites.
+
+It is a companion to {{I-D.ietf-wimse-aims}}, not proposed text for it. AIMS states the properties audit evidence must have; this document is one mechanism that provides them, and others can do so alongside it. The Agent Registration Authority identity model and the Evidence Service named in each token are deployment choices of this document, not properties AIMS would need to adopt.
 
 ## Conventions and Definitions
 
@@ -477,7 +479,7 @@ The Actor Chain travels in the token presented on the call as nested `act` claim
 
 Protocols other than HTTP that carry agent calls, such as tool-invocation protocols, can carry the same members in the metadata they provide for each request. This document does not define those bindings.
 
-# Composition with the WIMSE Audit Record {#intoto}
+# Composition with the Agent Audit Record {#intoto}
 
 {{I-D.gilda-audit-agent-audit-record}} defines an audit record as an in-toto Statement {{IN-TOTO}} in a DSSE envelope {{DSSE}}, canonicalized with {{RFC8785}}, with a predicate type of its own. That format is richer per event than an Execution Receipt and records vantage, posture and observed effect. The two are complementary: the audit record describes an authorization decision in depth; the Execution Receipt places the call on an identity-bound chain sealed into a Transparency Service.
 
@@ -578,5 +580,6 @@ This section is to be removed before publication as an RFC.
 * Updated references to the -01 revision of the SCITT draft, and added EP-AEC as an informative reference.
 * Stated the split between token claims, which bind the agent and its policy, and `AEE-Caller-Ref`, which binds one call; a caller reference MUST NOT be carried in a token that can be presented on more than one call ({{carrying}}).
 * An audit record's pointer to an Execution Receipt or its SCITT Receipt dates neither record and is not carried in `correlation.externalAnchor` ({{intoto}}). Updated the audit-record reference to -02.
-* The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts, and showing that authority narrowed at each hop remains open. ({{admission}}, {{carrying}}).
+* The Actor Chain is policy input carrying attribution, not authority; authority carried across hops needs per-hop signed evidence, such as a delegation chain or linked receipts, and showing that authority narrowed at each hop remains open ({{admission}}, {{carrying}}).
 * Added Jiahui Miao, Sankalp Gilda and Kieran Sweeney to the Acknowledgements.
+* Stated that this document is a companion to AIMS and not proposed text for it, and renamed {{intoto}} now that the audit-record draft is no longer a WIMSE draft.
