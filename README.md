@@ -7,7 +7,7 @@ the relevant working-group lists or via GitHub issues.
 | Draft | Intended WG | Formats |
 | --- | --- | --- |
 | `draft-thaha-scitt-agent-execution-evidence` | SCITT | [.txt](draft-thaha-scitt-agent-execution-evidence-02.txt) · [.html](draft-thaha-scitt-agent-execution-evidence-02.html) · [.xml](draft-thaha-scitt-agent-execution-evidence-02.xml) |
-| `draft-thaha-wimse-agent-evidence-binding` | WIMSE | [.txt](draft-thaha-wimse-agent-evidence-binding-02.txt) · [.html](draft-thaha-wimse-agent-evidence-binding-02.html) · [.xml](draft-thaha-wimse-agent-evidence-binding-02.xml) |
+| `draft-thaha-wimse-agent-evidence-binding` | WIMSE | [.txt](draft-thaha-wimse-agent-evidence-binding-03.txt) · [.html](draft-thaha-wimse-agent-evidence-binding-03.html) · [.xml](draft-thaha-wimse-agent-evidence-binding-03.xml) |
 
 ## What the drafts do
 
