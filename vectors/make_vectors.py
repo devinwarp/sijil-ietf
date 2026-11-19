@@ -277,6 +277,28 @@ emit("A.6 Serving Party configuration entries and digest", {"entries": serving_e
 emit("A.6 Admission receipt seq 0", a0)
 emit("A.6 record-hash(admission 0)", ha0)
 
+# ------------------------------------------------- 7. Revocation Statement
+# The Issuer of the Agent Credential revokes it after a key compromise.
+# subject_digest is the digest of the revoked statement's payload, and sub
+# repeats the sub of the revoked statement (Identifiers section).
+REVOKED_AT = NBF + 86400  # one day into the credential's validity
+revocation = {
+    1: 8,                       # aee-type = revocation
+    2: agent_cred_digest,       # subject_digest
+    3: 1,                       # reason_code: key-compromise
+    4: REVOKED_AT,              # iat
+    5: "agent key compromised",  # reason
+}
+revocation_payload = enc(revocation)
+revocation_digest = digest(revocation_payload)
+revocation_ss = sign1(harness_sk, HARNESS_KID,
+                      {1: HARNESS_ISS, 2: AGENT_ID, "aee_type": 8},
+                      "application/aee-statement+cbor", revocation_payload)
+
+emit("Revocation Statement payload (revokes the Agent Credential)", revocation)
+emit("Revocation Statement payload digest", revocation_digest)
+emit("Revocation Signed Statement", revocation_ss)
+
 # ------------------------------------------------- sanity: verify signatures
 from nacl.signing import VerifyKey
 def verify(ss, pk):
@@ -284,6 +306,8 @@ def verify(ss, pk):
     VerifyKey(pk).verify(enc(["Signature1", phdr_b, b"", payload]), sig)
 verify(agent_cred_ss, harness_pk); verify(r2_ss, harness_pk); verify(epoch_ss, harness_pk)
 verify(registration_ss, register_pk)
+verify(revocation_ss, harness_pk)
+assert revocation[2] == agent_cred_digest
 VerifyKey(agent_pk).verify(enc(agent_sig_structure), agent_sig)
 assert hashlib.sha256(enc(r1)).digest() == h1 and r1[3] == h0 and r2[3] == h1
 
@@ -293,5 +317,6 @@ open("agent-credential.cose", "wb").write(enc(agent_cred_ss))
 open("execution-receipt-2.cose", "wb").write(enc(r2_ss))
 open("execution-epoch.cose", "wb").write(enc(epoch_ss))
 open("agent-registration.cose", "wb").write(enc(registration_ss))
+open("agent-credential-revocation.cose", "wb").write(enc(revocation_ss))
 print(text)
 print("hex sizes:", len(enc(agent_cred_ss)), len(enc(r2_ss)), len(enc(epoch_ss)))
